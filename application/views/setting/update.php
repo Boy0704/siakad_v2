@@ -2,7 +2,7 @@
 $sett = $data->row();
  ?>
 <div class="row">
-    <div class="col-lg-6 col-sm-6 col-xs-12">
+    <div class="col-lg-12 col-sm-12 col-xs-12">
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-blue">
                 <span class="widget-caption"><?php echo $judul_page; ?></span>
@@ -24,11 +24,18 @@ $sett = $data->row();
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="alamat" class="col-sm-2 control-label no-padding-right">Kop Kampus *</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control textarea_editor" name="kop" id="kop" rows="5"><?php echo $sett->kop ?></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="logo" class="col-sm-2 control-label no-padding-right">Logo *</label>
                     <div class="col-sm-10">
                         <input type="file" class="form-control" name="logo">
                         <div>
                         	<?php if ($sett->logo!=''): ?>
+                                <input type="hidden" name="logo_old" value="<?php echo $sett->logo ?>">
                         		<img src="image/<?php echo $sett->logo ?>" style="width: 100px;">
                         	<?php endif ?>
                         </div>
@@ -37,6 +44,7 @@ $sett = $data->row();
                     <div class="form-group">
                     	<div class="col-sm-offset-2 col-sm-10">
                     		<button type="submit" class="btn btn-primary">Update</button>
+                            
                     	</div>
                     </div>
                 </div>
@@ -46,3 +54,40 @@ $sett = $data->row();
 
     </div>
 </div>
+
+<div class="row">
+    <div class="col-lg-12 col-sm-12 col-xs-12">
+        <div class="well bordered-top bordered-darkorange">
+            <h5 class="label label-warning">Hapus Semua Data di Tabel SIAKAD</h5>
+            <p>
+                Hati-hati menggunakan fitur ini. <br>
+                Fitur ini hanya digunakan jika anda telah melakukan testing dan ingin menghapus semua data testing anda. <br>
+
+            </p>
+            <hr class="wide">
+            <a onclick="javasciprt: return confirm('Apakah kamu yakin akan menghapus semua tabel di siakad ini, jika iya maka semua data akan terhapus permananen ?')" href="app/#clear_tabel" class="btn btn-danger">Clear Semua Tabel</a>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript" src="assets/tinymce/tinymce.min.js"></script>
+<script type="text/javascript">
+    tinymce.init({
+        selector: ".textarea_editor",
+        height: "500",
+        plugins: [
+             "advlist autolink link image lists charmap print preview hr anchor pagebreak fullscreen",
+             "searchreplace wordcount visualblocks visualchars insertdatetime media nonbreaking",
+             "table contextmenu directionality emoticons paste textcolor responsivefilemanager code"
+       ],
+       toolbar1: "undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | styleselect",
+       toolbar2: "| responsivefilemanager | link unlink anchor | image media | forecolor backcolor  | print preview code ",
+       image_advtab: true ,
+       
+       external_filemanager_path:"assets/filemanager/",
+       filemanager_title:"Responsive Filemanager" ,
+       external_plugins: { "filemanager" : "<?php echo base_url() ?>assets/filemanager/plugin.min.js"}
+   });
+
+</script>

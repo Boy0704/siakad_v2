@@ -23,7 +23,8 @@ class App extends CI_Controller {
 			$data = array(
 				'nama_kampus' => $this->input->post('nama_kampus'),
 				'alamat' => $this->input->post('alamat'),
-				'logo' => $img,
+				'kop' => $this->input->post('kop'),
+				'logo' => $retVal = ($_FILES['logo']['name'] == '') ? $_POST['logo_old'] : $img,
 			);
 
 			$this->db->where('id_setting', 1);
@@ -213,6 +214,39 @@ class App extends CI_Controller {
 		redirect('users','refresh');
 	}
 
+	public function clear_tabel()
+	{
+		$this->db->trans_begin();
+
+		$this->db->truncate('registrasi');
+		$this->db->truncate('dosen');
+		$this->db->truncate('jadwal_kuliah');
+		$this->db->truncate('kelas');
+		$this->db->truncate('khs');
+		$this->db->truncate('kurikulum');
+		$this->db->truncate('mahasiswa');
+		$this->db->truncate('matakuliah');
+		$this->db->truncate('prodi');
+		$this->db->truncate('ruang');
+		$this->db->truncate('skala_nilai');
+		$this->db->truncate('absen');
+		$this->db->truncate('absen_detail');
+		$this->db->truncate('tahun_akademik');
+		$this->db->truncate('tahun_angkatan');
+
+		if ($this->db->trans_status() === FALSE)
+		{
+	        $this->db->trans_rollback();
+	        $this->session->set_flashdata('message', alert_biasa('gagal server,silahkan ulangi','error'));
+			redirect('app/setting','refresh');
+		}
+		else
+		{
+	        $this->db->trans_commit();
+	        $this->session->set_flashdata('message', alert_biasa('data tabel berhasil direset','success'));
+			redirect('app/setting','refresh');
+		}
+	}
 
 
 
