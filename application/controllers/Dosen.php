@@ -84,6 +84,7 @@ class Dosen extends CI_Controller
 	    'agama' => set_value('agama'),
 	    'tanggal_lahir' => set_value('tanggal_lahir'),
 	    'status' => set_value('status'),
+        'id_prodi' => set_value('id_prodi'),
 	    'id_jabatan' => set_value('id_jabatan'),
 	);
         $this->load->view('v_index', $data);
@@ -104,20 +105,50 @@ class Dosen extends CI_Controller
 		'jenis_kelamin' => $this->input->post('jenis_kelamin',TRUE),
 		'agama' => $this->input->post('agama',TRUE),
 		'tanggal_lahir' => $this->input->post('tanggal_lahir',TRUE),
-		'status' => $this->input->post('status',TRUE),
+        'status' => $this->input->post('status',TRUE),
+		'id_prodi' => $this->input->post('id_prodi',TRUE),
 		'id_jabatan' => $this->input->post('id_jabatan',TRUE),
 	    );
-
+            $this->db->trans_begin();
             $this->Dosen_model->insert($data);
-            $this->session->set_flashdata('message', '<div class="alert alert-success fade in alert-radius-bordered alert-shadowed">
+            $this->db->insert('users', array(
+                'nama' => $this->input->post('nama'),
+                'username' => $retVal = ($this->input->post('nidn') != '') ? $this->input->post('nidn') : $this->input->post('no_pegawai'),
+                'password' => password_hash('123456', PASSWORD_DEFAULT),
+                'level' => '4',
+                'keterangan' => $this->db->insert_id(),
+                'id_prodi' => $this->input->post('id_prodi'),
+            ));
+
+            if ($this->db->trans_status() === FALSE)
+            {
+                $this->db->trans_rollback();
+                $this->session->set_flashdata('message', '<div class="alert alert-warning fade in alert-radius-bordered alert-shadowed">
                                         <button class="close" data-dismiss="alert">
                                             ×
                                         </button>
                                         <i class="fa-fw fa fa-info"></i>
 
-                                        <strong>Info:</strong> Data Berhasil disimpan
+                                        <strong>Info:</strong> Gagal simpan !
                                     </div>');
-            redirect(site_url('dosen'));
+                redirect('dosen','refresh');
+            }
+            else
+            {
+                $this->db->trans_commit();
+                $this->session->set_flashdata('message', '<div class="alert alert-success fade in alert-radius-bordered alert-shadowed">
+                                        <button class="close" data-dismiss="alert">
+                                            ×
+                                        </button>
+                                        <i class="fa-fw fa fa-info"></i>
+
+                                        <strong>Info:</strong> Data Berhasil disimpan.<br>
+                                        akun login berdasarkan nidn/no_pegawai dan password default(123456)
+                                    </div>');
+                redirect(site_url('dosen'));
+            }
+
+            
         }
     }
     
@@ -139,7 +170,8 @@ class Dosen extends CI_Controller
 		'jenis_kelamin' => set_value('jenis_kelamin', $row->jenis_kelamin),
 		'agama' => set_value('agama', $row->agama),
 		'tanggal_lahir' => set_value('tanggal_lahir', $row->tanggal_lahir),
-		'status' => set_value('status', $row->status),
+        'status' => set_value('status', $row->status),
+		'id_prodi' => set_value('id_prodi', $row->id_prodi),
 		'id_jabatan' => set_value('id_jabatan', $row->id_jabatan),
 	    );
             $this->load->view('v_index', $data);
@@ -164,20 +196,52 @@ class Dosen extends CI_Controller
 		'jenis_kelamin' => $this->input->post('jenis_kelamin',TRUE),
 		'agama' => $this->input->post('agama',TRUE),
 		'tanggal_lahir' => $this->input->post('tanggal_lahir',TRUE),
-		'status' => $this->input->post('status',TRUE),
+        'status' => $this->input->post('status',TRUE),
+		'id_prodi' => $this->input->post('id_prodi',TRUE),
 		'id_jabatan' => $this->input->post('id_jabatan',TRUE),
 	    );
 
+            
+
+            $this->db->trans_begin();
             $this->Dosen_model->update($this->input->post('id_dosen', TRUE), $data);
-            $this->session->set_flashdata('message', '<div class="alert alert-success fade in alert-radius-bordered alert-shadowed">
+            $this->db->where('keterangan', $this->input->post('id_dosen'));
+            $this->db->where('level', 4);
+            $this->db->update('users', array(
+                'nama' => $this->input->post('nama'),
+                'username' => $retVal = ($this->input->post('nidn') != '') ? $this->input->post('nidn') : $this->input->post('no_pegawai'),
+                'id_prodi' => $this->input->post('id_prodi'),
+            ));
+
+            if ($this->db->trans_status() === FALSE)
+            {
+                $this->db->trans_rollback();
+                $this->session->set_flashdata('message', '<div class="alert alert-warning fade in alert-radius-bordered alert-shadowed">
                                         <button class="close" data-dismiss="alert">
                                             ×
                                         </button>
                                         <i class="fa-fw fa fa-info"></i>
 
-                                        <strong>Info:</strong> Data Berhasil diubah
+                                        <strong>Info:</strong> Gagal diupdate !
                                     </div>');
-            redirect(site_url('dosen'));
+                redirect('dosen','refresh');
+            }
+            else
+            {
+                $this->db->trans_commit();
+                $this->session->set_flashdata('message', '<div class="alert alert-success fade in alert-radius-bordered alert-shadowed">
+                                        <button class="close" data-dismiss="alert">
+                                            ×
+                                        </button>
+                                        <i class="fa-fw fa fa-info"></i>
+
+                                        <strong>Info:</strong> Data Berhasil diupdate.<br>
+                                        akun login login juga ikut terupdate.
+                                    </div>');
+                redirect(site_url('dosen'));
+            }
+
+            
         }
     }
     
@@ -186,16 +250,41 @@ class Dosen extends CI_Controller
         $row = $this->Dosen_model->get_by_id($id);
 
         if ($row) {
+            $this->db->trans_begin();
             $this->Dosen_model->delete($id);
-            $this->session->set_flashdata('message', '<div class="alert alert-success fade in alert-radius-bordered alert-shadowed">
+            //hapus akun dosen
+            $this->db->where('keterangan', $id);
+            $this->db->where('level', 4);
+            $this->db->delete('users');
+
+            if ($this->db->trans_status() === FALSE)
+            {
+                $this->db->trans_rollback();
+                $this->session->set_flashdata('message', '<div class="alert alert-warning fade in alert-radius-bordered alert-shadowed">
                                         <button class="close" data-dismiss="alert">
                                             ×
                                         </button>
                                         <i class="fa-fw fa fa-info"></i>
 
-                                        <strong>Info:</strong> Data Berhasil dihapus
+                                        <strong>Info:</strong> Gagal dihapus !
                                     </div>');
-            redirect(site_url('dosen'));
+                redirect('dosen','refresh');
+            }
+            else
+            {
+                $this->db->trans_commit();
+                $this->session->set_flashdata('message', '<div class="alert alert-success fade in alert-radius-bordered alert-shadowed">
+                                        <button class="close" data-dismiss="alert">
+                                            ×
+                                        </button>
+                                        <i class="fa-fw fa fa-info"></i>
+
+                                        <strong>Info:</strong> Data Berhasil dihapus beserta data akun login.
+                                    </div>');
+                redirect(site_url('dosen'));
+            }
+
+           
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('dosen'));
@@ -211,7 +300,8 @@ class Dosen extends CI_Controller
 	$this->form_validation->set_rules('jenis_kelamin', 'jenis kelamin', 'trim|required');
 	$this->form_validation->set_rules('agama', 'agama', 'trim|required');
 	// $this->form_validation->set_rules('tanggal_lahir', 'tanggal lahir', 'trim|required');
-	$this->form_validation->set_rules('status', 'status', 'trim|required');
+    $this->form_validation->set_rules('status', 'status', 'trim|required');
+	$this->form_validation->set_rules('id_prodi', 'id_prodi', 'trim|required');
 	// $this->form_validation->set_rules('id_jabatan', 'id jabatan', 'trim|required');
 
 	$this->form_validation->set_rules('id_dosen', 'id_dosen', 'trim');

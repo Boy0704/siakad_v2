@@ -16,6 +16,15 @@
             <label for="varchar">Keterangan * <?php echo form_error('keterangan') ?></label>
             <input type="text" class="form-control" name="keterangan" id="keterangan" placeholder="Contoh: 2019/2020 Genap" value="<?php echo $keterangan; ?>" />
         </div>
+        <div class="form-group">
+            <label for="date">Mulai Aktif * <?php echo form_error('mulai_aktif') ?></label>
+            <div class="input-group">
+                <input class="form-control date-picker" id="mulai_aktif" type="text" name="mulai_aktif" value="<?php echo $mulai_aktif ?>" data-date-format="yyyy-mm-dd" autocomplete="off">
+                <span class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                </span>
+            </div>
+        </div>
 	    <div class="form-group">
             <label for="date">Batas Registrasi * <?php echo form_error('batas_registrasi') ?></label>
             <div class="input-group">

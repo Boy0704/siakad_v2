@@ -59,7 +59,7 @@
                 <span class="widget-caption">Daftar Matakuliah [ <b>Prodi</b> : <?php echo get_data('prodi','id_prodi',$id_prodi,'prodi') ?>, <b>Kurikulum</b> : <?php echo $kr = ($id_kurikulum !='') ? get_data('kurikulum','id_kurikulum',$id_kurikulum,'kurikulum') : 'Semua Kurikulum' ; ?>, <b>Semester</b> : <?php echo $smst = ($semester !='') ? $semester : 'Semua Semester' ; ?> ]</span>
             </div>
             <div class="widget-body bordered-left bordered-warning">
-                <a href="matakuliah/create?id_prodi=<?php echo $id_prodi ?>&id_kurikulum=<?php echo $id_kurikulum ?>&semester=<?php echo $semester ?>" class="btn btn-primary"><i class="fa fa-plus">Tambah Matakuliah</i></a>
+                <a href="matakuliah/create?id_prodi=<?php echo $id_prodi ?>&id_kurikulum=<?php echo $id_kurikulum ?>&semester=<?php echo $semester ?>" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Matakuliah</a>
                 <br><br>
 
                 <div class="table-scrollable">

@@ -79,7 +79,7 @@ if ($this->session->userdata('level') == '') {
                 <!-- Page Header -->
                 <div class="page-header position-relative">
                     <div class="header-title">
-                        <span>Tahun Akademik Aktif :</span>
+                        <span>Semester Aktif :</span>
                         <h1>
                             <?php 
                             if (tahun_akademik_aktif('id_tahun_akademik') != '') {
@@ -140,6 +140,7 @@ if ($this->session->userdata('level') == '') {
     </script>
     <!--Bootstrap Date Picker-->
     <script src="assets/js/datetime/bootstrap-datepicker.js"></script>
+    <script src="assets/js/jquery.idle.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('.date-picker').datepicker();
@@ -147,6 +148,22 @@ if ($this->session->userdata('level') == '') {
     </script>
 
     <script type="text/javascript">
+        $(document).idle({
+            onIdle: function(){
+                //alert('I\'m idle');
+                $.ajax({url: "app/set_online_user/0", success: function(result){
+                  console.log("success");
+                }});
+            },
+            onActive: function(){
+                //alert('Hey, I\'m back!');
+                $.ajax({url: "app/set_online_user/1", success: function(result){
+                  console.log("success");
+                }});
+            },
+            idle: 10000
+        });
+
         $(document).ready(function() {
 
             //set submenu aktif

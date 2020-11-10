@@ -21,7 +21,7 @@
             <br>
             <div class="row">
             <div class="col-md-4">
-                <?php echo anchor(site_url('level/create'),'<i class="fa fa-plus"></i> Tambah Data', 'class="btn btn-primary"'); ?>
+                <?php echo anchor(site_url('users/create'),'<i class="fa fa-plus"></i> Tambah Data', 'class="btn btn-primary"'); ?>
             </div>
             <div class="col-md-4 text-center">
                 <div style="margin-top: 8px" id="message">
@@ -31,7 +31,7 @@
             <div class="col-md-1 text-right">
             </div>
             <div class="col-md-3 text-right">
-                <form action="<?php echo site_url('level/index'); ?>" class="form-inline" method="get">
+                <form action="<?php echo site_url('users/index'); ?>" class="form-inline" method="get">
                     <div class="input-group">
                         <input type="text" class="form-control" name="q" value="<?php echo $q; ?>">
                         <span class="input-group-btn">
@@ -39,7 +39,7 @@
                                 if ($q <> '')
                                 {
                                     ?>
-                                    <a href="<?php echo site_url('level'); ?>" class="btn btn-default">Reset</a>
+                                    <a href="<?php echo site_url('users'); ?>" class="btn btn-default">Reset</a>
                                     <?php
                                 }
                             ?>
@@ -55,22 +55,37 @@
             <thead class="bordered-darkorange">
                 <tr role="row">
                     <th>No</th>
+		<th>Nama</th>
+		<th>Username</th>
 		<th>Level</th>
+		<th>Foto</th>
+		<th>Prodi</th>
+		<th>Last Login</th>
+		<th>Online</th>
 		<th>Action</th>
                 </tr>
             </thead>
             <tbody><?php
-            foreach ($level_data as $level)
+            foreach ($users_data as $users)
             {
                 ?>
                 <tr>
 			<td width="80px"><?php echo ++$start ?></td>
-			<td><?php echo $level->level ?></td>
+			<td><?php echo $users->nama ?></td>
+			<td><?php echo $users->username ?></td>
+			<td><?php echo get_data('level','id_level',$users->level,'level') ?></td>
+			<td>
+                <img width="50" src="image/user/<?php echo $users->foto ?>">         
+            </td>
+            <td><?php echo get_data('prodi','id_prodi',$users->id_prodi,'prodi') ?></td>
+			<td><?php echo $users->last_login ?></td>
+			<td><?php echo $retVal = ($users->online == '1') ? '<span class="label label-success">Online</span>' : '<span class="label label-danger">Offline</span>' ; ?></td>
 			<td style="text-align:center" width="200px">
+                <a onclick="javasciprt: return confirm('Are You Sure ?')" href="app/reset_password/<?php echo $users->id_user ?>" class="label label-default">Reset Password</a>
 				<?php 
-				echo anchor(site_url('level/update/'.$level->id_level),'<span class="label label-info">Ubah</span>'); 
-				// echo ' | '; 
-				// echo anchor(site_url('level/delete/'.$level->id_level),'<span class="label label-danger">Hapus</span>','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'); 
+				echo anchor(site_url('users/update/'.$users->id_user),'<span class="label label-info">Ubah</span>'); 
+				echo ' | '; 
+				echo anchor(site_url('users/delete/'.$users->id_user),'<span class="label label-danger">Hapus</span>','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'); 
 				?>
 			</td>
 		</tr>

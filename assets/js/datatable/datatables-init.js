@@ -324,18 +324,7 @@ var InitiateSearchableDataTable = function() {
                     [5, 15, 20, "All"]
                 ],
                 "iDisplayLength": 5,
-                // "oTableTools": {
-                //     "aButtons": [
-                //         "copy",
-                //         "print",
-                //         {
-                //             "sExtends": "collection",
-                //             "sButtonText": "Save <i class=\"fa fa-angle-down\"></i>",
-                //             "aButtons": ["csv", "xls", "pdf"]
-                //         }
-                //     ],
-                //     "sSwfPath": "assets/swf/copy_csv_xls_pdf.swf"
-                // },
+                
                 "language": {
                     "search": "",
                     "sLengthMenu": "_MENU_",

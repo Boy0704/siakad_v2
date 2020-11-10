@@ -74,6 +74,7 @@ class Tahun_akademik extends CI_Controller
 	    'id_tahun_akademik' => set_value('id_tahun_akademik'),
 	    'kode_tahun' => set_value('kode_tahun'),
 	    'keterangan' => set_value('keterangan'),
+        'mulai_aktif' => set_value('mulai_aktif'),
 	    'batas_registrasi' => set_value('batas_registrasi'),
 	    'batas_krs' => set_value('batas_krs'),
 	    'aktif' => set_value('aktif'),
@@ -91,6 +92,7 @@ class Tahun_akademik extends CI_Controller
             $data = array(
 		'kode_tahun' => $this->input->post('kode_tahun',TRUE),
 		'keterangan' => $this->input->post('keterangan',TRUE),
+        'mulai_aktif' => $this->input->post('mulai_aktif',TRUE),
 		'batas_registrasi' => $this->input->post('batas_registrasi',TRUE),
 		'batas_krs' => $this->input->post('batas_krs',TRUE),
 		'aktif' => $this->input->post('aktif',TRUE),
@@ -122,6 +124,7 @@ class Tahun_akademik extends CI_Controller
 		'id_tahun_akademik' => set_value('id_tahun_akademik', $row->id_tahun_akademik),
 		'kode_tahun' => set_value('kode_tahun', $row->kode_tahun),
 		'keterangan' => set_value('keterangan', $row->keterangan),
+        'mulai_aktif' => set_value('mulai_aktif', $row->mulai_aktif),
 		'batas_registrasi' => set_value('batas_registrasi', $row->batas_registrasi),
 		'batas_krs' => set_value('batas_krs', $row->batas_krs),
 		'aktif' => set_value('aktif', $row->aktif),
@@ -143,6 +146,7 @@ class Tahun_akademik extends CI_Controller
             $data = array(
 		'kode_tahun' => $this->input->post('kode_tahun',TRUE),
 		'keterangan' => $this->input->post('keterangan',TRUE),
+        'mulai_aktif' => $this->input->post('mulai_aktif',TRUE),
 		'batas_registrasi' => $this->input->post('batas_registrasi',TRUE),
 		'batas_krs' => $this->input->post('batas_krs',TRUE),
 		'aktif' => $this->input->post('aktif',TRUE),
@@ -186,6 +190,7 @@ class Tahun_akademik extends CI_Controller
     {
 	$this->form_validation->set_rules('kode_tahun', 'kode tahun', 'trim|required');
 	$this->form_validation->set_rules('keterangan', 'keterangan', 'trim|required');
+    $this->form_validation->set_rules('mulai_aktif', 'Mulai Aktif', 'trim|required');
 	$this->form_validation->set_rules('batas_registrasi', 'batas registrasi', 'trim|required');
 	$this->form_validation->set_rules('batas_krs', 'batas krs', 'trim|required');
 	$this->form_validation->set_rules('aktif', 'aktif', 'trim|required');

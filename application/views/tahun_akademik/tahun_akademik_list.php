@@ -57,6 +57,7 @@
                     <th>No</th>
 		<th>Kode Tahun</th>
 		<th>Keterangan</th>
+        <th>Mulai Aktif</th>
 		<th>Batas Registrasi</th>
 		<th>Batas Krs</th>
 		<th>Aktif</th>
@@ -71,6 +72,7 @@
 			<td width="80px"><?php echo ++$start ?></td>
 			<td><?php echo $tahun_akademik->kode_tahun ?></td>
 			<td><?php echo $tahun_akademik->keterangan ?></td>
+            <td><?php echo $tahun_akademik->mulai_aktif ?></td>
 			<td><?php echo $tahun_akademik->batas_registrasi ?></td>
 			<td><?php echo $tahun_akademik->batas_krs ?></td>
 			<td><?php echo $tahun_akademik->aktif ?></td>

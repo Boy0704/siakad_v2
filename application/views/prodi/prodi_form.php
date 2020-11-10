@@ -10,15 +10,23 @@
         <form action="<?php echo $action; ?>" method="post">
 	    <div class="form-group">
             <label for="varchar">Kode Prodi * <?php echo form_error('kode_prodi') ?></label>
-            <input type="text" class="form-control" name="kode_prodi" id="kode_prodi" placeholder="Kode Prodi" value="<?php echo $kode_prodi; ?>" />
+            <input type="text" class="form-control" name="kode_prodi" id="kode_prodi" placeholder="contoh: 32456" value="<?php echo $kode_prodi; ?>" />
         </div>
 	    <div class="form-group">
             <label for="varchar">Prodi * <?php echo form_error('prodi') ?></label>
-            <input type="text" class="form-control" name="prodi" id="prodi" placeholder="Prodi" value="<?php echo $prodi; ?>" />
+            <input type="text" class="form-control" name="prodi" id="prodi" placeholder="contoh: Teknik Infomatika" value="<?php echo $prodi; ?>" />
         </div>
 	    <div class="form-group">
             <label for="int">Sks Lulus <?php echo form_error('sks_lulus') ?></label>
-            <input type="text" class="form-control" name="sks_lulus" id="sks_lulus" placeholder="Sks Lulus" value="<?php echo $sks_lulus; ?>" />
+            <input type="text" class="form-control" name="sks_lulus" id="sks_lulus" placeholder="contoh: 123" value="<?php echo $sks_lulus; ?>" />
+        </div>
+        <div class="form-group">
+            <label for="int">Jenjang <?php echo form_error('jenjang') ?></label>
+            <input type="text" class="form-control" name="jenjang" id="jenjang" placeholder="contoh: S1" value="<?php echo $jenjang; ?>" />
+        </div>
+        <div class="form-group">
+            <label for="int">Jumlah Semester * <?php echo form_error('jumlah_semester') ?></label>
+            <input type="text" class="form-control" name="jumlah_semester" id="jumlah_semester" placeholder="contoh: 8" value="<?php echo $jumlah_semester; ?>" />
         </div>
 	    <div class="form-group">
             <label for="int">Ketua Prodi * <?php echo form_error('ketua_prodi') ?></label>
@@ -53,4 +61,11 @@
                                     </div>
                                 </div>
                                 </div>
+
+<script src="assets/js/select2/select2.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#ketua_prodi").select2();
+    });
+</script>
    

@@ -16,6 +16,33 @@ class App extends CI_Controller {
 		$this->load->view('v_index',$data);
 	}
 
+	public function setting()
+	{
+		if ($_POST) {
+			$img = upload_gambar_biasa('logo', 'image/', 'jpg|png|jpeg', 10000, 'logo');
+			$data = array(
+				'nama_kampus' => $this->input->post('nama_kampus'),
+				'alamat' => $this->input->post('alamat'),
+				'logo' => $img,
+			);
+
+			$this->db->where('id_setting', 1);
+			$update = $this->db->update('setting', $data);
+
+			if ($update) {
+				$this->session->set_flashdata('message', alert_biasa('data berhasil diupdate','success'));
+				redirect('app/setting','refresh');
+			}
+		} else {
+			$data = array(
+				'konten' => 'setting/update',
+				'judul_page' => 'Setting Aplikasi',
+				'data' => $this->db->get('setting'),
+			);
+			$this->load->view('v_index',$data);
+		}
+	}
+
 	public function get_master_menu()
 	{
 		$id_menu = $this->input->post('id_menu');
@@ -169,6 +196,21 @@ class App extends CI_Controller {
 		$this->db->where('id_tahun_akademik', $id_tahun_akademik);
 		$this->db->update('tahun_akademik', array('aktif'=>'y'));
 		redirect('tahun_akademik','refresh');
+	}
+
+	public function set_online_user($status)
+	{
+		$this->db->where('id_user', $this->session->userdata('id_user'));
+		$this->db->update('users', array('online'=>$status));
+	}
+
+	public function reset_password($id_user)
+	{
+		$password = password_hash('123456', PASSWORD_DEFAULT);
+		$this->db->where('id_user', $id_user);
+		$this->db->update('users', array('password'=>$password));
+		$this->session->set_flashdata('message', alert_biasa('Password berhasil direset','success'));
+		redirect('users','refresh');
 	}
 
 

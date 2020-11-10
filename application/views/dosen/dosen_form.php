@@ -28,7 +28,7 @@
             <label for="enum">Jenis Kelamin * <?php echo form_error('jenis_kelamin') ?></label>
             <div class="radio">
                 <label>
-                    <input type="radio" name="jenis_kelamin" value="L" <?php echo $retVal = ($jenis_kelamin!='L' or $jenis_kelamin=='') ? 'checked' : '' ; ?> >
+                    <input type="radio" name="jenis_kelamin" value="L" <?php echo $retVal = ($jenis_kelamin =='L' or $jenis_kelamin=='') ? 'checked' : '' ; ?> >
                     <span class="text">Laki-laki</span>
                 </label>
                 <label>
@@ -67,6 +67,19 @@
                     $checked = ($status == $rw->id_stat_aktif) ? 'selected' : '' ;
                     ?>
                     <option value="<?php echo $rw->id_stat_aktif ?>" <?php echo $checked ?>><?php echo  $rw->id_stat_aktif.' - '. $rw->nm_stat_aktif ?></option>
+                <?php endforeach ?>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="int">Prodi * <?php echo form_error('id_prodi') ?></label>
+            <select name="id_prodi" id="id_prodi" style="width:100%;">
+                <option value="">--Pilih Prodi --</option>
+                <?php 
+                $this->db->where('aktif', 'y');
+                foreach ($this->db->get('prodi')->result() as $rw): 
+                    $checked = ($id_prodi == $rw->id_prodi) ? 'selected' : '' ;
+                    ?>
+                    <option value="<?php echo $rw->id_prodi ?>" <?php echo $checked ?>><?php echo $rw->kode_prodi.' - '. $rw->prodi ?></option>
                 <?php endforeach ?>
             </select>
         </div>

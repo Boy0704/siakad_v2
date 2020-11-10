@@ -75,7 +75,9 @@ class Prodi extends CI_Controller
 	    'kode_prodi' => set_value('kode_prodi'),
 	    'prodi' => set_value('prodi'),
 	    'sks_lulus' => set_value('sks_lulus'),
-	    'ketua_prodi' => set_value('ketua_prodi'),
+        'ketua_prodi' => set_value('ketua_prodi'),
+        'jenjang' => set_value('jenjang'),
+	    'jumlah_semester' => set_value('jumlah_semester'),
 	    'aktif' => set_value('aktif'),
 	);
         $this->load->view('v_index', $data);
@@ -92,7 +94,9 @@ class Prodi extends CI_Controller
 		'kode_prodi' => $this->input->post('kode_prodi',TRUE),
 		'prodi' => $this->input->post('prodi',TRUE),
 		'sks_lulus' => $this->input->post('sks_lulus',TRUE),
-		'ketua_prodi' => $this->input->post('ketua_prodi',TRUE),
+        'ketua_prodi' => $this->input->post('ketua_prodi',TRUE),
+        'jenjang' => $this->input->post('jenjang',TRUE),
+		'jumlah_semester' => $this->input->post('jumlah_semester',TRUE),
 		'aktif' => $this->input->post('aktif',TRUE),
 	    );
 
@@ -123,7 +127,9 @@ class Prodi extends CI_Controller
 		'kode_prodi' => set_value('kode_prodi', $row->kode_prodi),
 		'prodi' => set_value('prodi', $row->prodi),
 		'sks_lulus' => set_value('sks_lulus', $row->sks_lulus),
-		'ketua_prodi' => set_value('ketua_prodi', $row->ketua_prodi),
+        'ketua_prodi' => set_value('ketua_prodi', $row->ketua_prodi),
+        'jenjang' => set_value('jenjang', $row->jenjang),
+		'jumlah_semester' => set_value('jumlah_semester', $row->jumlah_semester),
 		'aktif' => set_value('aktif', $row->aktif),
 	    );
             $this->load->view('v_index', $data);
@@ -144,7 +150,9 @@ class Prodi extends CI_Controller
 		'kode_prodi' => $this->input->post('kode_prodi',TRUE),
 		'prodi' => $this->input->post('prodi',TRUE),
 		'sks_lulus' => $this->input->post('sks_lulus',TRUE),
-		'ketua_prodi' => $this->input->post('ketua_prodi',TRUE),
+        'ketua_prodi' => $this->input->post('ketua_prodi',TRUE),
+        'jenjang' => $this->input->post('jenjang',TRUE),
+		'jumlah_semester' => $this->input->post('jumlah_semester',TRUE),
 		'aktif' => $this->input->post('aktif',TRUE),
 	    );
 
@@ -187,7 +195,8 @@ class Prodi extends CI_Controller
 	$this->form_validation->set_rules('kode_prodi', 'kode prodi', 'trim|required');
 	$this->form_validation->set_rules('prodi', 'prodi', 'trim|required');
 	// $this->form_validation->set_rules('sks_lulus', 'sks lulus', 'trim|required');
-	$this->form_validation->set_rules('ketua_prodi', 'ketua prodi', 'trim|required');
+    $this->form_validation->set_rules('ketua_prodi', 'ketua prodi', 'trim|required');
+	$this->form_validation->set_rules('jumlah_semester', 'Jumlah Semester', 'trim|required');
 	$this->form_validation->set_rules('aktif', 'aktif', 'trim|required');
 
 	$this->form_validation->set_rules('id_prodi', 'id_prodi', 'trim');

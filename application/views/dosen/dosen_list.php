@@ -62,7 +62,8 @@
 		<th>JK</th>
 		<th>Agama</th>
 		<th>Tanggal Lahir</th>
-		<th>Status</th>
+        <th>Status</th>
+		<th>Prodi</th>
 		<th>Jabatan</th>
 		<th>Action</th>
                 </tr>
@@ -80,7 +81,8 @@
 			<td><?php echo $dosen->jenis_kelamin ?></td>
 			<td><?php echo get_data('agama','id_agama',$dosen->agama,'nm_agama') ?></td>
 			<td><?php echo $dosen->tanggal_lahir ?></td>
-			<td><?php echo get_data('status_keaktifan_pegawai','id_stat_aktif',$dosen->status,'nm_stat_aktif') ?></td>
+            <td><?php echo get_data('status_keaktifan_pegawai','id_stat_aktif',$dosen->status,'nm_stat_aktif') ?></td>
+			<td><?php echo get_data('prodi','id_prodi',$dosen->id_prodi,'prodi') ?></td>
 			<td><?php echo get_data('jabatan','id_jabatan',$dosen->id_jabatan,'jabatan') ?></td>
 			<td style="text-align:center" width="200px">
 				<?php 
