@@ -9,14 +9,14 @@ if ($this->session->userdata('level') == '') {
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>Siakad V2</title>
+    <title><?php echo get_data('setting','id_setting','1','nama_kampus').' - '.$judul_page ?></title>
     <base href="<?php echo base_url() ?>">
 
     <meta name="description" content="data tables" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="image/<?php echo get_data('setting','id_setting','1','logo') ?>" type="image/x-icon">
 
     <!--Basic Styles-->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
@@ -96,7 +96,7 @@ if ($this->session->userdata('level') == '') {
                         <a class="sidebar-toggler" href="#">
                             <i class="fa fa-arrows-h"></i>
                         </a>
-                        <a class="refresh" id="refresh-toggler" href="#">
+                        <a class="refresh" id="refresh-toggler" href="<?php echo current_url(); ?>">
                             <i class="glyphicon glyphicon-refresh"></i>
                         </a>
                         <a class="fullscreen" id="fullscreen-toggler" href="#">
@@ -128,6 +128,10 @@ if ($this->session->userdata('level') == '') {
 
     <!--Beyond Scripts-->
     <script src="assets/js/beyond.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        <?php echo $this->session->userdata('notif') ?>        
+    </script>
 
     <!--Page Related Scripts-->
     <script src="assets/js/datatable/jquery.dataTables.min.js"></script>
@@ -161,7 +165,7 @@ if ($this->session->userdata('level') == '') {
                   console.log("success");
                 }});
             },
-            idle: 10000
+            idle: 60000
         });
 
         $(document).ready(function() {

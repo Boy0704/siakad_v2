@@ -31,7 +31,7 @@ class App extends CI_Controller {
 			$update = $this->db->update('setting', $data);
 
 			if ($update) {
-				$this->session->set_flashdata('message', alert_biasa('data berhasil diupdate','success'));
+				$this->session->set_flashdata('notif', alert_biasa('data berhasil diupdate','success'));
 				redirect('app/setting','refresh');
 			}
 		} else {
@@ -191,6 +191,25 @@ class App extends CI_Controller {
 
 	}
 
+	public function get_select_semester($id_prodi)
+	{
+		$this->db->where('id_prodi', $id_prodi);
+		$tot_semester  = $this->db->get('prodi')->row()->jumlah_semester;
+
+		?>
+		<select name="semester" id="semester" style="width:100%;">
+			<option value="">--Pilih Semester --</option>
+			<?php 
+            for ($i=1; $i <= $tot_semester ; $i++) { 
+             ?>
+             <option value="<?php echo $i ?>"><?php echo $i ?></option>
+           	<?php } ?>
+		</select>
+
+
+		<?php 
+	}
+
 	public function aktifkan_thn_akademik($id_tahun_akademik)
 	{
 		$this->db->query("UPDATE tahun_akademik SET aktif='t'");
@@ -210,7 +229,7 @@ class App extends CI_Controller {
 		$password = password_hash('123456', PASSWORD_DEFAULT);
 		$this->db->where('id_user', $id_user);
 		$this->db->update('users', array('password'=>$password));
-		$this->session->set_flashdata('message', alert_biasa('Password berhasil direset','success'));
+		$this->session->set_flashdata('notif', alert_biasa('Password berhasil direset','success'));
 		redirect('users','refresh');
 	}
 
@@ -226,6 +245,7 @@ class App extends CI_Controller {
 		$this->db->truncate('kurikulum');
 		$this->db->truncate('mahasiswa');
 		$this->db->truncate('matakuliah');
+		$this->db->truncate('master_matakuliah');
 		$this->db->truncate('prodi');
 		$this->db->truncate('ruang');
 		$this->db->truncate('skala_nilai');
@@ -237,16 +257,178 @@ class App extends CI_Controller {
 		if ($this->db->trans_status() === FALSE)
 		{
 	        $this->db->trans_rollback();
-	        $this->session->set_flashdata('message', alert_biasa('gagal server,silahkan ulangi','error'));
+	        $this->session->set_flashdata('notif', alert_biasa('gagal server,silahkan ulangi','error'));
 			redirect('app/setting','refresh');
 		}
 		else
 		{
 	        $this->db->trans_commit();
-	        $this->session->set_flashdata('message', alert_biasa('data tabel berhasil direset','success'));
+	        $this->session->set_flashdata('notif', alert_biasa('data tabel berhasil direset','success'));
 			redirect('app/setting','refresh');
 		}
 	}
+
+	public function set_kurikulum_from_mk()
+	{
+		$id_prodi = $this->input->get('id_prodi');
+		$id_kurikulum = $this->input->get('id_kurikulum');
+		$jenis = $this->input->get('jenis');
+
+		if ($id_prodi == '' or $id_kurikulum == '' or $jenis == '') {
+			$this->session->set_flashdata('notif', alert_biasa('silahkan pilih prodi dan kurikulum terlebih dahulu','error'));
+			redirect('matakuliah','refresh');
+		}
+
+		if ($jenis == 'ganjil') {
+			$cek_mk = $this->db->query("SELECT * from master_matakuliah where id_prodi='$id_prodi' and semester%2=1");
+		} elseif ($jenis == 'genap') {
+			$cek_mk = $this->db->query("SELECT * from master_matakuliah where id_prodi='$id_prodi' and semester%2=0");
+		}
+
+		if ($cek_mk->num_rows() > 0) {
+			$this->db->trans_begin();
+
+			foreach ($cek_mk->result() as $rw) {
+
+				$this->db->where('kode_mk', $rw->kode_mk);
+				$this->db->where('nama_mk', $rw->nama_mk);
+				$this->db->where('id_prodi', $id_prodi);
+				$this->db->where('id_kurikulum', $id_kurikulum);
+				$cek_mk_kr = $this->db->get('matakuliah');
+				if ($cek_mk_kr->num_rows() > 0) {
+					// abaikan
+				} else {
+					$data = array(
+						'kode_mk' => $rw->kode_mk,
+						'nama_mk' => $rw->nama_mk,
+						'jenis_mk' => $rw->jenis_mk,
+						'sks_tm' => $rw->sks_tm,
+						'sks_prak' => $rw->sks_prak,
+						'sks_prak_la' => $rw->sks_prak_la,
+						'sks_simulasi' => $rw->sks_simulasi,
+						'sks_total' => $rw->sks_tm + $rw->sks_prak + $rw->sks_prak_la + $rw->sks_simulasi,
+						'metode_pembelajaran' => $rw->metode_pembelajaran,
+						'tgl_mulai_efektif' => $rw->tgl_mulai_efektif,
+						'tgl_akhir_efektif' => $rw->tgl_akhir_efektif,
+						'semester' => $rw->semester,
+						'id_prodi' => $id_prodi,
+						'id_kurikulum' => $id_kurikulum,
+						
+					);
+					$this->db->insert('matakuliah', $data);
+				}
+				
+			}
+
+			if ($this->db->trans_status() === FALSE)
+			{
+		        $this->db->trans_rollback();
+		        $this->session->set_flashdata('notif', alert_biasa('gagal server,silahkan ulangi','error'));
+				redirect('matakuliah?id_prodi='.$id_prodi.'&id_kurikulum='.$id_kurikulum,'refresh');
+			}
+			else
+			{
+		        $this->db->trans_commit();
+		        $this->session->set_flashdata('notif', alert_biasa('data matakuliah kurikulum berhasil ditambahkan','success'));
+				redirect('matakuliah?id_prodi='.$id_prodi.'&id_kurikulum='.$id_kurikulum,'refresh');
+			}
+		}
+
+	}
+
+
+	public function set_jadwal_from_kr()
+	{
+		$id_prodi = $this->input->get('id_prodi');
+
+		if ($id_prodi == '') {
+			$this->session->set_flashdata('notif', alert_biasa('silahkan pilih prodi terlebih dahulu','error'));
+			redirect('jadwal_kuliah','refresh');
+		}
+
+		$this->db->where('mulai_berlaku', tahun_akademik_aktif('kode_tahun'));
+		$cek_id_kurikulum = $this->db->get('kurikulum');
+		if ($cek_id_kurikulum->num_rows() == 0) {
+			$this->session->set_flashdata('notif', alert_biasa('tidak ada kurikulum di semester '.tahun_akademik_aktif('kode_tahun').' ini','error'));
+			redirect('jadwal_kuliah?id_prodi='.$id_prodi,'refresh');
+		}
+
+		$id_kurikulum = $cek_id_kurikulum->row()->id_kurikulum;
+		$id_tahun_akademik = tahun_akademik_aktif('id_tahun_akademik');
+
+		if (jenis_semester_aktif() == 'ganjil') {
+			$cek_mk = $this->db->query("SELECT * from matakuliah where id_prodi='$id_prodi' and id_kurikulum='$id_kurikulum' and semester%2=1");
+		} elseif (jenis_semester_aktif() == 'genap') {
+			$cek_mk = $this->db->query("SELECT * from matakuliah where id_prodi='$id_prodi' and id_kurikulum='$id_kurikulum' and semester%2=0");
+		}
+
+		if ($cek_mk->num_rows() > 0) {
+			$this->db->trans_begin();
+
+			foreach ($cek_mk->result() as $rw) {
+
+				$this->db->where('id_mk', $rw->id_mk);
+				$this->db->where('id_tahun_akademik', $id_tahun_akademik);
+				$this->db->where('id_prodi', $id_prodi);
+				$this->db->where('semester', $rw->semester);
+				$cek_mk_kr = $this->db->get('jadwal_kuliah');
+				if ($cek_mk_kr->num_rows() > 0) {
+					// abaikan
+				} else {
+					$data = array(
+						'id_tahun_akademik' => $id_tahun_akademik,
+						'id_mk' => $rw->id_mk,
+						'semester' => $rw->semester,
+						'id_prodi' => $id_prodi,
+						
+					);
+					$this->db->insert('jadwal_kuliah', $data);
+				}
+				
+			}
+
+			if ($this->db->trans_status() === FALSE)
+			{
+		        $this->db->trans_rollback();
+		        $this->session->set_flashdata('notif', alert_biasa('gagal server,silahkan ulangi','error'));
+				redirect('jadwal_kuliah?id_prodi='.$id_prodi,'refresh');
+			}
+			else
+			{
+		        $this->db->trans_commit();
+		        $this->session->set_flashdata('notif', alert_biasa('data jadwal_kuliah berhasil ditambahkan','success'));
+				redirect('jadwal_kuliah?id_prodi='.$id_prodi,'refresh');
+			}
+		}
+	}
+
+	public function get_jam_selesai_kuliah($jam_mulai,$waktu_kuliah)
+    {
+        $minutes_to_add = $waktu_kuliah * 40;
+
+        $time = new DateTime('2011-11-17 '.$jam_mulai);
+        $time->add(new DateInterval('PT' . $minutes_to_add . 'M'));
+
+        $stamp = $time->format('H:i');
+
+        echo $stamp;
+
+    }
+
+    public function get_sks_mk($id_mk)
+    {
+    	$sks = get_data('matakuliah','id_mk',$id_mk,'sks_tm');
+    	$semester = get_data('matakuliah','id_mk',$id_mk,'semester');
+    	echo json_encode(array('sks'=>$sks,'semester'=>$semester));
+    }
+
+    public function get_kapasitas_ruang()
+    {
+    	$ruang = $this->input->get('ruang');
+    	$kapasitas = get_data('ruang','ruang',$ruang,'kapasitas');
+    	echo $kapasitas;
+    }
+
 
 
 

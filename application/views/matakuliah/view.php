@@ -18,7 +18,7 @@
 			            </select>
                     </div>
                     <div class="form-group">
-                    	<select name="id_kurikulum" id="id_kurikulum" style="width:100%;">
+                    	<select name="id_kurikulum" id="id_kurikulum" style="width:100%;" required="">
 			                <option value="">--Pilih Kurikulum --</option>
 			                
 			            </select>
@@ -27,11 +27,6 @@
                     <div class="form-group">
                     	<select name="semester" id="semester" style="width:100%;">
 			                <option value="">--Pilih Semester --</option>
-			                <?php 
-			                for ($i=1; $i <= 8 ; $i++) { 
-			                 ?>
-			                 <option value="<?php echo $i ?>"><?php echo $i ?></option>
-			               	<?php } ?>
 			                
 			            </select>
                     </div>
@@ -56,10 +51,17 @@
 	<div class="col-lg-12 col-sm-12 col-xs-12">
         <div class="widget">
             <div class="widget-header bordered-left bordered-darkorange">
-                <span class="widget-caption">Daftar Matakuliah [ <b>Prodi</b> : <?php echo get_data('prodi','id_prodi',$id_prodi,'prodi') ?>, <b>Kurikulum</b> : <?php echo $kr = ($id_kurikulum !='') ? get_data('kurikulum','id_kurikulum',$id_kurikulum,'kurikulum') : 'Semua Kurikulum' ; ?>, <b>Semester</b> : <?php echo $smst = ($semester !='') ? $semester : 'Semua Semester' ; ?> ]</span>
+                <span class="widget-caption">Daftar Matakuliah Kurikulum [ <b>Prodi</b> : <?php echo get_data('prodi','id_prodi',$id_prodi,'prodi') ?>, <b>Kurikulum</b> : <?php echo $kr = ($id_kurikulum !='') ? get_data('kurikulum','id_kurikulum',$id_kurikulum,'kurikulum') : 'Semua Kurikulum' ; ?>, <b>Semester</b> : <?php echo $smst = ($semester !='') ? $semester : 'Semua Semester' ; ?> ]</span>
             </div>
             <div class="widget-body bordered-left bordered-warning">
-                <a href="matakuliah/create?id_prodi=<?php echo $id_prodi ?>&id_kurikulum=<?php echo $id_kurikulum ?>&semester=<?php echo $semester ?>" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Matakuliah</a>
+                <a href="matakuliah/create?id_prodi=<?php echo $id_prodi ?>&id_kurikulum=<?php echo $id_kurikulum ?>&semester=<?php echo $semester ?>" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Matakuliah Kurikulum</a>
+
+                <button class="btn btn-darkorange" id="btnImport">Import Data</button>
+
+                <a onclick="javasciprt: return confirm('Yakin akan ambil dari matakuliah semester ganjil ?')" href="app/set_kurikulum_from_mk?id_prodi=<?php echo $id_prodi ?>&id_kurikulum=<?php echo $id_kurikulum ?>&jenis=ganjil" class="btn btn-info"><i class="fa fa-sync"></i> Ambil dari MK Ganjil</a>
+                <a onclick="javasciprt: return confirm('Yakin akan ambil dari matakuliah semester genap ?')" href="app/set_kurikulum_from_mk?id_prodi=<?php echo $id_prodi ?>&id_kurikulum=<?php echo $id_kurikulum ?>&jenis=genap" class="btn btn-success"><i class="fa fa-sync"></i> Ambil dari MK Genap</a>
+
+
                 <br><br>
 
                 <div class="table-scrollable">
@@ -88,6 +90,7 @@
 	                    	$this->db->where('semester', $semester);
 	                    }
 	                    $this->db->where('id_prodi', $id_prodi);
+	                    $this->db->order_by('semester', 'asc');
 	                    foreach ($this->db->get('matakuliah')->result() as $rw): ?>
 	            
 	                        <tr>
@@ -122,12 +125,31 @@
     </div>
 </div>
 
+<div id="modalImport" style="display:none;">
+        <div class="row">
+        	<form action="Import/import_mk_kurikulum?id_prodi=<?php echo $id_prodi ?>&id_kurikulum=<?php echo $id_kurikulum ?>" method="post" enctype="multipart/form-data">
+            <div class="col-md-12">
+            	<div class="form-group">
+            		<a href="files/template/import_mk.xlsx" class="label label-success">Download Template</a>
+            	</div>
+                <div class="form-group">
+                    <input type="file" class="form-control" name="file_excel" required="">
+                </div>
+                
+                <div class="form-group">
+                	<button type="submit" class="btn btn-primary">Import</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+
 <?php endif ?>
 
 
 
 
-
+<script src="assets/js/bootbox/bootbox.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#id_prodi").change(function() {
@@ -140,6 +162,10 @@
 			.done(function(a) {
 				console.log("success");
 				$("#id_kurikulum").html(a);
+				$.ajax({url: "app/get_select_semester/"+id_prodi, success: function(result){
+					$("#semester").html(result);
+                  console.log("success");
+                }});
 			})
 			.fail(function() {
 				console.log("error");
@@ -149,5 +175,26 @@
 			});
 			
 		});
+
+
+		$("#btnImport").on('click', function () {
+            bootbox.dialog({
+                message: $("#modalImport").html(),
+                title: "Form Import",
+                className: "modal-darkorange",
+                // buttons: {
+                //     success: {
+                //         label: "Send",
+                //         className: "btn-blue",
+                //         callback: function () { }
+                //     },
+                //     "Save as Draft": {
+                //         className: "btn-danger",
+                //         callback: function () { }
+                //     }
+                // }
+            });
+        });
+
 	});
 </script>

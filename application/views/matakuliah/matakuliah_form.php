@@ -42,6 +42,10 @@ $uri2 = $this->uri->segment(2);
             <label for="int">Sks Praktek Lapangan * <?php echo form_error('sks_prak_la') ?></label>
             <input type="text" class="form-control" name="sks_prak_la" id="sks_prak_la" placeholder="Sks Prak La" value="<?php echo $sks_prak_la; ?>" />
         </div>
+        <div class="form-group">
+            <label for="int">Sks Simulasi * <?php echo form_error('sks_simulasi') ?></label>
+            <input type="text" class="form-control" name="sks_simulasi" id="sks_simulasi" placeholder="Sks Simulasi" value="<?php echo $sks_simulasi; ?>" />
+        </div>
 	    <div class="form-group">
             <label for="int">Sks Total * <?php echo form_error('sks_total') ?></label>
             <input type="text" class="form-control" name="sks_total" id="sks_total" placeholder="Sks Total" value="<?php echo $sks_total; ?>" />

@@ -318,7 +318,7 @@ var InitiateSearchableDataTable = function() {
         init: function() {
             var oTable = $('#searchable').dataTable({
                 "sDom": "Tflt<'row DTTTFooter'<'col-sm-6'i><'col-sm-6'p>>",
-                "aaSorting": [[1, 'desc']],
+                // "aaSorting": [[1, 'a']],
                 "aLengthMenu": [
                     [5, 15, 20, -1],
                     [5, 15, 20, "All"]

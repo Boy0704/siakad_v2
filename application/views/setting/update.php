@@ -3,6 +3,21 @@ $sett = $data->row();
  ?>
 <div class="row">
     <div class="col-lg-12 col-sm-12 col-xs-12">
+        <div class="well bordered-top bordered-darkorange">
+            <h5 class="label label-warning">Hapus Semua Data di Tabel SIAKAD</h5>
+            <p>
+                Hati-hati menggunakan fitur ini. <br>
+                Fitur ini hanya digunakan jika anda telah melakukan testing dan ingin menghapus semua data testing anda. <br>
+
+            </p>
+            <hr class="wide">
+            <a onclick="javasciprt: return confirm('Apakah kamu yakin akan menghapus semua tabel di siakad ini, jika iya maka semua data akan terhapus permananen ?')" href="app/#clear_tabel" class="btn btn-danger">Clear Semua Tabel</a>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-sm-12 col-xs-12">
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-blue">
                 <span class="widget-caption"><?php echo $judul_page; ?></span>
@@ -55,21 +70,7 @@ $sett = $data->row();
     </div>
 </div>
 
-<div class="row">
-    <div class="col-lg-12 col-sm-12 col-xs-12">
-        <div class="well bordered-top bordered-darkorange">
-            <h5 class="label label-warning">Hapus Semua Data di Tabel SIAKAD</h5>
-            <p>
-                Hati-hati menggunakan fitur ini. <br>
-                Fitur ini hanya digunakan jika anda telah melakukan testing dan ingin menghapus semua data testing anda. <br>
 
-            </p>
-            <hr class="wide">
-            <a onclick="javasciprt: return confirm('Apakah kamu yakin akan menghapus semua tabel di siakad ini, jika iya maka semua data akan terhapus permananen ?')" href="app/#clear_tabel" class="btn btn-danger">Clear Semua Tabel</a>
-        </div>
-
-    </div>
-</div>
 
 <script type="text/javascript" src="assets/tinymce/tinymce.min.js"></script>
 <script type="text/javascript">

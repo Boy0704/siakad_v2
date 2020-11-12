@@ -91,7 +91,8 @@ class Matakuliah extends CI_Controller
 	    'jenis_mk' => set_value('jenis_mk'),
 	    'sks_tm' => set_value('sks_tm'),
 	    'sks_prak' => set_value('sks_prak'),
-	    'sks_prak_la' => set_value('sks_prak_la'),
+        'sks_prak_la' => set_value('sks_prak_la'),
+	    'sks_simulasi' => set_value('sks_simulasi'),
 	    'sks_total' => set_value('sks_total'),
 	    'metode_pembelajaran' => set_value('metode_pembelajaran'),
 	    'tgl_mulai_efektif' => set_value('tgl_mulai_efektif'),
@@ -116,7 +117,8 @@ class Matakuliah extends CI_Controller
 		'jenis_mk' => $this->input->post('jenis_mk',TRUE),
 		'sks_tm' => $this->input->post('sks_tm',TRUE),
 		'sks_prak' => $this->input->post('sks_prak',TRUE),
-		'sks_prak_la' => $this->input->post('sks_prak_la',TRUE),
+        'sks_prak_la' => set_value('sks_prak_la'),
+		'sks_simulasi' => $this->input->post('sks_simulasi',TRUE),
 		'sks_total' => $this->input->post('sks_total',TRUE),
 		'metode_pembelajaran' => $this->input->post('metode_pembelajaran',TRUE),
 		'tgl_mulai_efektif' => $this->input->post('tgl_mulai_efektif',TRUE),
@@ -155,7 +157,8 @@ class Matakuliah extends CI_Controller
 		'jenis_mk' => set_value('jenis_mk', $row->jenis_mk),
 		'sks_tm' => set_value('sks_tm', $row->sks_tm),
 		'sks_prak' => set_value('sks_prak', $row->sks_prak),
-		'sks_prak_la' => set_value('sks_prak_la', $row->sks_prak_la),
+        'sks_prak_la' => set_value('sks_prak_la', $row->sks_prak_la),
+		'sks_simulasi' => set_value('sks_simulasi', $row->sks_simulasi),
 		'sks_total' => set_value('sks_total', $row->sks_total),
 		'metode_pembelajaran' => set_value('metode_pembelajaran', $row->metode_pembelajaran),
 		'tgl_mulai_efektif' => set_value('tgl_mulai_efektif', $row->tgl_mulai_efektif),
@@ -184,7 +187,8 @@ class Matakuliah extends CI_Controller
 		'jenis_mk' => $this->input->post('jenis_mk',TRUE),
 		'sks_tm' => $this->input->post('sks_tm',TRUE),
 		'sks_prak' => $this->input->post('sks_prak',TRUE),
-		'sks_prak_la' => $this->input->post('sks_prak_la',TRUE),
+        'sks_prak_la' => $this->input->post('sks_prak_la',TRUE),
+		'sks_simulasi' => $this->input->post('sks_simulasi',TRUE),
 		'sks_total' => $this->input->post('sks_total',TRUE),
 		'metode_pembelajaran' => $this->input->post('metode_pembelajaran',TRUE),
 		'tgl_mulai_efektif' => $this->input->post('tgl_mulai_efektif',TRUE),
@@ -235,14 +239,15 @@ class Matakuliah extends CI_Controller
 	$this->form_validation->set_rules('jenis_mk', 'jenis mk', 'trim|required');
 	$this->form_validation->set_rules('sks_tm', 'sks tm', 'trim|required');
 	$this->form_validation->set_rules('sks_prak', 'sks prak', 'trim|required');
-	$this->form_validation->set_rules('sks_prak_la', 'sks prak la', 'trim|required');
+    $this->form_validation->set_rules('sks_prak_la', 'sks prak la', 'trim|required');
+	$this->form_validation->set_rules('sks_simulasi', 'sks simulasi', 'trim|required');
 	$this->form_validation->set_rules('sks_total', 'sks total', 'trim|required');
 	// $this->form_validation->set_rules('metode_pembelajaran', 'metode pembelajaran', 'trim|required');
 	// $this->form_validation->set_rules('tgl_mulai_efektif', 'tgl mulai efektif', 'trim|required');
 	// $this->form_validation->set_rules('tgl_akhir_efektif', 'tgl akhir efektif', 'trim|required');
 	$this->form_validation->set_rules('semester', 'semester', 'trim|required');
-	$this->form_validation->set_rules('id_prodi', 'id prodi', 'trim|required');
-	$this->form_validation->set_rules('id_kurikulum', 'id kurikulum', 'trim|required');
+	$this->form_validation->set_rules('id_prodi', 'prodi', 'trim|required');
+	$this->form_validation->set_rules('id_kurikulum', 'kurikulum', 'trim|required');
 
 	$this->form_validation->set_rules('id_mk', 'id_mk', 'trim');
 	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');

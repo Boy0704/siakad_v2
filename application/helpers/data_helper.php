@@ -1,4 +1,59 @@
 <?php 
+function data_registarasi($nim,$periode,$check=false)
+{
+	$CI =& get_instance();
+	$CI->db->where('nim', $nim);
+	$CI->db->where('kode_semester', $periode);
+	$cek = $CI->db->get('registrasi');
+
+	$hasil_cek = 0;
+	$data = '';
+	if ($cek->num_rows() > 0) {
+		$hasil_cek = 1;
+		$data = $cek->row();
+	} else {
+		$hasil_cek = 0;
+		$data = '';
+	}
+
+	if ($check) {
+		return $hasil_cek;
+	} else {
+		return $data;
+	}
+}
+
+function cek_registrasi_mahasiswa($redirect,$nim,$periode)
+{
+	$CI =& get_instance();
+	$cek = data_registarasi($nim,$periode,TRUE);
+	if ($cek == 0) {
+		$CI->session->set_flashdata('notif', alert_biasa('kamu belum diregistrasikan di semester ini!','error'));
+		redirect($redirect,'refresh');
+	}
+}
+
+function cek_semester_aktif($redirect)
+{
+	$CI =& get_instance();
+	$CI->db->where('aktif', 'y');
+	$cek = $CI->db->get('tahun_akademik');
+	if ($cek->num_rows() == 0) {
+		$CI->session->set_flashdata('notif', alert_biasa('silahkan aktifkan tahun akademik terlebih dahulu!','error'));
+		redirect($redirect,'refresh');
+	}
+}
+
+function jenis_semester_aktif()
+{
+	$CI =& get_instance();
+	$tahun = tahun_akademik_aktif('kode_tahun');
+	if (substr($tahun,4,1) == '1') {
+		return 'ganjil';
+	} else {
+		return 'genap';
+	}
+}
 
 function tahun_akademik_aktif($select)
 {
@@ -295,23 +350,58 @@ function cek_nilai_lulus()
 
 
 function log_r($string = null, $var_dump = false)
-    {
-        if ($var_dump) {
-            var_dump($string);
-        } else {
-            echo "<pre>";
-            print_r($string);
-        }
-        exit;
+{
+    if ($var_dump) {
+        var_dump($string);
+    } else {
+        echo "<pre>";
+        print_r($string);
     }
+    exit;
+}
 
-    function log_data($string = null, $var_dump = false)
-    {
-        if ($var_dump) {
-            var_dump($string);
-        } else {
-            echo "<pre>";
-            print_r($string);
-        }
-        // exit;
+function log_data($string = null, $var_dump = false)
+{
+    if ($var_dump) {
+        var_dump($string);
+    } else {
+        echo "<pre>";
+        print_r($string);
     }
+    // exit;
+}
+
+// ==========================================
+// Encrypt
+function encode($string='',$base='')
+{ 
+	error_reporting(0);
+  $CI = &get_instance();
+  if ($base=='64') {
+    $cryptKey = $CI->config->item('encryption_key');
+    $id = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5( $cryptKey), $string, MCRYPT_MODE_CBC, md5(md5($cryptKey))));
+  }else {
+    $id = $CI->encrypt->encode($string);
+  }
+  $id = str_replace("/", "==11==", $id);
+  $id = str_replace("+", "==22==", $id);
+  return $id;
+}
+
+// Decrypt
+function decode($string='',$base='')
+{ 
+	// error_reporting(0);
+  $CI = &get_instance();
+  $id = str_replace("==11==", "/", $string);
+  $id = str_replace("==22==", "+", $id);
+  if ($base=='64') {
+    $string = $id;
+    $cryptKey = $CI->config->item('encryption_key');
+    $id = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($cryptKey), base64_decode($string), MCRYPT_MODE_CBC, md5(md5($cryptKey))), "\0");
+  }else {
+    $id = $CI->encrypt->decode($id);
+  }
+  return $id;
+}
+// ==========================================

@@ -27,7 +27,7 @@
                                         <img src="image/user/<?php echo $this->session->userdata('foto'); ?>">
                                     </div>
                                     <section>
-                                        <h2><span class="profile"><span><?php echo $this->session->userdata('nama'); ?></span></span></h2>
+                                        <h2><span class="profile"><span><?php echo $retVal = ($this->session->userdata('level') == '5') ? $this->session->userdata('username').' - '.$this->session->userdata('nama') : $this->session->userdata('nama'); ?></span></span></h2>
                                     </section>
                                 </a>
                                 <!--Login Area Dropdown-->

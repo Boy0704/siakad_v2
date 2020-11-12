@@ -301,7 +301,7 @@ class Dosen extends CI_Controller
 	$this->form_validation->set_rules('agama', 'agama', 'trim|required');
 	// $this->form_validation->set_rules('tanggal_lahir', 'tanggal lahir', 'trim|required');
     $this->form_validation->set_rules('status', 'status', 'trim|required');
-	$this->form_validation->set_rules('id_prodi', 'id_prodi', 'trim|required');
+	$this->form_validation->set_rules('id_prodi', 'prodi', 'trim|required');
 	// $this->form_validation->set_rules('id_jabatan', 'id jabatan', 'trim|required');
 
 	$this->form_validation->set_rules('id_dosen', 'id_dosen', 'trim');

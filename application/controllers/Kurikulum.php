@@ -200,9 +200,9 @@ class Kurikulum extends CI_Controller
 	$this->form_validation->set_rules('sks_wajib', 'sks wajib', 'trim|required');
 	$this->form_validation->set_rules('sks_pilihan', 'sks pilihan', 'trim|required');
 	$this->form_validation->set_rules('total_sks', 'total sks', 'trim|required');
-	$this->form_validation->set_rules('id_prodi', 'id prodi', 'trim|required');
+	$this->form_validation->set_rules('id_prodi', 'prodi', 'trim|required');
 
-	$this->form_validation->set_rules('id_kurikulum', 'id_kurikulum', 'trim');
+	$this->form_validation->set_rules('id_kurikulum', 'kurikulum', 'trim');
 	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
     }
 
