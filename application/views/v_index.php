@@ -33,6 +33,16 @@ if ($this->session->userdata('level') == '') {
     <link href="assets/css/typicons.min.css" rel="stylesheet" />
     <link href="assets/css/animate.min.css" rel="stylesheet" />
     <link id="skin-link" href="#" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .loader_img{
+          height: 100px;
+          width: 100px;
+          position: absolute;
+          left: 50%;
+          top: 45%;
+          transform: translate(-50%, -50%);
+        }
+    </style>
 
     <!--Page Related styles-->
     <link href="assets/css/dataTables.bootstrap.css" rel="stylesheet" />
@@ -46,6 +56,7 @@ if ($this->session->userdata('level') == '') {
 <body>
     <!-- Loading Container -->
     <div class="loading-container">
+        <img class="loader_img" src="image/<?php echo get_data('setting','id_setting','1','logo') ?>" alt="<?php echo get_data('setting','id_setting','1','nama_kampus') ?>" style="width: 50px; height: 50px;"/>
         <div class="loader"></div>
     </div>
     <!--  /Loading Container -->
@@ -70,7 +81,7 @@ if ($this->session->userdata('level') == '') {
                             <a href="">Home</a>
                         </li>
                         <li>
-                            <a href="<?php echo $this->uri->segment(1) ?>"><?php echo ucwords(str_replace('_', ' ', $this->uri->segment(1))) ?></a>
+                            <?php echo ucwords(str_replace('_', ' ', $this->uri->segment(1))) ?>
                         </li>
                         <li class="active"><?php echo ucwords(str_replace('_', ' ', $this->uri->segment(2))) ?></li>
                     </ul>

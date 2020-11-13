@@ -59,12 +59,12 @@ class App extends CI_Controller {
 		$dt = json_decode($data);
 		$dt_hapus = json_decode($data_dihapus);
 
-		
-
-		$this->db->trans_begin();
+		// log_r($_POST);
 
 		$this->db->where('level', $id_level);
 		$this->db->delete('master_menu_level');
+
+		$this->db->trans_begin();
 
 		foreach ($dt as $key => $value) {
 			$id_parent = $dt[$key]->id;
@@ -153,6 +153,7 @@ class App extends CI_Controller {
 		        $this->db->trans_commit();
 		        echo "menu berhasil disimpan";
 		}
+		
 		
 	}
 

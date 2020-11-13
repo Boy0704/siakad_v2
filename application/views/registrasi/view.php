@@ -22,6 +22,7 @@
                         <select name="id_tahun_angkatan" id="id_tahun_angkatan" style="width:100%;" required="">
                             <option value="">--Pilih Angkatan --</option>
                             <?php 
+                            $this->db->order_by('tahun_angkatan', 'desc');
                             foreach ($this->db->get('tahun_angkatan')->result() as $rw): 
                                 ?>
                                 <option value="<?php echo $rw->id_tahun_angkatan ?>"><?php echo $rw->tahun_angkatan ?></option>

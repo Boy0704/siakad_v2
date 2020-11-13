@@ -180,6 +180,14 @@
 	}
 }
 </style>
+
+<?php 
+$nim = $this->uri->segment(3);
+$kode_semester = $this->uri->segment(4);
+$this->db->where('nim', $nim);
+$data_mhs = $this->db->get('mahasiswa')->row();
+
+?>
 <table align="center" class="table-name">
     <tr>
         <td align="center" colspan="8" style="font-size: 16px;">
@@ -191,20 +199,20 @@
     </tr>
     <tr>
         <td align="left" width="20%" colspan="2" ><strong>Nama Mahasiswa</strong></td>
-        <td align="left" width="30%" colspan="2"><strong>:</strong> Rini Afrisa</td>
+        <td align="left" width="30%" colspan="2"><strong>:</strong> <?php echo $data_mhs->nama ?></td>
         <td align="left" width="20%" colspan="2" ><strong>NIM</strong></td>
-        <td align="left" colspan="2"><strong>:</strong> 18.01.0.0034</td>
+        <td align="left" colspan="2"><strong>:</strong> <?php echo $data_mhs->nim ?></td>
     </tr>
     <tr>
         <td align="left" colspan="2"><strong>Program Studi</strong></td>
-        <td align="left" colspan="2"><strong>:</strong> S1 - Teknik Informatika</td>
+        <td align="left" colspan="2"><strong>:</strong> <?php echo get_data('prodi','id_prodi',$data_mhs->id_prodi,'jenjang') ?> - <?php echo get_data('prodi','id_prodi',$data_mhs->id_prodi,'prodi') ?></td>
 		        <td align="left" colspan="2"><strong>Periode</strong></td>
-        <td align="left" colspan="2"><strong>:</strong> 2020/2021 Ganjil</td>
+        <td align="left" colspan="2"><strong>:</strong> <?php echo get_data('tahun_akademik','kode_tahun',$kode_semester,'keterangan') ?></td>
 		    </tr>
 		<tr>
 				<td align="left" colspan="2"><strong>Semester</strong></td>
 				<td align="left" colspan="2"><strong>:</strong>
-											5									</td>
+											<?php echo get_semester($nim,$kode_semester) ?>									</td>
 		</tr>
 </table>
 <br>
@@ -223,113 +231,29 @@
         <th style="vertical-align:middle;">Hari</th>
         <th style="vertical-align:middle;">Waktu</th>
     </tr>
+    <?php 
+    $no = 1;
+    $sks_total = 0;
+    $this->db->where('nim', $nim);
+    $this->db->where('kode_semester', $kode_semester);
+    foreach ($this->db->get('krs')->result() as $rw): ?>
+    	
 		<tr>
-		<td align="center">1</td>
-		<td align="center">TI31008</td>
-		<td align="left">Tata Tulis Karya Ilmiah</td>
-		<td align="left"> ELA KRISTI PERMATASARI</td>
-		<td align="center">2</td>
-		<td align="center">TI B</td>
-		        <td align="center">-</td>
-        <td align="center">-</td>
-        <td align="center">
-        	-        	<!-- - -->
-        </td>
-	</tr>
-		<tr>
-		<td align="center">2</td>
-		<td align="center">TI31010</td>
-		<td align="left">Proses Bisnis & Pemodelan Sistem</td>
-		<td align="left"> SUGIARTO</td>
-		<td align="center">3</td>
-		<td align="center">TI B</td>
-		        <td align="center">-</td>
-        <td align="center">-</td>
-        <td align="center">
-        	-        	<!-- - -->
-        </td>
-	</tr>
-		<tr>
-		<td align="center">3</td>
-		<td align="center">TI31025</td>
-		<td align="left">Rekayasa Perangkat Lunak</td>
-		<td align="left"> UMAR GHONI</td>
-		<td align="center">3</td>
-		<td align="center">TI B</td>
-		        <td align="center">-</td>
-        <td align="center">-</td>
-        <td align="center">
-        	-        	<!-- - -->
-        </td>
-	</tr>
-		<tr>
-		<td align="center">4</td>
-		<td align="center">TI31039</td>
-		<td align="left">Pemrograman Dekstop</td>
-		<td align="left"> FAUZAN ISHLAKHUDDIN</td>
-		<td align="center">3</td>
-		<td align="center">TI B</td>
-		        <td align="center">-</td>
-        <td align="center">-</td>
-        <td align="center">
-        	-        	<!-- - -->
-        </td>
-	</tr>
-		<tr>
-		<td align="center">5</td>
-		<td align="center">TI31040</td>
-		<td align="left">Pemrograman Web Dinamis</td>
-		<td align="left"> MAMUR SETIANAMA</td>
-		<td align="center">3</td>
-		<td align="center">TI B</td>
-		        <td align="center">-</td>
-        <td align="center">-</td>
-        <td align="center">
-        	-        	<!-- - -->
-        </td>
-	</tr>
-		<tr>
-		<td align="center">6</td>
-		<td align="center">TI31041</td>
-		<td align="left">Sistem Pendukung Keputusan</td>
-		<td align="left"> IIF ALFIATUL MUKAROMAH</td>
-		<td align="center">3</td>
-		<td align="center">TI B</td>
-		        <td align="center">-</td>
-        <td align="center">-</td>
-        <td align="center">
-        	-        	<!-- - -->
-        </td>
-	</tr>
-		<tr>
-		<td align="center">7</td>
-		<td align="center">TI32028</td>
-		<td align="left">Metodologoi Penelitian</td>
-		<td align="left"> IIF ALFIATUL MUKAROMAH</td>
-		<td align="center">2</td>
-		<td align="center">TI B</td>
-		        <td align="center">-</td>
-        <td align="center">-</td>
-        <td align="center">
-        	-        	<!-- - -->
-        </td>
-	</tr>
-		<tr>
-		<td align="center">8</td>
-		<td align="center">TI32152</td>
-		<td align="left">Kriptografi</td>
-		<td align="left"> IIF ALFIATUL MUKAROMAH</td>
-		<td align="center">3</td>
-		<td align="center">TI</td>
-		        <td align="center">-</td>
-        <td align="center">-</td>
-        <td align="center">
-        	-        	<!-- - -->
-        </td>
-	</tr>
+			<td align="center"><?php echo $no ?></td>
+			<td align="center"><?php echo $rw->kode_mk ?></td>
+			<td align="left"><?php echo $rw->nama_mk ?></td>
+			<td align="left"><?php echo $rw->nama_dosen ?></td>
+			<td align="center"><?php echo $rw->sks; $sks_total = $sks_total+$rw->sks ?></td>
+			<td align="center"><?php echo $rw->kelas ?></td>
+			        <td align="center"><?php echo $ruang = ($rw->id_jadwal !='') ? get_data('jadwal_kuliah','id_jadwal',$rw->id_jadwal,'ruang') : '' ; ?></td>
+	        <td align="center"><?php echo $ruang = ($rw->id_jadwal !='') ? get_data('jadwal_kuliah','id_jadwal',$rw->id_jadwal,'hari') : '' ; ?></td>
+	        <td align="center"><?php echo $ruang = ($rw->id_jadwal !='') ? get_data('jadwal_kuliah','id_jadwal',$rw->id_jadwal,'jam_mulai').' - '.get_data('jadwal_kuliah','id_jadwal',$rw->id_jadwal,'jam_selesai') : '' ; ?></td>
+		</tr>
+	<?php $no++; endforeach ?>
+		
 		<tr>
 		<td colspan="4" align="right"><strong>Jumlah</strong></td>
-		<td align="center">22</td>
+		<td align="center"><?php echo $sks_total ?></td>
 		<td colspan="4"></td>
 	</tr>
 </table>
@@ -340,7 +264,7 @@
 		<td width="10%"></td>
 		<td width="10%"></td>
 		<td width="10%"></td>
-		<td align="center" width="35%" colspan="2">Paguyangan, 11 November 2020 </td>
+		<td align="center" width="35%" colspan="2"><?php echo get_data('setting','id_setting','1','alamat') ?>, <?php echo date('d-m-Y') ?> </td>
 	</tr>
 	<tr>
 		<td align="center" colspan="3">Mahasiswa</td>
@@ -402,23 +326,22 @@
 	</tr>
 	<tr>
 		<td align="center" style="border-bottom: 1px solid #000" colspan="3">
-			<strong>Rini Afrisa</strong>
+			<strong><?php echo $data_mhs->nama ?></strong>
 		</td>
 		<td></td>
 		<td></td>
 		<td></td>
 		<td align="center" style="border-bottom: 1px solid #000" colspan="2">
-			<strong>
-							</strong>
+			<strong>Nama Dosen PA</strong>
 		</td>
 	</tr>
 	<tr>
-		<td align="center" colspan="3">18.01.0.0034</td>
+		<td align="center" colspan="3"><?php echo $data_mhs->nim ?></td>
 		<td></td>
 		<td></td>
 		<td></td>
 		<td align="center" colspan="2">
-					</td>
+					NIDN pa</td>
 	</tr>
 	<tr>
 		<td colspan="3">&nbsp;</td>
@@ -473,13 +396,13 @@
 	<tr>
 		<td colspan="3"></td>
 		<td align="center" style="border-bottom: 1px solid #000" colspan="3">
-			<strong>Utami Juwita,S.Pd</strong>
+			<strong>Nama BAAK</strong>
 		</td>
 		<td align="center" colspan="2"></td>
 	</tr>
 	<tr>
 		<td colspan="3"></td>
-		<td align="center" colspan="3">1294310</td>
+		<td align="center" colspan="3">Nip BAAK</td>
 		<td align="center" colspan="2"></td>
 	</tr>
 	<tr>

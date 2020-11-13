@@ -58,8 +58,14 @@
 
                 <button class="btn btn-darkorange" id="btnImport">Import Data</button>
 
-                <a onclick="javasciprt: return confirm('Yakin akan ambil dari matakuliah semester ganjil ?')" href="app/set_kurikulum_from_mk?id_prodi=<?php echo $id_prodi ?>&id_kurikulum=<?php echo $id_kurikulum ?>&jenis=ganjil" class="btn btn-info"><i class="fa fa-sync"></i> Ambil dari MK Ganjil</a>
-                <a onclick="javasciprt: return confirm('Yakin akan ambil dari matakuliah semester genap ?')" href="app/set_kurikulum_from_mk?id_prodi=<?php echo $id_prodi ?>&id_kurikulum=<?php echo $id_kurikulum ?>&jenis=genap" class="btn btn-success"><i class="fa fa-sync"></i> Ambil dari MK Genap</a>
+                <?php if (jenis_semester_aktif() == 'ganjil'): ?>
+                	<a onclick="javasciprt: return confirm('Yakin akan ambil dari matakuliah semester ganjil ?')" href="app/set_kurikulum_from_mk?id_prodi=<?php echo $id_prodi ?>&id_kurikulum=<?php echo $id_kurikulum ?>&jenis=ganjil" class="btn btn-info"><i class="fa fa-sync"></i> Ambil dari MK Ganjil</a>
+
+                <?php else: ?>
+                	<a onclick="javasciprt: return confirm('Yakin akan ambil dari matakuliah semester genap ?')" href="app/set_kurikulum_from_mk?id_prodi=<?php echo $id_prodi ?>&id_kurikulum=<?php echo $id_kurikulum ?>&jenis=genap" class="btn btn-success"><i class="fa fa-sync"></i> Ambil dari MK Genap</a>
+                <?php endif ?>
+                
+               
 
 
                 <br><br>
@@ -126,23 +132,23 @@
 </div>
 
 <div id="modalImport" style="display:none;">
-        <div class="row">
-        	<form action="Import/import_mk_kurikulum?id_prodi=<?php echo $id_prodi ?>&id_kurikulum=<?php echo $id_kurikulum ?>" method="post" enctype="multipart/form-data">
-            <div class="col-md-12">
-            	<div class="form-group">
-            		<a href="files/template/import_mk.xlsx" class="label label-success">Download Template</a>
-            	</div>
-                <div class="form-group">
-                    <input type="file" class="form-control" name="file_excel" required="">
-                </div>
-                
-                <div class="form-group">
-                	<button type="submit" class="btn btn-primary">Import</button>
-                </div>
+    <div class="row">
+    	<form action="Import/import_mk_kurikulum?id_prodi=<?php echo $id_prodi ?>&id_kurikulum=<?php echo $id_kurikulum ?>" method="post" enctype="multipart/form-data">
+        <div class="col-md-12">
+        	<div class="form-group">
+        		<a href="files/template/import_mk.xlsx" class="label label-success">Download Template</a>
+        	</div>
+            <div class="form-group">
+                <input type="file" class="form-control" name="file_excel" required="">
             </div>
-            </form>
+            
+            <div class="form-group">
+            	<button type="submit" class="btn btn-primary">Import</button>
+            </div>
         </div>
+        </form>
     </div>
+</div>
 
 <?php endif ?>
 

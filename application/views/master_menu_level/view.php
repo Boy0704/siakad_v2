@@ -124,7 +124,7 @@
 				        
 				    </ol>
 				</div>
-				<hr>
+				<!-- <hr> -->
 				<div style="margin-top: 20px;">
 					<button class="btn btn-primary" id="simpan_menu">Simpan</button>
 				</div>

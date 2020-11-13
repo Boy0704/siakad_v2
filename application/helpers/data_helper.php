@@ -1,4 +1,53 @@
 <?php 
+function get_semester($nim,$kode_semester)
+{
+	$CI =& get_instance();
+	$CI->db->where('nim', $nim);
+	$CI->db->group_by('kode_semester');
+	$CI->db->order_by('kode_semester', 'asc');
+	$data = $CI->db->get('krs');
+	$arr= [];
+	$no = 1;
+
+	foreach ($data->result() as $key => $value) {
+		array_push($arr, array(
+			$no => $value->kode_semester,
+		));
+		$no++;
+	}
+
+	$key = array_search($kode_semester, $arr[0]);
+	return $key;
+
+	
+}
+function pengajuan_krs($nim)
+{
+	$CI =& get_instance();
+	$CI->db->where('kode_semester', tahun_akademik_aktif('kode_tahun'));
+	$CI->db->where('nim', $nim);
+	$cek = $CI->db->get('temp_krs_pa');
+	if ($cek->num_rows() > 0) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function setuju_dosen_pa($nim)
+{
+	$CI =& get_instance();
+	$CI->db->where('kode_semester', tahun_akademik_aktif('kode_tahun'));
+	$CI->db->where('nim', $nim);
+	$CI->db->where('konfirmasi_pa', 'y');
+	$cek = $CI->db->get('krs');
+	if ($cek->num_rows() > 0) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 function data_registarasi($nim,$periode,$check=false)
 {
 	$CI =& get_instance();
@@ -281,7 +330,17 @@ function get_produk($barcode,$select)
 	return $data[$select];
 }
 
+function alert_notif($pesan,$type)
+{
+	return "<div class=\"alert alert-$type fade in alert-radius-bordered alert-shadowed\">
+                                        <button class=\"close\" data-dismiss=\"alert\">
+                                            ×
+                                        </button>
+                                        <i class=\"fa-fw fa fa-info\"></i>
 
+                                        <strong>Info:</strong> $pesan
+                                    </div>";
+}
 
 function alert_biasa($pesan,$type)
 {

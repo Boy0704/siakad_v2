@@ -12,6 +12,15 @@ class Jadwal_kuliah extends CI_Controller
         $this->load->library('form_validation');
     }
 
+    public function jadwal_mahasiswa()
+    {
+        $data = array(
+            'konten' => 'jadwal_kuliah/jadwal_mahasiswa',
+            'judul_page' => 'Jadwal Kuliah Mahasiswa',
+        );
+        $this->load->view('v_index',$data);
+    }
+
     public function index()
     {
         cek_semester_aktif('tahun_akademik');
@@ -80,6 +89,26 @@ class Jadwal_kuliah extends CI_Controller
         if ($this->form_validation->run() == FALSE) {
             $this->create();
         } else {
+            $this->db->where('ruang', $this->input->post('ruang'));
+            $this->db->where('hari', $this->input->post('hari'));
+            $this->db->where('jam_mulai', $this->input->post('jam_mulai'));
+            $cek_jadwal_tabrakan = $this->db->get('jadwal_kuliah');
+            if ($cek_jadwal_tabrakan->num_rows() > 0) {
+                $this->session->set_flashdata('message', '<div class="alert alert-danger fade in alert-radius-bordered alert-shadowed">
+                                        <button class="close" data-dismiss="alert">
+                                            ×
+                                        </button>
+                                        <i class="fa-fw fa fa-info"></i>
+
+                                        <strong>Info:</strong> jadwal gagal di tambahkan <br>
+                                            ruang : '.$this->input->post('ruang').'<br>
+                                            hari : '.$this->input->post('hari').'<br>
+                                            jam mulai : '.$this->input->post('jam_mulai').'<br>
+                                            sudah terpakai.
+                                    </div>');
+                    redirect(site_url('jadwal_kuliah?id_prodi='.$this->input->post('id_prodi')));
+            }
+
             $data = array(
 		'id_tahun_akademik' => tahun_akademik_aktif('id_tahun_akademik'),
 		'id_mk' => $this->input->post('id_mk',TRUE),
@@ -130,7 +159,6 @@ class Jadwal_kuliah extends CI_Controller
 		'id_prodi' => set_value('id_prodi', $row->id_prodi),
 		'semester' => set_value('semester', $row->semester),
 		'kapasitas' => set_value('kapasitas', $row->kapasitas),
-		'terisi' => set_value('terisi', $row->terisi),
 	    );
             $this->load->view('v_index', $data);
         } else {
@@ -146,6 +174,26 @@ class Jadwal_kuliah extends CI_Controller
         if ($this->form_validation->run() == FALSE) {
             $this->update($this->input->post('id_jadwal', TRUE));
         } else {
+            $this->db->where('ruang', $this->input->post('ruang'));
+            $this->db->where('hari', $this->input->post('hari'));
+            $this->db->where('jam_mulai', $this->input->post('jam_mulai'));
+            $cek_jadwal_tabrakan = $this->db->get('jadwal_kuliah');
+            if ($cek_jadwal_tabrakan->num_rows() > 0) {
+                $this->session->set_flashdata('message', '<div class="alert alert-danger fade in alert-radius-bordered alert-shadowed">
+                                        <button class="close" data-dismiss="alert">
+                                            ×
+                                        </button>
+                                        <i class="fa-fw fa fa-info"></i>
+
+                                        <strong>Info:</strong> jadwal gagal di tambahkan <br>
+                                            ruang : '.$this->input->post('ruang').'<br>
+                                            hari : '.$this->input->post('hari').'<br>
+                                            jam mulai : '.$this->input->post('jam_mulai').'<br>
+                                            sudah terpakai.
+                                    </div>');
+                    redirect(site_url('jadwal_kuliah?id_prodi='.$this->input->post('id_prodi')));
+            }
+
             $data = array(
 		'id_tahun_akademik' => tahun_akademik_aktif('id_tahun_akademik'),
 		'id_mk' => $this->input->post('id_mk',TRUE),
@@ -158,7 +206,6 @@ class Jadwal_kuliah extends CI_Controller
 		'id_prodi' => $this->input->post('id_prodi',TRUE),
 		'semester' => $this->input->post('semester',TRUE),
 		'kapasitas' => $this->input->post('kapasitas',TRUE),
-		'terisi' => $this->input->post('terisi',TRUE),
 	    );
 
             $this->Jadwal_kuliah_model->update($this->input->post('id_jadwal', TRUE), $data);

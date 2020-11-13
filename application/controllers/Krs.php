@@ -75,10 +75,33 @@ class Krs extends CI_Controller {
 				'id_dosen' => $d_jadwal->id_dosen,
 				'nama_dosen' => get_data('dosen','id_dosen',$d_jadwal->id_dosen,'nama'),
 				'kelas' => $d_jadwal->kelas,
+				'sks' => get_data('matakuliah','id_mk',$d_jadwal->id_mk,'sks_total'),
 			);
+
+			$this->db->trans_begin();
+
 			$simpan = $this->db->insert('krs', $data);
-			if ($simpan) {
-				$id_prodi = encode($id_prodi);
+			$this->db->where('id_jadwal', $d_jadwal->id_jadwal);
+			$this->db->update('jadwal_kuliah', array('terisi'=>$d_jadwal->terisi+1));
+
+			if ($this->db->trans_status() === FALSE)
+			{
+		        $this->db->trans_rollback();
+		        $id_prodi = encode($id_prodi);
+				$this->session->set_flashdata('message', '<div class="alert alert-danger fade in alert-radius-bordered alert-shadowed">
+                                        <button class="close" data-dismiss="alert">
+                                            ×
+                                        </button>
+                                        <i class="fa-fw fa fa-info"></i>
+
+                                        <strong>Info:</strong> Matakuliah gagal ditambahkan di KRS
+                                    </div>');
+				redirect('krs/ambil_krs?id_prodi='.$id_prodi,'refresh');
+			}
+			else
+			{
+		        $this->db->trans_commit();
+		        $id_prodi = encode($id_prodi);
 				$this->session->set_flashdata('message', '<div class="alert alert-success fade in alert-radius-bordered alert-shadowed">
                                         <button class="close" data-dismiss="alert">
                                             ×
@@ -91,11 +114,35 @@ class Krs extends CI_Controller {
 			}
 
 		} elseif ($aksi == 'batal') {
+
+			$this->db->trans_begin();
+
+			$this->db->where('id_jadwal', $id_jadwal);
+			$d_jadwal = $this->db->get('jadwal_kuliah')->row();
+
 			$this->db->where('id_jadwal', $id_jadwal);
 			$this->db->where('nim', $this->session->userdata('username'));
 			$delete = $this->db->delete('krs');
-			if ($delete) {
-				$id_prodi = encode($id_prodi);
+			$this->db->where('id_jadwal', $d_jadwal->id_jadwal);
+			$this->db->update('jadwal_kuliah', array('terisi'=>$d_jadwal->terisi-1));
+			if ($this->db->trans_status() === FALSE)
+			{
+		        $this->db->trans_rollback();
+		        $id_prodi = encode($id_prodi);
+				$this->session->set_flashdata('message', '<div class="alert alert-danger fade in alert-radius-bordered alert-shadowed">
+                                        <button class="close" data-dismiss="alert">
+                                            ×
+                                        </button>
+                                        <i class="fa-fw fa fa-info"></i>
+
+                                        <strong>Info:</strong> Matakuliah gagal dibatalkan di KRS
+                                    </div>');
+				redirect('krs/ambil_krs?id_prodi='.$id_prodi,'refresh');
+			}
+			else
+			{
+		        $this->db->trans_commit();
+		        $id_prodi = encode($id_prodi);
 				$this->session->set_flashdata('message', '<div class="alert alert-danger fade in alert-radius-bordered alert-shadowed">
                                         <button class="close" data-dismiss="alert">
                                             ×
@@ -106,7 +153,35 @@ class Krs extends CI_Controller {
                                     </div>');
 				redirect('krs/ambil_krs?id_prodi='.$id_prodi,'refresh');
 			}
+			
 		}
+	}
+
+	public function ajukan_krs()
+	{
+		$nim = $this->input->get('nim');
+		$id_prodi = $this->input->get('id_prodi');
+		$kode_semester = $this->input->get('kode_semester');
+		$id_dosen = $this->input->get('id_dosen');
+
+		if ($id_dosen == '') {
+			$this->session->set_flashdata('notif', alert_biasa('Dosen PA belum diset!','error'));
+			redirect('krs/krs_mahasiswa','refresh');
+		}
+		$data = array(
+			'nim' => $nim,
+			'id_prodi' => $id_prodi,
+			'kode_semester' => $kode_semester,
+			'id_dosen' => $id_dosen,
+			'di_setujui' => 't',
+			'create_at' => get_waktu(),
+		);
+		$simpan = $this->db->insert('temp_krs_pa', $data);
+		if ($simpan) {
+			$this->session->set_flashdata('notif', alert_biasa('Pengajuan berhasil, silahkan hubungi dosen PA untuk segera di setujui!','success'));
+			redirect('krs/krs_mahasiswa','refresh');
+		}
+
 	}
 
 

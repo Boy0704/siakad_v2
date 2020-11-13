@@ -22,6 +22,8 @@
             <div class="row">
             <div class="col-md-4">
                 <?php echo anchor(site_url('dosen/create'),'<i class="fa fa-plus"></i> Tambah Data', 'class="btn btn-primary"'); ?>
+
+                <button class="btn btn-darkorange" id="btnImport">Import Data</button>
             </div>
             <div class="col-md-4 text-center">
                 <div style="margin-top: 8px" id="message">
@@ -111,4 +113,48 @@
         </div>
     </div>
 </div>
+
+<div id="modalImport" style="display:none;">
+    <div class="row">
+        <form action="Import/import_dosen" method="post" enctype="multipart/form-data">
+        <div class="col-md-12">
+            <div class="form-group">
+                <a href="files/template/import_dosen.xlsx" class="label label-success">Download Template</a>
+            </div>
+            <div class="form-group">
+                <select name="id_prodi" id="id_prodi" style="width:100%;" required="">
+                    <option value="">--Pilih Prodi --</option>
+                    <?php 
+                    $this->db->where('aktif', 'y');
+                    foreach ($this->db->get('prodi')->result() as $rw): 
+                        ?>
+                        <option value="<?php echo $rw->id_prodi ?>"><?php echo $rw->kode_prodi.' - '. $rw->prodi ?></option>
+                    <?php endforeach ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="file" class="form-control" name="file_excel" required="">
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Import</button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+
+<script src="assets/js/bootbox/bootbox.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#btnImport").on('click', function () {
+            bootbox.dialog({
+                message: $("#modalImport").html(),
+                title: "Form Import",
+                className: "modal-darkorange",
+            });
+        });
+    });
+</script>
+
     

@@ -5,22 +5,23 @@
                 <span class="widget-caption"><?php echo $judul_page ?> </span>
             </div>
             <div class="widget-body bordered-left bordered-warning">
-            	<?php echo $this->session->userdata('message') <> '' ? $this->session->userdata('message') : ''; ?>
-            	<br>
+            	
 
             	<?php 
             	$data_mhs = $this->db->get_where('mahasiswa',array('nim'=>$this->session->userdata('username')))->row();
 
             	 ?>
-                <a href="krs/ambil_krs?id_prodi=<?php echo encode($data_mhs->id_prodi) ?>" class="btn btn-primary"><i class="fa fa-plus"></i> Pilih matakuliah</a>
+               
+                <?php if (setuju_dosen_pa($data_mhs->nim) == false): ?>
+                	<?php echo alert_notif('Tidak ada jadwal di temukan !','info') ?>
+                <?php else: ?>
+
                 
-                
-                <br><br>
                 <div class="table-scrollable">
                 <table align="center" class="table table-bordered">
 				    <tr>
 				        <td align="center" colspan="8" style="font-size: 16px;">
-				        	<strong><u>KARTU RENCANA STUDI (KRS)</u></strong>
+				        	<strong><u>JADWAL KULIAH</u></strong>
 				        </td>
 				    </tr>
 				    <tr>
@@ -41,16 +42,9 @@
 						<tr>
 								<td align="left" colspan="2"><strong>Semester</strong></td>
 								<td align="left" colspan="2"><strong>:</strong> <?php echo $data_mhs->semester_aktif ?></td>
-
-								<td align="left" colspan="2"><strong>Disetujui Dosen PA</strong></td>
-								<td align="left" colspan="2"><strong>:</strong> <?php 
-								if (pengajuan_krs($data_mhs->nim)) {
-									echo $retVal = (setuju_dosen_pa($data_mhs->nim)) ? '<span class="label label-success">disetejui</span>' : '<span class="label label-warning">belum disetejui</span>' ; 
-								} else {
-									echo '<span class="label label-warning">belum diajukan, silahkan ajuka terlebih dahulu</span>';
-								}
+								<td colspan="2"></td>
+								<td colspan="2"></td>
 								
-								?></td>
 						</tr>
 
 				</table>
@@ -67,7 +61,6 @@
 	                            <th rowspan="2" style="text-align: center; vertical-align: middle;">SKS</th>
 	                            <th rowspan="2" style="text-align: center; vertical-align: middle;">Kelas</th>
 	                            <th colspan="3" style="text-align: center;">Jadwal Perkuliahan</th>
-	                            <th rowspan="2" style="text-align: center; vertical-align: middle;">Pilihan</th>
 	                        </tr>
 	                        <tr>
 	                        	<th>Ruang</th>
@@ -99,14 +92,7 @@
 		                    		<td><?php echo get_data('jadwal_kuliah','id_jadwal',$br->id_jadwal,'ruang') ?></td>
 		                    		<td><?php echo get_data('jadwal_kuliah','id_jadwal',$br->id_jadwal,'hari') ?></td>
 		                    		<td><?php echo get_data('jadwal_kuliah','id_jadwal',$br->id_jadwal,'jam_mulai').' - '.get_data('jadwal_kuliah','id_jadwal',$br->id_jadwal,'jam_selesai')  ?></td>
-		                    		<td>
-		                    			<?php if (setuju_dosen_pa($data_mhs->nim)): ?>
-		                    			<span class="label label-success">Tidak bisa dihapus</span>
-		                    			<?php else: ?>
-		                    			<a onclick="javasciprt: return confirm('Yakin hapus matakuliah di KRS ini ?')" href="krs/aksi_ambil_krs/<?php echo $br->id_jadwal ?>/batal?id_prodi=<?php echo encode($data_mhs->id_prodi) ?>" class="label label-danger">Hapus</a>
-		                    			<?php endif ?>
-		                            	
-		                    		</td>
+		                    		
 		                    	</tr>
 	                    	<?php $no++; endforeach ?>
 	                    	<tr>
@@ -118,21 +104,7 @@
 	                </table>
             	</div>
 
-            	<div class="row" style="margin-top: 10px;">
-            		<div class="col-md-2">
-            			<?php if (pengajuan_krs($nim)): ?>
-            				<span class="label label-success">Krs ini sudah diajukan ke dosen pembimbing</span>
-            			<?php else: ?>
-            				<a onclick="javasciprt: return confirm('Yakin akan ajukan krs ini ke dosen pembimbing ?')" href="krs/ajukan_krs?nim=<?php echo $data_mhs->nim ?>&id_prodi=<?php echo $data_mhs->id_prodi ?>&kode_semester=<?php echo tahun_akademik_aktif('kode_tahun') ?>&id_dosen=<?php echo $data_mhs->dosen_pa ?>" class="btn btn-info">Ajukan ke dosen pembimbing</a>
-            			<?php endif ?>
-            		</div>
-            		<div class="col-md-8"></div>
-            		<div class="col-md-2">
-            			<?php if (setuju_dosen_pa($data_mhs->nim)): ?>
-            				<a href="cetak/cetak_krs/<?php echo $nim ?>/<?php echo tahun_akademik_aktif('kode_tahun') ?>" class="btn btn-info"><i class="fa fa-print"></i> Cetak KRS</a>
-            			<?php endif ?>
-            		</div>
-            	</div>
+            	<?php endif ?>
 
             </div>
         </div>

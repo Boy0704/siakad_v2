@@ -28,6 +28,7 @@ class Login extends CI_Controller {
 					$sess_data['username'] = $users->username;
 					$sess_data['foto'] = $users->foto;
 					$sess_data['level'] = $users->level;
+					$sess_data['keterangan'] = $users->keterangan;
 					$this->session->set_userdata($sess_data);
 
 					// update last login
