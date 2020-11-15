@@ -3,7 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class App extends CI_Controller {
 
-	
+	public function __construct()
+	{
+		parent::__construct();
+		$this->rbac->check_module_access();
+	}
+
 	public function index()
 	{
 		if ($this->session->userdata('level') == '') {
@@ -18,6 +23,8 @@ class App extends CI_Controller {
 
 	public function setting()
 	{
+		// $this->rbac->check_operation_access();
+
 		if ($_POST) {
 			$img = upload_gambar_biasa('logo', 'image/', 'jpg|png|jpeg', 10000, 'logo');
 			$data = array(
@@ -428,6 +435,19 @@ class App extends CI_Controller {
     	$ruang = $this->input->get('ruang');
     	$kapasitas = get_data('ruang','ruang',$ruang,'kapasitas');
     	echo $kapasitas;
+    }
+
+    public function akses_absen_ujian($jns,$n)
+    {
+    	if ($jns == 'uts') {
+    		$this->db->where('id_setting', '1');
+    		$this->db->update('setting', array('absen_uts'=>$n));
+    	} else {
+    		$this->db->where('id_setting', '1');
+    		$this->db->update('setting', array('absen_uas'=>$n));
+    	}
+    	$this->session->set_flashdata('notif', alert_biasa('Akses Ujian berhasil','success'));
+    	redirect('app/setting','refresh');
     }
 
 

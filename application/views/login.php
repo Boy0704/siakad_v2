@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>Login Page</title>
+    <title><?php echo get_data('setting','id_setting','1','nama_kampus').' - '.$judul_page ?></title>
     <base href="<?php echo base_url() ?>">
 
     <meta name="description" content="login page" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="image/<?php echo get_data('setting','id_setting','1','logo') ?>" type="image/x-icon">
 
     <!--Basic Styles-->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
@@ -33,14 +33,22 @@
 <body>
     <div class="login-container animated fadeInDown">
         <div class="loginbox bg-white">
-            <div class="loginbox-title">Silahkan Login</div>
+            <!-- <div style="margin-top: 10px;">
+                <center>
+                    <img class="loader_img" src="image/<?php echo get_data('setting','id_setting','1','logo') ?>" alt="<?php echo get_data('setting','id_setting','1','nama_kampus') ?>" style="width: 100px; height: 100px;"/>
+                </center>
+            </div> -->
+            <div class="logobox">
+                <img class="loader_img" src="image/<?php echo get_data('setting','id_setting','1','logo') ?>" alt="<?php echo get_data('setting','id_setting','1','nama_kampus') ?>" style="width: 100px; height: 100px;"/>
+            </div>
+            <div class="loginbox-title"><?php echo get_data('setting','id_setting','1','nama_kampus') ?></div>
             <div class="loginbox-social">
-                <div class="social-title ">Connect with Your Social Accounts</div>
+                <div class="social-title ">Silahkan Login menggunakan Username dan Password kamu.</div>
                 
             </div>
             <form action="login/auth" method="POST">
                 <div class="loginbox-textbox">
-                    <input type="text" name="username" class="form-control" placeholder="Username" />
+                    <input type="text" name="username" class="form-control" placeholder="Username" autofocus="" />
                 </div>
                 <div class="loginbox-textbox">
                     <input type="password" name="password" class="form-control" placeholder="Password" />
@@ -52,8 +60,7 @@
             </form>
             
         </div>
-        <div class="logobox">
-        </div>
+        
     </div>
 
     <!--Basic Scripts-->

@@ -1,6 +1,37 @@
 <?php 
 $sett = $data->row();
  ?>
+
+<div class="row">
+    <div class="col-lg-12 col-sm-12 col-xs-12">
+        <div class="well bordered-top bordered-darkorange">
+            <h5 class="label label-success">Setting Absen Ujian</h5>
+            <p>
+                
+                Fitur ini untuk membuka akses absensi ujian UTS/UAS. <br>
+                Silah Klik Tombol dibawah ini :
+
+            </p>
+            <hr class="wide">
+
+            <?php if ($sett->absen_uts == 't'): ?>
+                <a onclick="javasciprt: return confirm('Apakah kamu yakin membuka akses Absen UTS Mahasiswa ?')" href="app/akses_absen_ujian/uts/y" class="btn btn-info">Open UTS</a>
+            <?php else: ?>
+                <a onclick="javasciprt: return confirm('Apakah kamu yakin tutup akses Absen UTS Mahasiswa ?')" href="app/akses_absen_ujian/uts/t" class="btn btn-danger">Tutup UTS</a>
+            <?php endif ?>
+
+            <?php if ($sett->absen_uas == 't'): ?>
+                <a onclick="javasciprt: return confirm('Apakah kamu yakin membuka akses Absen UAS Mahasiswa ?')" href="app/akses_absen_ujian/uas/y" class="btn btn-info">Open UAS</a>
+            <?php else: ?>
+                <a onclick="javasciprt: return confirm('Apakah kamu yakin tutup akses Absen UAS Mahasiswa ?')" href="app/akses_absen_ujian/uas/t" class="btn btn-danger">Tutup UAS</a>
+            <?php endif ?>
+
+            
+        </div>
+
+    </div>
+</div>
+
 <div class="row">
     <div class="col-lg-12 col-sm-12 col-xs-12">
         <div class="well bordered-top bordered-darkorange">

@@ -81,6 +81,15 @@ class Krs extends CI_Controller {
 			$this->db->trans_begin();
 
 			$simpan = $this->db->insert('krs', $data);
+			$id_krs = $this->db->insert_id();
+
+			//simpan absensi
+			$dt_absen = array(
+				'nim' => $this->session->userdata('username'),
+				'id_krs' => $id_krs,
+			);
+			$this->db->insert('absen', $dt_absen);
+
 			$this->db->where('id_jadwal', $d_jadwal->id_jadwal);
 			$this->db->update('jadwal_kuliah', array('terisi'=>$d_jadwal->terisi+1));
 
@@ -120,9 +129,20 @@ class Krs extends CI_Controller {
 			$this->db->where('id_jadwal', $id_jadwal);
 			$d_jadwal = $this->db->get('jadwal_kuliah')->row();
 
+			//dapatkan id_krs
+			$this->db->where('id_jadwal', $id_jadwal);
+			$this->db->where('nim', $this->session->userdata('username'));
+			$id_krs = $this->db->get('krs')->row()->id_krs;
+			//hapus krs
 			$this->db->where('id_jadwal', $id_jadwal);
 			$this->db->where('nim', $this->session->userdata('username'));
 			$delete = $this->db->delete('krs');
+
+			// hapus absen
+			$this->db->where('nim', $this->session->userdata('username'));
+			$this->db->where('id_krs', $id_krs);
+			$this->db->delete('absen');
+
 			$this->db->where('id_jadwal', $d_jadwal->id_jadwal);
 			$this->db->update('jadwal_kuliah', array('terisi'=>$d_jadwal->terisi-1));
 			if ($this->db->trans_status() === FALSE)

@@ -10,7 +10,7 @@ $id_prodi = decode($id_prodi);
             </div>
             <div class="widget-body bordered-left bordered-warning">
 
-            	<a href="krs/krs_mahasiswa" class="btn btn-primary">Kembali ke KRS</a>
+            	<a href="krs/krs_mahasiswa" class="btn btn-primary"><i class="fa fa-backward"></i> Kembali ke KRS</a>
 
             	<br><br>
             	<?php echo $this->session->userdata('message') <> '' ? $this->session->userdata('message') : ''; ?>

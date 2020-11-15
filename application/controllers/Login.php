@@ -6,7 +6,11 @@ class Login extends CI_Controller {
 	
 	public function index()
 	{
-		$this->load->view('login');
+		if ($this->session->userdata('level') != '') {
+			redirect('app','refresh');
+		}
+		$data['judul_page'] = 'Login Siakad';
+		$this->load->view('login',$data);
 	}
 
 	public function auth()
@@ -30,6 +34,7 @@ class Login extends CI_Controller {
 					$sess_data['level'] = $users->level;
 					$sess_data['keterangan'] = $users->keterangan;
 					$this->session->set_userdata($sess_data);
+					$this->rbac->set_access_in_session();
 
 					// update last login
 					$this->db->where('id_user', $users->id_user);
@@ -57,19 +62,6 @@ class Login extends CI_Controller {
 
 	function logout()
 	{
-
-		//simpan log
-		// $this->db->insert('log_user', array(
-		// 	'id_user' => $this->session->userdata('id_user'),
-		// 	'nama' => $this->session->userdata('nama'),
-		// 	'level' => $this->session->userdata('level'),
-		// 	'date_at' => get_waktu(),
-		// 	'status' => 'logout',
-		// ));
-
-		// $this->db->where('id_user', $this->session->userdata('id_user'));
-		// $this->db->update('a_user', array('status_login'=>'0'));
-
 
 		$this->session->unset_userdata('id_user');
 		$this->session->unset_userdata('nama');
