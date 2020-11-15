@@ -29,4 +29,16 @@ class Cetak extends CI_Controller {
 		$data['jenis_ujian'] = $jenis_ujian;
 		$this->load->view('cetak/cetak_kum',$data);
 	}
+
+	public function cetak_khs($nim='',$kode_semester='')
+	{
+		if ($nim == '' or $kode_semester=='') {
+			$this->session->set_flashdata('notif', alert_biasa('nim atau kode semester tidak boleh kosong','error'));
+			redirect('krs/khs_mahasiswa','refresh');
+		}
+		$data['nim'] = $nim;
+		$data['kode_semester'] = $kode_semester;
+		$this->load->view('cetak/cetak_khs',$data);
+	}
+
 }

@@ -311,7 +311,7 @@ class Import extends CI_Controller {
 				'tanggal_lahir' => $rw['D'],
 				'jenis_kelamin' => $rw['E'],
 				'nik' => $rw['F'],
-				'agama' => $rw['F'],
+				'agama' => $rw['G'],
 				'nisn' => $rw['H'],
 				'jalur_pendaftaran' => $rw['I'],
 				'npwp' => $rw['J'],
@@ -377,6 +377,66 @@ class Import extends CI_Controller {
 	        $this->session->set_flashdata('notif', alert_biasa('data mahasiswa berhasil diimport','success'));
 			redirect('mahasiswa?id_prodi='.$id_prodi,'refresh');
 		}
+	}
+
+	public function import_krs($aksi='')
+	{
+		if ($aksi != 'ya') {
+			echo "salah perintah";
+			exit();
+		}
+		
+		$kode_semester = '20172';
+		include APPPATH.'third_party/PHPExcel/PHPExcel.php';
+
+		$filename = "import_krs_".$kode_semester."_si.xlsx";
+					
+		$excelreader = new PHPExcel_Reader_Excel2007();
+		$loadexcel = $excelreader->load('files/excel/'.$filename.''); // Load file yang tadi diupload ke folder excel
+		$sheet = $loadexcel->getActiveSheet()->toArray(null, true, true ,true);
+		//skip untuk header
+
+		unset($sheet[1]);
+
+		$this->db->trans_begin();
+
+		foreach ($sheet as $rw) {
+			$data = array(
+				'nim' => $rw['A'],
+				'kode_mk' => $rw['D'],
+				'nama_mk' => $rw['E'],
+				'kode_semester' => $kode_semester,
+				'id_dosen' => get_data('dosen','nidn',$rw['F'],'id_dosen'),
+				'nama_dosen' => $rw['G'],
+				'kelas' => $rw['H'],
+				'sks' => $rw['I'],
+				'angka' => $rw['J'],
+				'huruf' => $rw['K'],
+				'indeks' => $rw['L'],
+				'konfirmasi_pa' => 'y',
+				'konfirmasi_nilai' => 'y',
+				
+			);
+			// log_r($data);
+			$this->db->insert('krs', $data);
+			$id_krs = $this->db->insert_id();
+			$this->db->insert('absen', array(
+				'nim' => $rw['A'],
+				'id_krs' => $id_krs,
+			));
+		}
+
+		if ($this->db->trans_status() === FALSE)
+		{
+	        $this->db->trans_rollback();
+	        echo "gagal server";
+		}
+		else
+		{
+	        $this->db->trans_commit();
+	        echo "krs berhasil disimpan";
+		}
+
 	}
 
 

@@ -4,9 +4,10 @@
 
 <head>
 	<title>Cetak Laporan KHS Mahasiswa</title>
+	<base href="<?php echo base_url() ?>">
 	<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
-	<link href="http://stmikmpb.gofeedercloud.com/application/assets/metronic/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-	<link href="http://stmikmpb.gofeedercloud.com/application/assets/metronic/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+	<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
 	<style>
 		body {
 			margin: 0 auto;
@@ -195,6 +196,14 @@
 		}
 	}
 </style>
+<?php 
+$this->db->where('nim', $nim);
+$data_mhs = $this->db->get('mahasiswa')->row();
+
+$this->db->where('nim', $nim);
+$this->db->where('kode_semester', $kode_semester);
+$data_krs = $this->db->get('krs');
+ ?>
 	<table align="center" class="table-name">
 		<tr>
 			<td align="center" colspan="8" style="font-size: 16px;">
@@ -206,19 +215,19 @@
 		</tr>
 		<tr>
 			<td align="left" width="20%" colspan="2"><strong>Nama Mahasiswa</strong></td>
-			<td align="left" width="30%" colspan="2"><strong>:</strong> Rini Afrisa</td>
+			<td align="left" width="30%" colspan="2"><strong>:</strong> <?php echo $data_mhs->nama ?></td>
 			<td align="left" width="20%" colspan="2"><strong>NIM</strong></td>
-			<td align="left" colspan="2"><strong>:</strong> 18.01.0.0034</td>
+			<td align="left" colspan="2"><strong>:</strong> <?php echo $data_mhs->nim ?></td>
 		</tr>
 		<tr>
 			<td align="left" colspan="2"><strong>Program Studi</strong></td>
-			<td align="left" colspan="2"><strong>:</strong> S1 Teknik Informatika</td>
+			<td align="left" colspan="2"><strong>:</strong> <?php echo get_data('prodi','id_prodi',$data_mhs->id_prodi,'jenjang') ?> - <?php echo get_data('prodi','id_prodi',$data_mhs->id_prodi,'prodi') ?></td>
 							<td align="left" colspan="2"><strong>Periode</strong></td>
-				<td align="left" colspan="2"><strong>:</strong> 2019/2020 Genap</td>
+				<td align="left" colspan="2"><strong>:</strong> <?php echo get_data('tahun_akademik','kode_tahun',$kode_semester,'keterangan') ?></td>
 					</tr>
 		<tr>
 			<td align="left" colspan="2"><strong>Semester</strong></td>
-			<td align="left" colspan="2"><strong>:</strong> 4</td>
+			<td align="left" colspan="2"><strong>:</strong> <?php echo get_semester($nim,$kode_semester) ?></td>
 		</tr>
 	</table>
 
@@ -241,102 +250,52 @@
 					<th style="vertical-align:middle; text-align: center;">Indeks</th>
 				</tr>
 			</thead>
-							<tbody>
-												<tr>
-								<td align="right">1</td>
-								<td align="center">TI22007</td>
-								<td align="left">Studi Islam IV</td>
-								<td align="right">2</td>
-								<td align="right">84.0</td>
-								<td align="center">A- </td>
-								<td align="right">3.67</td>
-								<td style="text-align:right">7.34</td>
-							</tr>
-												<tr>
-								<td align="right">2</td>
-								<td align="center">TI22009</td>
-								<td align="left">Technopreneurship</td>
-								<td align="right">2</td>
-								<td align="right">90.0</td>
-								<td align="center">A  </td>
-								<td align="right">4.00</td>
-								<td style="text-align:right">8.00</td>
-							</tr>
-												<tr>
-								<td align="right">3</td>
-								<td align="center">TI22023</td>
-								<td align="left">Metode Numerik</td>
-								<td align="right">2</td>
-								<td align="right">72.5</td>
-								<td align="center">B  </td>
-								<td align="right">3.00</td>
-								<td style="text-align:right">6.00</td>
-							</tr>
-												<tr>
-								<td align="right">4</td>
-								<td align="center">TI22024</td>
-								<td align="left">Sistem Operasi II</td>
-								<td align="right">2</td>
-								<td align="right">80.9</td>
-								<td align="center">A- </td>
-								<td align="right">3.67</td>
-								<td style="text-align:right">7.34</td>
-							</tr>
-												<tr>
-								<td align="right">5</td>
-								<td align="center">TI22035</td>
-								<td align="left">Analisi & Perancangan Sistem Informasi</td>
-								<td align="right">3</td>
-								<td align="right">87.1</td>
-								<td align="center">A  </td>
-								<td align="right">4.00</td>
-								<td style="text-align:right">12.00</td>
-							</tr>
-												<tr>
-								<td align="right">6</td>
-								<td align="center">TI22036</td>
-								<td align="left">Grafika Komputer</td>
-								<td align="right">3</td>
-								<td align="right">82.8</td>
-								<td align="center">A- </td>
-								<td align="right">3.67</td>
-								<td style="text-align:right">11.01</td>
-							</tr>
-												<tr>
-								<td align="right">7</td>
-								<td align="center">TI22037</td>
-								<td align="left">Komunikasi Data & Jaringan</td>
-								<td align="right">4</td>
-								<td align="right">85.4</td>
-								<td align="center">A  </td>
-								<td align="right">4.00</td>
-								<td style="text-align:right">16.00</td>
-							</tr>
-												<tr>
-								<td align="right">8</td>
-								<td align="center">TI22038</td>
-								<td align="left">Strategi Algoritma</td>
-								<td align="right">3</td>
-								<td align="right">70.0</td>
-								<td align="center">B- </td>
-								<td align="right">2.67</td>
-								<td style="text-align:right">8.01</td>
-							</tr>
-														</tbody>
+			<tbody>
+				<?php 
+				$no = 1;
+				$sks_total = 0;
+		        $total_s_in = 0;
+		        $ips = 0;
+				foreach ($data_krs->result() as $br): ?>
+					
+					<tr>
+						<td align="right"><?php echo $no; ?></td>
+						<td align="center"><?php echo ($br->id_mk != '') ? get_data('matakuliah','id_mk',$br->id_mk,'kode_mk') : $br->kode_mk ?></td>
+						<td align="left"><?php echo ($br->id_mk != '') ? get_data('matakuliah','id_mk',$br->id_mk,'nama_mk') : $br->nama_mk ?></td>
+						<td align="right"><?php $sks = ($br->id_mk !='') ?get_data('matakuliah','id_mk',$br->id_mk,'sks_total') : $br->sks;
+            			echo $sks;
+            			$sks_total = $sks_total + $sks;
+            		 ?></td>
+						<td align="right"><?php echo $br->angka ?></td>
+						<td align="center"><?php echo $br->huruf ?></td>
+						<td align="right"><?php echo $br->indeks ?></td>
+						<td style="text-align:right"><?php 
+            		$jml = $br->sks*$br->indeks; 
+            		echo $jml;
+            		$total_s_in = $total_s_in + $jml;
+            		?></td>
+					</tr>
+
+				<?php $no++; endforeach ?>
+							
+				</tbody>
 				<tfoot>
 					<tr>
 						<td colspan="3" align="right"><strong>Total SKS</strong></td>
-						<td style="text-align:right"><strong>21</strong></td>
+						<td style="text-align:right"><strong><?php echo $sks_total ?></strong></td>
 						<td colspan="3"></td>
-						<td style="text-align:right">75.70</td>
+						<td style="text-align:right"><?php 
+		        		echo $total_s_in;
+		        		$ips = $total_s_in/$sks_total;
+        		 ?></td>
 					</tr>
 					<tr>
 						<td colspan="7" align="right"><strong>IPS ( Indeks Prestasi Semester )</strong></td>
-						<th style="text-align:right">3.60</th>
+						<th style="text-align:right"><?php echo number_format($ips,2) ?></th>
 					</tr>
 					<tr>
 						<td colspan="7" align="right"><strong>IPK ( Indeks Prestasi Kumulatif )</strong></td>
-						<th style="text-align:right">3.39</th>
+						<th style="text-align:right"><?php echo number_format(ipk($nim,$kode_semester),2) ?></th>
 					</tr>
 				</tfoot>
 
@@ -354,7 +313,7 @@
 				<td></td>
 				<td></td>
 				<td></td>
-				<td align="center">Paguyangan, 11 November 2020 </td>
+				<td align="center"><?php echo get_data('setting','id_setting','1','alamat') ?>, <?php echo date('d-m-Y') ?> </td>
 				<td></td>
 			</tr>
 			<tr>

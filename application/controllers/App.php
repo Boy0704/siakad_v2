@@ -450,6 +450,25 @@ class App extends CI_Controller {
     	redirect('app/setting','refresh');
     }
 
+    public function get_list_nim($id_prodi)
+    {
+    	?>
+		<select name="nim" id="nim" style="width:100%;">
+                <option value="">--Pilih Nim --</option>
+		<?php
+
+			$this->db->where('id_prodi', $id_prodi);
+			foreach ($this->db->get('mahasiswa')->result() as $rw) {
+			?>
+			
+                <option value="<?php echo $rw->nim ?>"><?php echo '['.$rw->nim.'] '.$rw->nama ?></option>
+
+            <?php } ?>
+                
+        </select>    
+		<?php
+    }
+
 
 
 

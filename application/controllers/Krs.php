@@ -9,6 +9,24 @@ class Krs extends CI_Controller {
 		
 	}
 
+	public function index()
+	{
+		$data = array(
+			'konten' => 'krs/view_krs',
+			'judul_page' => 'Data KRS',
+		);
+		$this->load->view('v_index',$data);
+	}
+
+	public function khs()
+	{
+		$data = array(
+			'konten' => 'krs/view_khs',
+			'judul_page' => 'Data KHS',
+		);
+		$this->load->view('v_index',$data);
+	}
+
 	
 	public function krs_mahasiswa()
 	{
@@ -18,6 +36,19 @@ class Krs extends CI_Controller {
 			'konten' => 'krs/krs_mahasiswa',
 			'judul_page' => 'KRS Mahasiswa',
 		);
+		$this->load->view('v_index',$data);
+	}
+
+	public function khs_mahasiswa()
+	{
+		$data = array(
+			'konten' => 'krs/khs_mahasiswa',
+			'judul_page' => 'KHS Mahasiswa',
+		);
+		$this->db->where('nim', $this->session->userdata('username'));
+		$this->db->group_by('kode_semester');
+		$this->db->order_by('kode_semester','asc');
+		$data['semester'] = $this->db->get('krs');
 		$this->load->view('v_index',$data);
 	}
 

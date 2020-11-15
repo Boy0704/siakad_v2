@@ -38,7 +38,7 @@ $jenis_ujian = 'uts';
 		    </tr>
 		<tr>
 				<td align="left" colspan="2"><strong>Semester</strong></td>
-				<td align="left" colspan="8"><strong>:</strong> <?php echo $data_mhs->semester_aktif ?></td>
+				<td align="left" colspan="8"><strong>:</strong> <?php echo get_semester($data_mhs->nim,tahun_akademik_aktif('kode_tahun')) ?></td>
 
 				
 		</tr>
@@ -72,7 +72,6 @@ $jenis_ujian = 'uts';
         	$this->db->join('absen b', 'a.id_krs = b.id_krs', 'inner');
         	$this->db->where('a.kode_semester', $kode_semester);
         	$this->db->where('a.nim', $nim);
-        	$this->db->where('a.id_tahun_akademik', $id_tahun_akademik);
         	foreach ($this->db->get()->result() as $br): ?>
         		<tr>
         			<td><?php echo $no; ?></td>
@@ -99,7 +98,7 @@ $jenis_ujian = 'uts';
         	<?php $no++; endforeach ?>
         	<tr>
         		<td colspan="4"><b>Total SKS</b></td>
-        		<td colspan="2"><?php echo $sks_total ?></td>
+        		<td colspan="3"><?php echo $sks_total ?></td>
         	</tr>
             
         </tbody>

@@ -41,7 +41,7 @@
 						    </tr>
 						<tr>
 								<td align="left" colspan="2"><strong>Semester</strong></td>
-								<td align="left" colspan="2"><strong>:</strong> <?php echo $data_mhs->semester_aktif ?></td>
+								<td align="left" colspan="2"><strong>:</strong> <?php echo get_semester($data_mhs->nim,tahun_akademik_aktif('kode_tahun')) ?></td>
 								<td colspan="2"></td>
 								<td colspan="2"></td>
 								
@@ -73,22 +73,20 @@
 	                    $no=1;
 	                    $sks_total = 0;
 	                    $nim = $this->session->userdata('username');
-	                    $id_tahun_akademik = tahun_akademik_aktif('id_tahun_akademik');
 	                    $kode_semester = tahun_akademik_aktif('kode_tahun');
 	                    	$this->db->where('kode_semester', $kode_semester);
 	                    	$this->db->where('nim', $nim);
-	                    	$this->db->where('id_tahun_akademik', $id_tahun_akademik);
 	                    	foreach ($this->db->get('krs')->result() as $br): ?>
 	                    		<tr>
 	                    			<td><?php echo $no; ?></td>
-		                    		<td><?php echo get_data('matakuliah','id_mk',$br->id_mk,'kode_mk') ?></td>
-		                    		<td><?php echo get_data('matakuliah','id_mk',$br->id_mk,'nama_mk') ?></td>
-		                    		<td><?php echo get_data('dosen','id_dosen',$br->id_dosen,'nama') ?></td>
-		                    		<td><?php $sks = get_data('matakuliah','id_mk',$br->id_mk,'sks_total');
+		                    		<td><?php echo ($br->id_mk != '') ? get_data('matakuliah','id_mk',$br->id_mk,'kode_mk') : $br->kode_mk ?></td>
+		                    		<td><?php echo ($br->id_mk != '') ? get_data('matakuliah','id_mk',$br->id_mk,'nama_mk') : $br->nama_mk ?></td>
+		                    		<td><?php echo ($br->id_mk !='') ? get_data('dosen','id_dosen',$br->id_dosen,'nama') : $br->nama_dosen ?></td>
+		                    		<td><?php $sks = ($br->id_mk !='') ?get_data('matakuliah','id_mk',$br->id_mk,'sks_total') : $br->sks;
 		                    			echo $sks;
 		                    			$sks_total = $sks_total + $sks;
 		                    		 ?></td>
-		                    		<td><?php echo get_data('jadwal_kuliah','id_jadwal',$br->id_jadwal,'kelas') ?></td>
+		                    		<td><?php echo ($br->id_jadwal !='') ? get_data('jadwal_kuliah','id_jadwal',$br->id_jadwal,'kelas') : $br->kelas ?></td>
 		                    		<td><?php echo get_data('jadwal_kuliah','id_jadwal',$br->id_jadwal,'ruang') ?></td>
 		                    		<td><?php echo get_data('jadwal_kuliah','id_jadwal',$br->id_jadwal,'hari') ?></td>
 		                    		<td><?php echo get_data('jadwal_kuliah','id_jadwal',$br->id_jadwal,'jam_mulai').' - '.get_data('jadwal_kuliah','id_jadwal',$br->id_jadwal,'jam_selesai')  ?></td>

@@ -14,7 +14,13 @@
         </div>
 	    <div class="form-group">
             <label for="varchar">Username * <?php echo form_error('username') ?></label>
-            <input type="text" class="form-control" name="username" id="username" placeholder="Username" value="<?php echo $username; ?>" />
+            <?php
+            $readonly = '';
+            if ($level == '4' or $level == '5') {
+                $readonly = 'readonly';
+            }
+             ?>
+            <input type="text" class="form-control" name="username" id="username" placeholder="Username" value="<?php echo $username; ?>" <?php echo $readonly ?>/>
         </div>
 	    <div class="form-group">
             <label for="varchar">Password * <?php echo form_error('password') ?></label>

@@ -1,4 +1,37 @@
 <?php 
+function ipk($nim,$kode_semester)
+{
+	$CI =& get_instance();
+	$kode_smt = $kode_semester;
+	$sks_total = 0;
+	$total_s_in = 0;
+	$CI->db->where('nim', $nim);
+	$CI->db->group_by('kode_semester');
+	$CI->db->group_by('kode_semester','asc');
+	$data = $CI->db->get('krs');
+	$smt_kecil = $data->row()->kode_semester;
+
+	foreach ($data->result() as $br) {
+		if ($br->kode_semester <= $kode_smt) {
+
+			$CI->db->where('nim', $br->nim);
+			$CI->db->where('kode_semester', $br->kode_semester);
+			$dt_krs = $CI->db->get('krs');
+			foreach ($dt_krs->result() as $rw) {
+				$jml = $rw->sks*$rw->indeks; 
+				$total_s_in = $total_s_in + $jml;
+				$sks_total = $sks_total + $rw->sks;
+			}
+			
+		}
+	}
+	$ipk = $total_s_in/$sks_total;
+	// echo "total sks :".$sks_total."<br>";
+	// echo "total Indeks :".$total_s_in."<br>";
+	// echo "IPK :".number_format($ipk,2);
+	return $ipk;
+}
+
 function get_semester($nim,$kode_semester)
 {
 	$CI =& get_instance();
@@ -10,14 +43,12 @@ function get_semester($nim,$kode_semester)
 	$no = 1;
 
 	foreach ($data->result() as $key => $value) {
-		array_push($arr, array(
-			$no => $value->kode_semester,
-		));
+		array_push($arr, $value->kode_semester);
 		$no++;
 	}
 
-	$key = array_search($kode_semester, $arr[0]);
-	return $key;
+	$key = array_search($kode_semester, $arr);
+	return $key+1;
 
 	
 }
