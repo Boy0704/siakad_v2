@@ -381,15 +381,15 @@ class Import extends CI_Controller {
 
 	public function import_krs($aksi='')
 	{
-		if ($aksi != 'ya') {
+		if ($aksi != 'yaya7778') {
 			echo "salah perintah";
 			exit();
 		}
 		
-		$kode_semester = '20172';
+		$kode_semester = '20201';
 		include APPPATH.'third_party/PHPExcel/PHPExcel.php';
 
-		$filename = "import_krs_".$kode_semester."_si.xlsx";
+		$filename = "import_krs_".$kode_semester."_ti.xlsx";
 					
 		$excelreader = new PHPExcel_Reader_Excel2007();
 		$loadexcel = $excelreader->load('files/excel/'.$filename.''); // Load file yang tadi diupload ke folder excel
@@ -434,7 +434,7 @@ class Import extends CI_Controller {
 		else
 		{
 	        $this->db->trans_commit();
-	        echo "krs berhasil disimpan";
+	        echo "krs berhasil disimpan $kode_semester ti";
 		}
 
 	}
