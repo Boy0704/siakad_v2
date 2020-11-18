@@ -41,9 +41,9 @@
             <div class="logobox">
                 <img class="loader_img" src="image/<?php echo get_data('setting','id_setting','1','logo') ?>" alt="<?php echo get_data('setting','id_setting','1','nama_kampus') ?>" style="width: 100px; height: 100px;"/>
             </div>
-            <div class="loginbox-title"><?php echo get_data('setting','id_setting','1','nama_kampus') ?></div>
+            <div class="loginbox-title" style="margin-bottom: 40px;"><?php echo get_data('setting','id_setting','1','nama_kampus') ?></div>
             <div class="loginbox-social">
-                <div class="social-title ">Silahkan Login menggunakan Username dan Password kamu.</div>
+                <div class="social-title ">Silahkan Login disini.</div>
                 
             </div>
             <form action="login/auth" method="POST">

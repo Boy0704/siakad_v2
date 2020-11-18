@@ -64,12 +64,12 @@
 				        	$this->db->group_by('a.id_tahun_angkatan');
 				        	foreach ($this->db->get()->result() as $th) {
 			                 ?>
-			                  { y: '<?php echo $th->tahun_angkatan ?>', a: <?php echo $this->db->get_where('mahasiswa', array('id_tahun_angkatan'=>$th->id_tahun_angkatan,'id_prodi'=>'1'))->num_rows(); ?>, b: <?php echo $this->db->get_where('mahasiswa', array('id_tahun_angkatan'=>$th->id_tahun_angkatan,'id_prodi'=>'2'))->num_rows(); ?> },
+			                  { y: '<?php echo $th->tahun_angkatan ?>', a: <?php echo $this->db->get_where('mahasiswa', array('id_tahun_angkatan'=>$th->id_tahun_angkatan,'id_prodi'=>'2'))->num_rows(); ?>, b: <?php echo $this->db->get_where('mahasiswa', array('id_tahun_angkatan'=>$th->id_tahun_angkatan,'id_prodi'=>'1'))->num_rows(); ?> },
 			                <?php } ?>
 			                ],
 			                xkey: 'y',
 			                ykeys: ['a', 'b'],
-			                labels: ['Sistem Informasi', 'Teknik Informatika'],
+			                labels: ['Teknik Informatika','Sistem Informasi'],
 			                lineColors: [themeprimary, themethirdcolor]
 			            });
 
