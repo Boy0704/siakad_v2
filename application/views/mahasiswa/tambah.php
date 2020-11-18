@@ -112,6 +112,54 @@ $uri2 = $this->uri->segment(2);
                         </div>
 
                         <div class="form-group">
+                            <label for="nama" class="col-sm-2 control-label no-padding-right">Tgl Masuk Kuliah *</label>
+                            <div class="col-sm-10">
+                                <div class="input-group">
+                                    <input class="form-control date-picker" id="tanggal_masuk_kuliah" type="text" name="tanggal_masuk_kuliah" data-date-format="yyyy-mm-dd" autocomplete="off">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <?php 
+                        if ($uri2 == 'create') {
+                            $kode_tahun = tahun_akademik_aktif('kode_tahun');
+                        }
+                         ?>
+                        <div class="form-group">
+                            <label for="tahun_angkatan" class="col-sm-2 control-label no-padding-right">Mulai Semester *</label>
+                            <div class="col-sm-10">
+                                <select name="mulai_semester" id="mulai_semester" style="width:100%;" required="">
+                                    <option value="">--Pilih Mulai Semester --</option>
+                                    <?php 
+                                    $this->db->order_by('kode_tahun', 'desc');
+                                    foreach ($this->db->get('tahun_akademik')->result() as $rw): 
+                                        $checked = ($kode_tahun == $rw->kode_tahun) ? 'selected' : '' ;
+                                        ?>
+                                        <option value="<?php echo $rw->kode_tahun ?>" <?php echo $checked ?>><?php echo $rw->kode_tahun ?></option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="jenis_pendaftaran" class="col-sm-2 control-label no-padding-right">Dosen PA *</label>
+                            <div class="col-sm-10">
+                                <select name="dosen_pa" id="dosen_pa" style="width:100%;" required="">
+                                    <option value="">--Pilih Dosen Pembimbing Akademik --</option>
+                                    <?php 
+                                    foreach ($this->db->get('dosen')->result() as $rw): 
+                                        $checked = ($dosen_pa == $rw->id_dosen) ? 'selected' : '' ;
+                                        ?>
+                                        <option value="<?php echo $rw->id_dosen ?>" <?php echo $checked ?>><?php echo $rw->nidn.' - '. $rw->nama ?></option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <button type="submit" class="btn btn-primary">Simpan</button>
                                 <a href="mahasiswa?id_prodi=<?php echo $this->input->get('id_prodi') ?>&id_tahun_angkatan=<?php echo $this->input->get('id_tahun_angkatan') ?>" class="btn btn-default">Cancel</a>
@@ -123,3 +171,10 @@ $uri2 = $this->uri->segment(2);
         </div>
     </div>
 </div>
+
+<script src="assets/js/select2/select2.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#dosen_pa").select2();
+    });
+</script>

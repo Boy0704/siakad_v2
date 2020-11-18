@@ -67,11 +67,15 @@ class App extends CI_Controller {
 		$dt_hapus = json_decode($data_dihapus);
 
 		// log_r($_POST);
+		$this->db->trans_begin();
 
 		$this->db->where('level', $id_level);
 		$this->db->delete('master_menu_level');
 
-		$this->db->trans_begin();
+		$this->db->where('level', $id_level);
+		$this->db->delete('module_access');
+
+		
 
 		foreach ($dt as $key => $value) {
 			$id_parent = $dt[$key]->id;
@@ -103,6 +107,24 @@ class App extends CI_Controller {
 					'aktif'=>'y',
 				));
 				$id_pr = $this->db->insert_id();
+
+				if ($mn->link !='#') {
+					if ( strpos($mn->link, '/') ) {
+						$link = explode('/', $mn->link);
+						$module = $link[0];
+						$operation = $link[1];
+					} else {
+						$module = $mn->link;
+						$operation = 'index';
+					}
+					
+
+					$this->db->insert('module_access', array(
+						'level' => $id_level,
+						'module' => $module,
+						'operation' => $operation,
+					));
+				}
 
 			}
 
@@ -139,6 +161,23 @@ class App extends CI_Controller {
 							'level'=>$id_level,
 							'aktif'=>'y',
 						));
+
+						if ($submn->link !='#') {
+							if ( strpos($submn->link, '/') ) {
+								$link = explode('/', $submn->link);
+								$module = $link[0];
+								$operation = $link[1];
+							} else {
+								$module = $submn->link;
+								$operation = 'index';
+							}
+
+							$this->db->insert('module_access', array(
+								'level' => $id_level,
+								'module' => $module,
+								'operation' => $operation,
+							));
+						}
 
 					}
 

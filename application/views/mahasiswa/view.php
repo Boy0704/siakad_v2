@@ -88,7 +88,7 @@ $id_tahun_angkatan = $this->input->get('id_tahun_angkatan');
 	                            <td><?php echo $rw->jenis_kelamin ?></td>
 	                            <td><?php echo get_data('prodi','id_prodi',$rw->id_prodi,'prodi') ?></td>
 	                            <td>
-	                            	<a href="mahasiswa/update/<?php echo $rw->id_mahasiswa ?>" class="label label-info">Ubah</a>
+	                            	<a href="mahasiswa/update/<?php echo $rw->id_mahasiswa ?>?id_prodi=<?php echo $id_prodi ?>&id_tahun_angkatan=<?php echo $id_tahun_angkatan ?>" class="label label-info">Ubah</a>
 	                            	|
 	                            	<a onclick="javasciprt: return confirm('Are You Sure ?')" href="mahasiswa/delete/<?php echo $rw->id_mahasiswa ?>" class="label label-danger">Hapus</a>
 	                            </td>

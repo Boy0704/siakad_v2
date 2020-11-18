@@ -21,6 +21,7 @@ class Mahasiswa extends CI_Controller {
 			'id_tahun_angkatan'=> '',
 			'jalur_pendaftaran'=> '',
 			'jenis_pendaftaran'=> '',
+			'dosen_pa'=> '',
 			'konten' => 'mahasiswa/tambah',
 			'judul_page' => 'Tambah Mahasiswa',
 		);
@@ -76,12 +77,34 @@ class Mahasiswa extends CI_Controller {
 		$data = array(
 			'konten' => 'mahasiswa/ubah',
 			'judul_page' => 'Update Mahasiswa',
+			'data_mhs' => $this->db->get_where('mahasiswa', array('id_mahasiswa'=>$id)),
 		);
+		$this->load->view('v_index',$data);
+	}
+
+	public function biodata_mahasiswa()
+	{
+		$data = array(
+			'konten' => 'mahasiswa/biodata_mahasiswa',
+			'judul_page' => 'Biodata Mahasiswa',
+			'data_mhs' => $this->db->get_where('mahasiswa', array('nim'=>$this->session->userdata('username'))),
+		);
+		$this->load->view('v_index',$data);
 	}
 
 	public function update_action($id)
 	{
 		# code...
+	}
+
+	public function update_biodata_mahasiswa()
+	{
+		$this->db->where('nim', $this->session->userdata('username'));
+		$update = $this->db->update('mahasiswa', $_POST);
+		if ($update) {
+			$this->session->set_flashdata('notif', alert_biasa('biodata kamu berhasil diupdate','success'));
+			redirect('mahasiswa/biodata_mahasiswa','refresh');
+		}
 	}
 
 	public function delete($id)
