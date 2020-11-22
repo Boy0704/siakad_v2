@@ -12,8 +12,9 @@
 			                <?php 
 			                $this->db->where('aktif', 'y');
 			                foreach ($this->db->get('prodi')->result() as $rw): 
+			                	$selected = ($_GET['id_prodi'] == $rw->id_prodi) ? 'selected' : '' ;
 			                    ?>
-			                    <option value="<?php echo $rw->id_prodi ?>"><?php echo $rw->kode_prodi.' - '. $rw->prodi ?></option>
+			                    <option value="<?php echo $rw->id_prodi ?>" <?php echo $selected ?>><?php echo $rw->kode_prodi.' - '. $rw->prodi ?></option>
 			                <?php endforeach ?>
 			            </select>
                     </div>
@@ -24,23 +25,14 @@
 			                <?php 
 			                $this->db->order_by('kode_tahun', 'desc');
 			                foreach ($this->db->get('tahun_akademik')->result() as $rw): 
+			                	$selected = ($_GET['kode_tahun'] == $rw->kode_tahun OR tahun_akademik_aktif('kode_tahun') == $rw->kode_tahun) ? 'selected' : '' ;
 			                    ?>
-			                    <option value="<?php echo $rw->kode_tahun ?>"><?php echo $rw->keterangan ?></option>
+			                    <option value="<?php echo $rw->kode_tahun ?>" <?php echo $selected ?>><?php echo $rw->keterangan ?></option>
 			                <?php endforeach ?>
 			            </select>
                     </div>
 
-                    <div class="form-group">
-                    	<select name="id_tahun_angkatan" id="id_tahun_angkatan" style="width:100%;">
-			                <option value="">--Pilih Tahun Angkatan --</option>
-			                <?php 
-			                $this->db->order_by('tahun_angkatan', 'desc');
-			                foreach ($this->db->get('tahun_angkatan')->result() as $rw): 
-			                    ?>
-			                    <option value="<?php echo $rw->id_tahun_angkatan ?>"><?php echo $rw->tahun_angkatan ?></option>
-			                <?php endforeach ?>
-			            </select>
-                    </div>
+                    
                     
                     <button type="submit" class="btn btn-primary">FILTER</button>
                 </form>
@@ -82,9 +74,7 @@ $id_tahun_angkatan = $this->input->get('id_tahun_angkatan');
 	                    </thead>
 	                    <tbody>
 	                    <?php 
-	                    if ($id_tahun_angkatan !='') {
-	                    	$this->db->where('id_tahun_angkatan', $id_tahun_angkatan);
-	                    }
+	                    
 	                    $this->db->where('kode_semester', $kode_tahun);
 	                    $this->db->where('id_prodi', $id_prodi);
 	                    $this->db->where('id_dosen', $this->session->userdata('keterangan'));

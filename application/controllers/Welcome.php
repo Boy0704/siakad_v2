@@ -18,6 +18,132 @@ class Welcome extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
+
+	public function cek_prodi_krs()
+	{
+		$this->db->group_by('nim');
+		foreach ($this->db->get('krs')->result() as $rw) {
+			$id_prodi = get_data('mahasiswa','nim',$rw->nim,'id_prodi');
+			echo "$rw->nim =>  $id_prodi<br>";
+			$this->db->where('nim', $rw->nim);
+			$this->db->update('krs', array('id_prodi'=>$id_prodi));
+		}
+	}
+
+	public function import_ajar_dosen()
+	{
+		if ($_FILES) {
+			// Fungsi untuk melakukan proses upload file
+	        $return = array();
+	        $this->load->library('upload'); // Load librari upload
+
+	        $config['upload_path'] = './files/excel/';
+	        $config['allowed_types'] = 'xlsx';
+	        $config['max_size'] = '2048';
+	        $config['overwrite'] = true;
+	        $config['file_name'] = 'import_ajar_dosen';
+
+	        $this->upload->initialize($config); // Load konfigurasi uploadnya
+	        if($this->upload->do_upload('file_excel')){ // Lakukan upload dan Cek jika proses upload berhasil
+	            // Jika berhasil :
+	            $return = array('result' => 'success', 'file' => $this->upload->data(), 'error' => '');
+	        }else{
+	            // Jika gagal :
+	            $return = array('result' => 'failed', 'file' => '', 'error' => $this->upload->display_errors());
+
+	            $this->session->set_flashdata('notif',alert_biasa($return['error'],'error'));
+	            redirect('welcome/import_ajar_dosen','refresh');
+	        }
+
+			// log_r($filename);
+
+			include APPPATH.'third_party/PHPExcel/PHPExcel.php';
+
+			$filename = "import_ajar_dosen.xlsx";
+						
+			$excelreader = new PHPExcel_Reader_Excel2007();
+			$loadexcel = $excelreader->load('files/excel/'.$filename.''); // Load file yang tadi diupload ke folder excel
+			$sheet = $loadexcel->getActiveSheet()->toArray(null, true, true ,true);
+			//skip untuk header
+			unset($sheet[1]);
+			unset($sheet[2]);
+			$data['sheet'] = $sheet;
+			$data['kode_semester'] = $this->input->post('kode_tahun');
+			$data['id_prodi'] = $this->input->post('id_prodi');
+			$this->load->view('tes/import_ajar_dosen', $data);
+
+			
+		} else {
+			$data['sheet'] = '';
+			$this->load->view('tes/import_ajar_dosen',$data);
+		}
+		
+	}
+
+	public function aksi_import_ajar_dosen()
+	{
+		include APPPATH.'third_party/PHPExcel/PHPExcel.php';
+
+		$filename = "import_ajar_dosen.xlsx";
+		$id_prodi = $this->input->get('id_prodi');
+		$kode_semester = $this->input->get('kode_semester');
+
+		if ($id_prodi == '' or $kode_semester == '') {
+			?>
+	        <script type="text/javascript">
+	        	alert("tidak boleh kosong");
+	        	window.location="<?php echo base_url() ?>welcome/import_ajar_dosen";
+	        </script>
+	        <?php
+	        exit();
+		}
+					
+		$excelreader = new PHPExcel_Reader_Excel2007();
+		$loadexcel = $excelreader->load('files/excel/'.$filename.''); // Load file yang tadi diupload ke folder excel
+		$sheet = $loadexcel->getActiveSheet()->toArray(null, true, true ,true);
+		//skip untuk header
+		unset($sheet[1]);
+		unset($sheet[2]);
+
+		$this->db->trans_begin();
+
+		foreach ($sheet as $rw) {
+
+			$id_dosen = get_data('dosen','nidn',$rw['C'],'id_dosen');
+			$nama_dosen = get_data('dosen','nidn',$rw['C'],'nama');
+			$data = array(
+				'id_dosen' => $id_dosen,
+				'nama_dosen' => $nama_dosen,
+				'kelas' => $rw['F'],
+			);
+			$this->db->where('kode_mk', $rw['A']);
+			$this->db->where('kode_semester', $kode_semester);
+			$this->db->where('id_prodi', $id_prodi);
+			$this->db->update('krs', $data);
+		}
+
+		if ($this->db->trans_status() === FALSE)
+		{
+	        $this->db->trans_rollback();
+	        ?>
+	        <script type="text/javascript">
+	        	alert("gagal");
+	        	window.location="<?php echo base_url() ?>welcome/import_ajar_dosen";
+	        </script>
+	        <?php
+		}
+		else
+		{
+	        $this->db->trans_commit();
+	        ?>
+	        <script type="text/javascript">
+	        	alert("berhasil");
+	        	window.location="<?php echo base_url() ?>welcome/import_ajar_dosen";
+	        </script>
+	        <?php
+		}
+	}
+
 	public function code($value='')
 	{
 

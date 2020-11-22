@@ -94,11 +94,12 @@ class Mahasiswa extends CI_Controller {
 
 	public function update_action($id)
 	{
-		# code...
+		log_r($_POST);
 	}
 
 	public function update_biodata_mahasiswa()
 	{
+		// log_r($_POST);
 		$this->db->where('nim', $this->session->userdata('username'));
 		$update = $this->db->update('mahasiswa', $_POST);
 		if ($update) {

@@ -1,4 +1,10 @@
 <?php 
+function param_get()
+{
+	$url = parse_url($_SERVER['REQUEST_URI']);
+	return $url['query'];
+}
+
 function ipk($nim,$kode_semester)
 {
 	$CI =& get_instance();

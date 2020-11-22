@@ -24,7 +24,7 @@
                             <li>
                                 <a class="login-area dropdown-toggle" data-toggle="dropdown">
                                     <div class="avatar" title="View your public profile">
-                                        <img src="image/user/<?php echo $this->session->userdata('foto'); ?>">
+                                        <img src="image/user/<?php echo get_data('users','id_user',$this->session->userdata('id_user'),'foto'); ?>">
                                     </div>
                                     <section>
                                         <h2><span class="profile"><span><?php echo $retVal = ($this->session->userdata('level') == '5') ? $this->session->userdata('username').' - '.$this->session->userdata('nama') : $this->session->userdata('nama'); ?></span></span></h2>
@@ -37,7 +37,7 @@
                                     <!--Avatar Area-->
                                     <li>
                                         <div class="avatar-area">
-                                            <img src="image/user/<?php echo $this->session->userdata('foto'); ?>" class="avatar">
+                                            <img src="image/user/<?php echo get_data('users','id_user',$this->session->userdata('id_user'),'foto'); ?>" class="avatar">
                                             <!-- <span class="caption">Change Photo</span> -->
                                         </div>
                                     </li>

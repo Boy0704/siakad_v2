@@ -291,6 +291,27 @@ class Dosen extends CI_Controller
         }
     }
 
+
+    public function ubah_biodata_dosen()
+    {
+        if ($_POST) {
+            $this->db->where('id_dosen', $this->session->userdata('keterangan'));
+            $update = $this->db->update('dosen', $_POST);
+            if ($update) {
+                $this->session->set_flashdata('notif', alert_biasa('biodata kamu berhasil diupdate','success'));
+                redirect('Dosen/ubah_biodata_dosen','refresh');
+            }
+        } else {
+            $data = array(
+                'konten' => 'dosen/ubah_biodata_dosen',
+                'judul_page' => 'Biodata Dosen',
+                'data_dosen' => $this->db->get_where('dosen', array('id_dosen'=>$this->session->userdata('keterangan'))),
+            );
+            $this->load->view('v_index',$data);
+        }
+    }
+
+
     public function _rules() 
     {
 	$this->form_validation->set_rules('nama', 'nama', 'trim|required');

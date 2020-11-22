@@ -12,7 +12,13 @@
             	$data_mhs = $this->db->get_where('mahasiswa',array('nim'=>$this->session->userdata('username')))->row();
 
             	 ?>
-                <a href="krs/ambil_krs?id_prodi=<?php echo encode($data_mhs->id_prodi) ?>" class="btn btn-primary"><i class="fa fa-plus"></i> Pilih matakuliah</a>
+
+            	<?php if (!setuju_dosen_pa($data_mhs->nim)): ?>
+
+            		<a href="krs/ambil_krs?id_prodi=<?php echo encode($data_mhs->id_prodi) ?>" class="btn btn-primary"><i class="fa fa-plus"></i> Pilih matakuliah</a>
+
+            	<?php endif ?>
+                
                 
                 
                 <br><br>

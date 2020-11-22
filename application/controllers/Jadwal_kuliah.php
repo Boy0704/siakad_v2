@@ -177,6 +177,7 @@ class Jadwal_kuliah extends CI_Controller
             $this->db->where('ruang', $this->input->post('ruang'));
             $this->db->where('hari', $this->input->post('hari'));
             $this->db->where('jam_mulai', $this->input->post('jam_mulai'));
+            $this->db->where('id_jadwal!=', $this->input->post('id_jadwal'));
             $cek_jadwal_tabrakan = $this->db->get('jadwal_kuliah');
             if ($cek_jadwal_tabrakan->num_rows() > 0) {
                 $this->session->set_flashdata('message', '<div class="alert alert-danger fade in alert-radius-bordered alert-shadowed">

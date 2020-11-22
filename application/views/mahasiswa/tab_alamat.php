@@ -5,7 +5,7 @@ $data_mhs = $this->db->get('mahasiswa', array('nim'=>$nim))->row();
 <div class="form-group">
     <label class="col-sm-2 control-label no-padding-right">Kewarganegaraan *</label>
     <div class="col-sm-2">
-        <input type="text"  class="form-control" id="alamat" name="alamat" placeholder="contoh: Ilham Saputra" value="ID" readonly="">
+        <input type="text"  class="form-control" id="kewarganegaraan" name="kewarganegaraan" placeholder="contoh: Ilham Saputra" value="ID" readonly="">
     </div>
 </div>
 
@@ -19,7 +19,7 @@ $data_mhs = $this->db->get('mahasiswa', array('nim'=>$nim))->row();
 <div class="form-group">
     <label class="col-sm-2 control-label no-padding-right">NISN </label>
     <div class="col-sm-5">
-        <input type="text"  class="form-control" id="nis" name="nis" value="<?php echo $data_mhs->nisn ?>">
+        <input type="text"  class="form-control" id="nisn" name="nisn" value="<?php echo $data_mhs->nisn ?>">
     </div>
 </div>
 
@@ -98,9 +98,9 @@ $data_mhs = $this->db->get('mahasiswa', array('nim'=>$nim))->row();
             <option value="">--Pilih Alat Transportasi --</option>
             <?php 
             foreach ($this->db->get('data_transportasi')->result() as $rw): 
-                $checked = ($data_mhs->alat_transportasi == $rw->id_alat_transportasi) ? 'selected' : '' ;
+                $checked = ($data_mhs->alat_transportasi == $rw->id_alat_transport) ? 'selected' : '' ;
                 ?>
-                <option value="<?php echo $rw->id_alat_transportasi ?>" <?php echo $checked ?>><?php echo $rw->id_alat_transportasi.' - '. $rw->nm_alat_transport ?></option>
+                <option value="<?php echo $rw->id_alat_transport ?>" <?php echo $checked ?>><?php echo $rw->id_alat_transport.' - '. $rw->nm_alat_transport ?></option>
             <?php endforeach ?>
         </select>
     </div>

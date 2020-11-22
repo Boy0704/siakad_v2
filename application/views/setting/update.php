@@ -100,6 +100,7 @@ $sett = $data->row();
 
     </div>
 </div>
+</div>
 
 
 

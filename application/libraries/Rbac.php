@@ -17,7 +17,7 @@ class RBAC
 		$data=array();
 		foreach($query->result_array() as $v)
 		{
-			$data[$v['module']][$v['operation']] = '';
+			$data[strtolower($v['module'])][strtolower($v['operation'])] = '';
 		}
 		$this->obj->session->set_userdata('module_access',$data);
 	} 	
@@ -34,7 +34,7 @@ class RBAC
 	//--------------------------------------------------------------	
 	function Check_operation_permission($operation)
 	{
-		if(isset($this->obj->module_access[$this->obj->uri->segment(1)][$operation])) 
+		if(isset($this->obj->module_access[strtolower($this->obj->uri->segment(1))][$operation])) 
 			return 1;
 		else 
 		 	return 0;
@@ -43,7 +43,7 @@ class RBAC
 	//--------------------------------------------------------------	
 	function check_module_access()
 	{
-		if(!$this->check_module_permission($this->obj->uri->segment(1)))
+		if(!$this->check_module_permission(strtolower($this->obj->uri->segment(1))))
 		{
 			$back_to = $_SERVER['REQUEST_URI'];
 			$back_to = $this->obj->functions->encode($back_to);
@@ -54,7 +54,7 @@ class RBAC
 	//--------------------------------------------------------------	
 	function check_operation_access()
 	{
-		if(!$this->check_operation_permission($this->obj->uri->segment(2)))
+		if(!$this->check_operation_permission(strtolower($this->obj->uri->segment(2))))
 		{
 			$back_to =$_SERVER['REQUEST_URI'];
 			$back_to = $this->obj->functions->encode($back_to);

@@ -6,11 +6,13 @@ class Krs extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		
+		$this->rbac->check_module_access();
 	}
 
 	public function index()
 	{
+		$this->rbac->check_operation_access();
+
 		$data = array(
 			'konten' => 'krs/view_krs',
 			'judul_page' => 'Data KRS',
@@ -20,6 +22,8 @@ class Krs extends CI_Controller {
 
 	public function khs()
 	{
+		$this->rbac->check_operation_access();
+
 		$data = array(
 			'konten' => 'krs/view_khs',
 			'judul_page' => 'Data KHS',
@@ -27,9 +31,38 @@ class Krs extends CI_Controller {
 		$this->load->view('v_index',$data);
 	}
 
+	public function input_nilai_mahasiswa()
+	{
+		$this->rbac->check_operation_access();
+
+		$data = array(
+			'konten' => 'krs/input_nilai_mahasiswa',
+			'judul_page' => 'Input Nilai Mahasiswa',
+		);
+		$this->load->view('v_index',$data);
+	}
+
+	public function simpan_nilai_mahasiswa($id_krs)
+	{
+		$kehadiran = $this->input->post('kehadiran');
+		$latihan = $this->input->post('latihan');
+		$uts = $this->input->post('uts');
+		$uas = $this->input->post('uas');
+
+		$n_angka = ($kehadiran * 0.1) + ($latihan * 0.2) + ($uts * 0.30) + ($uas * 0.4);
+		// log_data($_POST);
+		// log_r($n_angka);
+
+		$this->session->set_flashdata('notif', alert_biasa('opps! masih dalam maintanance','error'));
+			redirect('krs/input_nilai_mahasiswa?'.param_get(),'refresh');
+
+	}
+
 	
 	public function krs_mahasiswa()
 	{
+		$this->rbac->check_operation_access();
+
 		cek_semester_aktif('app');
 		cek_registrasi_mahasiswa('app',$this->session->userdata('username'),tahun_akademik_aktif('kode_tahun'));
 		$data = array(
@@ -41,6 +74,8 @@ class Krs extends CI_Controller {
 
 	public function khs_mahasiswa()
 	{
+		$this->rbac->check_operation_access();
+
 		$data = array(
 			'konten' => 'krs/khs_mahasiswa',
 			'judul_page' => 'KHS Mahasiswa',
@@ -107,6 +142,7 @@ class Krs extends CI_Controller {
 				'nama_dosen' => get_data('dosen','id_dosen',$d_jadwal->id_dosen,'nama'),
 				'kelas' => $d_jadwal->kelas,
 				'sks' => get_data('matakuliah','id_mk',$d_jadwal->id_mk,'sks_total'),
+				'id_prodi' => $d_jadwal->id_prodi,
 			);
 
 			$this->db->trans_begin();

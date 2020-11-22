@@ -511,6 +511,41 @@ class App extends CI_Controller {
 		<?php
     }
 
+    public function profil()
+    {
+    	if ($_POST) {
+    		$password_lama = $this->input->post('password_lama');
+    		$password_baru = $this->input->post('password_baru');
+
+    		if ($password_baru != '') {
+    			$cek_pass = get_data('users','id_user',$this->session->userdata('id_user'),'password');
+    			if (password_verify($password_lama, $cek_pass)) {
+    				$data['password'] = password_hash($password_baru, PASSWORD_DEFAULT);
+    			} else {
+    				$this->session->set_flashdata('notif', alert_biasa('password lama yang kamu masukkan tidak cocok','warning'));
+					redirect('app/profil','refresh');
+    			}
+    		}
+
+    		$data['foto'] = $retVal = ($_FILES['foto']['name'] == '') ? $_POST['foto_old'] : upload_gambar_biasa('user', 'image/user/', 'jpeg|png|jpg|gif', 10000, 'foto');
+
+    		$this->db->where('id_user', $this->session->userdata('id_user'));
+            $update = $this->db->update('users', $data);
+            if ($update) {
+                $this->session->set_flashdata('notif', alert_biasa('profil kamu berhasil diupdate','success'));
+                redirect('app/profil','refresh');
+            }
+    	} else {
+    		$this->db->where('id_user', $this->session->userdata('id_user'));
+	    	$data = array(
+				'konten' => 'profil',
+				'judul_page' => 'Profil User',
+				'data' => $this->db->get('users'),
+			);
+			$this->load->view('v_index',$data);
+    	}
+    }
+
 
 
 
