@@ -23,8 +23,10 @@ class Kelas_ajar extends CI_Controller {
 
 	public function get_select_mk($id_prodi)
 	{
+		$kode_semester = tahun_akademik_aktif('kode_tahun');
 		$this->db->where('id_prodi', $id_prodi);
 		$this->db->where('id_dosen', $this->session->userdata('keterangan'));
+		$this->db->where('kode_semester', $kode_semester );
 		$this->db->group_by('kode_mk');
 		$data = $this->db->get('krs');
 

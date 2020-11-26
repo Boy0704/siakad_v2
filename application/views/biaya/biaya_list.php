@@ -21,7 +21,7 @@
             <br>
             <div class="row">
             <div class="col-md-4">
-                <?php echo anchor(site_url('skala_nilai/create'),'<i class="fa fa-plus"></i> Tambah Data', 'class="btn btn-primary"'); ?>
+                <?php echo anchor(site_url('biaya/create'),'<i class="fa fa-plus"></i> Tambah Data', 'class="btn btn-primary"'); ?>
             </div>
             <div class="col-md-4 text-center">
                 <div style="margin-top: 8px" id="message">
@@ -31,7 +31,7 @@
             <div class="col-md-1 text-right">
             </div>
             <div class="col-md-3 text-right">
-                <form action="<?php echo site_url('skala_nilai/index'); ?>" class="form-inline" method="get">
+                <form action="<?php echo site_url('biaya/index'); ?>" class="form-inline" method="get">
                     <div class="input-group">
                         <input type="text" class="form-control" name="q" value="<?php echo $q; ?>">
                         <span class="input-group-btn">
@@ -39,7 +39,7 @@
                                 if ($q <> '')
                                 {
                                     ?>
-                                    <a href="<?php echo site_url('skala_nilai'); ?>" class="btn btn-default">Reset</a>
+                                    <a href="<?php echo site_url('biaya'); ?>" class="btn btn-default">Reset</a>
                                     <?php
                                 }
                             ?>
@@ -55,34 +55,24 @@
             <thead class="bordered-darkorange">
                 <tr role="row">
                     <th>No</th>
-		<th>Nilai Huruf</th>
-		<th>Nilai Indeks</th>
-		<th>Min</th>
-		<th>Max</th>
-		<th>Tgl Mulai Efektif</th>
-		<th>Tgl Akhir Efektif</th>
-		<th>Prodi</th>
-		<th>Action</th>
+            		<th>Nama Biaya</th>
+            		<th>Jenis Biaya</th>
+            		<th>Action</th>
                 </tr>
             </thead>
             <tbody><?php
-            foreach ($skala_nilai_data as $skala_nilai)
+            foreach ($biaya_data as $biaya)
             {
                 ?>
                 <tr>
 			<td width="80px"><?php echo ++$start ?></td>
-			<td><?php echo $skala_nilai->nilai_huruf ?></td>
-			<td><?php echo $skala_nilai->nilai_indeks ?></td>
-			<td><?php echo $skala_nilai->min ?></td>
-			<td><?php echo $skala_nilai->max ?></td>
-			<td><?php echo $skala_nilai->tgl_mulai_efektif ?></td>
-			<td><?php echo $skala_nilai->tgl_akhir_efektif ?></td>
-			<td><?php echo (get_data('prodi','id_prodi',$skala_nilai->id_prodi,'prodi') == '') ? 'Semua Prodi' : get_data('prodi','id_prodi',$skala_nilai->id_prodi,'prodi') ?></td>
+			<td><?php echo $biaya->nama_biaya ?></td>
+			<td><?php echo get_data('jenis_biaya','id_jenis_biaya',$biaya->id_jenis_biaya,'jenis_biaya') ?></td>
 			<td style="text-align:center" width="200px">
 				<?php 
-				echo anchor(site_url('skala_nilai/update/'.$skala_nilai->id_skala),'<span class="label label-info">Ubah</span>'); 
+				echo anchor(site_url('biaya/update/'.$biaya->id_biaya),'<span class="label label-info">Ubah</span>'); 
 				echo ' | '; 
-				echo anchor(site_url('skala_nilai/delete/'.$skala_nilai->id_skala),'<span class="label label-danger">Hapus</span>','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'); 
+				echo anchor(site_url('biaya/delete/'.$biaya->id_biaya),'<span class="label label-danger">Hapus</span>','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'); 
 				?>
 			</td>
 		</tr>

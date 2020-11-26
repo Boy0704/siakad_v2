@@ -200,7 +200,7 @@ class Skala_nilai extends CI_Controller
 	$this->form_validation->set_rules('max', 'max', 'trim|required');
 	// $this->form_validation->set_rules('tgl_mulai_efektif', 'tgl mulai efektif', 'trim|required');
 	// $this->form_validation->set_rules('tgl_akhir_efektif', 'tgl akhir efektif', 'trim|required');
-	$this->form_validation->set_rules('id_prodi', 'id prodi', 'trim|required');
+	// $this->form_validation->set_rules('id_prodi', 'id prodi', 'trim|required');
 
 	$this->form_validation->set_rules('id_skala', 'id_skala', 'trim');
 	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');

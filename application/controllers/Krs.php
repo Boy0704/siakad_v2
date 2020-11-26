@@ -50,10 +50,40 @@ class Krs extends CI_Controller {
 		$uas = $this->input->post('uas');
 
 		$n_angka = ($kehadiran * 0.1) + ($latihan * 0.2) + ($uts * 0.30) + ($uas * 0.4);
-		// log_data($_POST);
-		// log_r($n_angka);
 
-		$this->session->set_flashdata('notif', alert_biasa('opps! masih dalam maintanance','error'));
+		$id_prodi = get_data('krs','id_krs',$id_krs,'id_prodi');
+
+		if ($n_angka > 0) {
+			// jika id_prodi kosong, berlaku untuk semua
+			$skala  = $this->db->get('skala_nilai');
+			$nilai_huruf = '';
+			$nilai_indeks = '';
+			if ($skala->num_rows() > 0) {
+				foreach ($skala->result() as $rw) {
+					if ($rw->min <= $n_angka && $rw->max >= $n_angka) {
+						$nilai_huruf = $rw->nilai_huruf;
+						$nilai_indeks = $rw->nilai_indeks;
+					}
+				}
+			} else {
+				$nilai_huruf = '';
+				$nilai_indeks = '';
+			}
+			
+			$this->db->where('id_krs', $id_krs);
+			$this->db->update('krs', array(
+				'kehadiran' => $kehadiran,
+				'latihan' => $latihan,
+				'uts' => $uts,
+				'uas' => $uas,
+				'angka' => $n_angka,
+				'huruf' => $nilai_huruf,
+				'indeks' => $nilai_indeks,
+			));
+
+		}
+
+		$this->session->set_flashdata('notif', alert_biasa('Nilai Mahasiswa berhasil di update','success'));
 			redirect('krs/input_nilai_mahasiswa?'.param_get(),'refresh');
 
 	}

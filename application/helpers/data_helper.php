@@ -1,4 +1,32 @@
 <?php 
+function cek_skala_nilai($select,$angka,$prodi='')
+{
+	$CI =& get_instance();
+
+	// $data = '';
+	if ($prodi != '') {
+		$CI->db->where('id_prodi', $prodi);
+	}
+	$skala  = $CI->db->get('skala_nilai');
+	if ($skala->num_rows() > 0) {
+		foreach ($skala->result() as $rw) {
+			if ($rw->min >= $angka && $rw->max <= $angka) {
+				$data = array(
+					'nilai_huruf'=>$rw->nilai_huruf,
+					'nilai_indeks'=>$rw->nilai_indeks,
+				);
+			}
+		}
+	} else {
+		$data = array(
+				'nilai_huruf'=>'',
+				'nilai_indeks'=>'',
+			);
+	}
+
+	return $CI->db->last_query();
+}
+
 function param_get()
 {
 	$url = parse_url($_SERVER['REQUEST_URI']);

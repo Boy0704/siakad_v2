@@ -43,16 +43,18 @@
             </div>
         </div>
 	    <div class="form-group">
-            <label for="int">Prodi * <?php echo form_error('id_prodi') ?></label>
+            <label for="int">Prodi <?php echo form_error('id_prodi') ?></label>
             <select name="id_prodi" id="id_prodi" style="width:100%;">
-                <option value="">--Pilih Prodi --</option>
+                <option value="">--Semua Prodi --</option>
                 <?php 
+                $checked='';
                 $this->db->where('aktif', 'y');
                 foreach ($this->db->get('prodi')->result() as $rw): 
                     $checked = ($id_prodi == $rw->id_prodi) ? 'selected' : '' ;
                     ?>
                     <option value="<?php echo $rw->id_prodi ?>" <?php echo $checked ?>><?php echo $rw->kode_prodi.' - '. $rw->prodi ?></option>
                 <?php endforeach ?>
+
             </select>
         </div>
 	    <input type="hidden" name="id_skala" value="<?php echo $id_skala; ?>" /> 

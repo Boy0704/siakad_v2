@@ -45,6 +45,9 @@ class RBAC
 	{
 		if(!$this->check_module_permission(strtolower($this->obj->uri->segment(1))))
 		{
+			if ( ($this->obj->uri->segment(1) !='login' OR $this->obj->uri->segment(1) !='Login') && $this->obj->session->userdata('level') == '') {
+				redirect('login','refresh');
+			}
 			$back_to = $_SERVER['REQUEST_URI'];
 			$back_to = $this->obj->functions->encode($back_to);
 			redirect('access_denied/index/'.$back_to);
@@ -54,7 +57,8 @@ class RBAC
 	//--------------------------------------------------------------	
 	function check_operation_access()
 	{
-		if(!$this->check_operation_permission(strtolower($this->obj->uri->segment(2))))
+		$uri2 = ($this->obj->uri->segment(2) == '') ? 'index' : $this->obj->uri->segment(2);
+		if(!$this->check_operation_permission(strtolower($uri2)))
 		{
 			$back_to =$_SERVER['REQUEST_URI'];
 			$back_to = $this->obj->functions->encode($back_to);

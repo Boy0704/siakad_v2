@@ -90,7 +90,7 @@ if ($this->session->userdata('level') == '') {
                 <!-- Page Header -->
                 <div class="page-header position-relative">
                     <div class="header-title">
-                        <span>Semester Aktif :</span>
+                        <span>PERIODE :</span>
                         <h1>
                             <?php 
                             if (tahun_akademik_aktif('id_tahun_akademik') != '') {

@@ -2,7 +2,7 @@
 $uri2 = $this->uri->segment(2);
  ?>
 <div class="row">
-	<div class="col-lg-6 col-sm-6 col-xs-12">
+	<div class="col-lg-12 col-sm-12 col-xs-12">
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-lightred">
                 <span class="widget-caption"><?php echo $judul_page ?></span>
@@ -145,7 +145,22 @@ $uri2 = $this->uri->segment(2);
                         </div>
 
                         <div class="form-group">
-                            <label for="jenis_pendaftaran" class="col-sm-2 control-label no-padding-right">Dosen PA *</label>
+                            <label class="col-sm-2 control-label no-padding-right">Tahun Belaku Tagihan *</label>
+                            <div class="col-sm-10">
+                                <select name="tahun_tagihan" id="tahun_tagihan" style="width:100%;" required="">
+                                    <option value="">--Pilih Tahun --</option>
+                                    <?php 
+                                    foreach ($this->db->get('tahun_angkatan')->result() as $rw): 
+                                        $checked = ($tahun_tagihan == $rw->tahun_angkatan) ? 'selected' : '' ;
+                                        ?>
+                                        <option value="<?php echo $rw->tahun_angkatan ?>" <?php echo $checked ?>><?php echo $rw->tahun_angkatan ?></option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label no-padding-right">Dosen PA *</label>
                             <div class="col-sm-10">
                                 <select name="dosen_pa" id="dosen_pa" style="width:100%;" required="">
                                     <option value="">--Pilih Dosen Pembimbing Akademik --</option>

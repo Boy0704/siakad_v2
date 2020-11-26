@@ -85,5 +85,4 @@ defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 // $CI =& get_instance();
 
-define('FOTO', 'foto',TRUE);
 define('ID_USER', '0',TRUE);

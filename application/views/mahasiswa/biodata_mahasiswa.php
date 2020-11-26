@@ -44,6 +44,26 @@ $data['nim'] = $mhs->nim;
 					            </div>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label no-padding-right">Tempat Lahir *</label>
+                            <div class="col-sm-10">
+                                <input type="text"  class="form-control" id="tempat_lahir" name="tempat_lahir" placeholder="contoh: Jakarta" value="<?php echo $mhs->tempat_lahir ?>" required="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label no-padding-right">Tanggal Lahir *</label>
+                            <div class="col-sm-10">
+                                <div class="input-group">
+                                    <input class="form-control date-picker" id="tanggal_lahir" type="text" name="tanggal_lahir" data-date-format="yyyy-mm-dd" value="<?php echo $mhs->tanggal_lahir ?>" autocomplete="off">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label for="tahun_angkatan" class="col-sm-2 control-label no-padding-right">Tahun Angkatan *</label>
                             <div class="col-sm-10">
@@ -107,7 +127,6 @@ $data['nim'] = $mhs->nim;
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <button type="submit" class="btn btn-primary">Update</button>
-                                <a href="mahasiswa?id_prodi=<?php echo $this->input->get('id_prodi') ?>&id_tahun_angkatan=<?php echo $this->input->get('id_tahun_angkatan') ?>" class="btn btn-default">Cancel</a>
                             </div>
                         </div>
 

@@ -101,22 +101,26 @@
                                 <td><?php echo $rw->nama_mk ?></td>
                                 <td>
                                     <form action="krs/simpan_nilai_mahasiswa/<?php echo $rw->id_krs.'?'.param_get() ?>" method="POST">
-                                    <input type="number" name="kehadiran" value="<?php echo $rw->kehadiran ?>">
+                                    <input type="number" name="kehadiran" value="<?php echo $rw->kehadiran ?>" required>
                                 </td>
                                 <td>
-                                    <input type="number" name="latihan" value="<?php echo $rw->latihan ?>">
+                                    <input type="number" name="latihan" value="<?php echo $rw->latihan ?>" required>
                                 </td>
                                 <td>
-                                    <input type="number" name="uts" value="<?php echo $rw->uts ?>">
+                                    <input type="number" name="uts" value="<?php echo $rw->uts ?>" required>
                                 </td>
                                 <td>
-                                    <input type="number" name="uas" value="<?php echo $rw->uas ?>">
+                                    <input type="number" name="uas" value="<?php echo $rw->uas ?>" required>
                                 </td>
                                 <td><?php echo $rw->angka ?></td>
                                 <td><?php echo $rw->huruf ?></td>
                                 <td><?php echo $rw->indeks ?></td>
                                 <td>
-                                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i></button>
+                                    <?php if ($rw->kehadiran != ''): ?>
+                                        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i></button>
+                                    <?php else: ?>
+                                        <button type="submit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
+                                    <?php endif ?>
                                     </form>
                                 </td>
                             </tr>

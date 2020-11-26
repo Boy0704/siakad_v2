@@ -140,6 +140,22 @@ $data['nim'] = $mhs->nim;
                         </div>
 
                         <div class="form-group">
+                            <label class="col-sm-2 control-label no-padding-right">Tahun Belaku Tagihan *</label>
+                            <div class="col-sm-10">
+                                <select name="tahun_tagihan" id="tahun_tagihan" style="width:100%;" required="">
+                                    <option value="">--Pilih Tahun --</option>
+                                    <?php 
+                                    foreach ($this->db->get('tahun_angkatan')->result() as $rw): 
+                                        $tahun_tagihan = $mhs->tahun_tagihan;
+                                        $checked = ($tahun_tagihan == $rw->tahun_angkatan) ? 'selected' : '' ;
+                                        ?>
+                                        <option value="<?php echo $rw->tahun_angkatan ?>" <?php echo $checked ?>><?php echo $rw->tahun_angkatan ?></option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label for="jenis_pendaftaran" class="col-sm-2 control-label no-padding-right">Dosen PA *</label>
                             <div class="col-sm-10">
                                 <select name="dosen_pa" id="dosen_pa" style="width:100%;" required="">
