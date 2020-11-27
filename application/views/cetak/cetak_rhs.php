@@ -103,7 +103,7 @@
 			<tr>
 				<td class="side"></td>
 				<td class="img" rowspan="3">
-											<img src="http://stmikmpb.gofeedercloud.com/uploads/063101/logoPT.png" alt="logo" class="logo-default" height="80">
+											<img src="image/<?php echo get_data('setting','id_setting','1','logo') ?>" alt="logo" class="logo-default" height="80">
 									</td>
 				<td colspan="5" class="nama_pt">
 					<!-- STMIK MUHAMMADIYAH PAGUYANGAN BREBES -->
