@@ -384,8 +384,13 @@ function get_setting($select)
 function get_data($tabel,$primary_key,$id,$select)
 {
 	$CI =& get_instance();
-	$data = $CI->db->query("SELECT $select FROM $tabel where $primary_key='$id' ")->row_array();
-	return $data[$select];
+	$data = $CI->db->query("SELECT $select FROM $tabel where $primary_key='$id' ");
+	if ($data->num_rows() > 0) {
+		$data = $data->row_array();
+		return $data[$select];
+	} else {
+		return '';
+	}
 }
 
 function get_produk($barcode,$select)
