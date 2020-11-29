@@ -21,7 +21,6 @@ class Mahasiswa extends CI_Controller {
 
 	public function create()
 	{
-		$this->rbac->check_operation_access();
 		$data = array(
 			'jenis_kelamin'=> '',
 			'id_prodi'=> '',
