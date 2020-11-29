@@ -27,12 +27,8 @@
 
                     <div class="form-group">
                         <select name="kelas" id="kelas" style="width:100%;">
-                            <option value="">--Pilih Kelas --</option>
-                            <?php 
-                            $sql = "SELECT kelas FROM krs WHERE kelas is not null GROUP BY kelas";
-                            foreach ($this->db->query($sql)->result() as $rw): ?>
-                                <option value="<?php echo $rw->kelas ?>"><?php echo $rw->kelas ?></option>
-                            <?php endforeach ?>
+                            <option value="">--Semua Kelas --</option>
+                            
                         </select>
                     </div>
                     
@@ -144,10 +140,40 @@
     $(document).ready(function() {
         $("#id_prodi").change(function() {
             var id_prodi = $(this).val();
-            $.ajax({url: "kelas_ajar/get_select_mk/"+id_prodi, success: function(result){
+            $.ajax({url: "kelas_ajar/get_select_mk/"+id_prodi, 
+                beforeSend: function(){
+                    $(".loading-container").show();
+                    $(".loader").show();
+                },
+                success: function(result){
                     $("#kode_mk").html(result);
                   console.log("success");
-                }});
+                },
+                complete:function(data){
+                    $(".loading-container").hide();
+                    $(".loader").hide();
+                }
+            });
+            
+        });
+
+        $("#kode_mk").change(function() {
+            var kode_mk = $(this).val();
+            var id_prodi = $("#id_prodi").val();
+            $.ajax({url: "kelas_ajar/get_select_kelas/"+id_prodi+"/"+kode_mk, 
+                beforeSend: function(){
+                    $(".loading-container").show();
+                    $(".loader").show();
+                },
+                success: function(result){
+                    $("#kelas").html(result);
+                  console.log("success");
+                },
+                complete:function(data){
+                    $(".loading-container").hide();
+                    $(".loader").hide();
+                }
+            });
             
         });
 

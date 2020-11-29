@@ -87,6 +87,89 @@
 
 <?php endif ?>
 
+<?php if ($this->session->userdata('level') == '4'): ?>
+	
+<div class="row">
+	<div class="col-xs-12 col-md-12 col-lg-12">
+	    <div class="widget">
+	        <div class="widget-header ">
+	            <span class="widget-caption">Kelas Ajar Semester Ini</span>
+	            <div class="widget-buttons">
+	                <a href="#" data-toggle="maximize">
+	                    <i class="fa fa-expand"></i>
+	                </a>
+	                <a href="#" data-toggle="collapse">
+	                    <i class="fa fa-minus"></i>
+	                </a>
+	                <a href="#" data-toggle="dispose">
+	                    <i class="fa fa-times"></i>
+	                </a>
+	            </div>
+	        </div>
+	        <div class="widget-body">
+	        	<div class="table-scrollable">
+	        		<table class="table table-bordered table-hover table-striped">
+	                    <thead>
+	                        <tr role="row">
+	                            <th rowspan="2" style="text-align: center; vertical-align: middle;">No.</th>
+	                            <th rowspan="2" style="text-align: center; vertical-align: middle;">Kode MK</th>
+	                            <th rowspan="2" style="text-align: center; vertical-align: middle;">Nama MK</th>
+	                            <th rowspan="2" style="text-align: center; vertical-align: middle;">Dosen Pengajar</th>
+	                            <th rowspan="2" style="text-align: center; vertical-align: middle;">SKS</th>
+	                            <th rowspan="2" style="text-align: center; vertical-align: middle;">Prodi</th>
+	                            <th rowspan="2" style="text-align: center; vertical-align: middle;">Kelas</th>
+	                            <th colspan="3" style="text-align: center;">Jadwal Perkuliahan</th>
+	                        </tr>
+	                        <tr>
+	                        	<th>Ruang</th>
+	                        	<th>Hari</th>
+	                        	<th>Waktu</th>
+	                        </tr>
+	                    </thead>
+	                    <tbody>
+	                    <?php 
+	                    $no=1;
+	                    $sks_total = 0;
+	                    $id_dosen = $this->session->userdata('keterangan');
+	                    $kode_semester = tahun_akademik_aktif('kode_tahun');
+	                    	$this->db->where('kode_semester', $kode_semester);
+	                    	$this->db->where('id_dosen', $id_dosen);
+	                    	$this->db->group_by('kode_mk');
+	                    	$this->db->group_by('id_prodi');
+	                    	foreach ($this->db->get('krs')->result() as $br): ?>
+	                    		<tr>
+	                    			<td><?php echo $no; ?></td>
+		                    		<td><?php echo ($br->id_mk != '') ? get_data('matakuliah','id_mk',$br->id_mk,'kode_mk') : $br->kode_mk ?></td>
+		                    		<td><?php echo ($br->id_mk != '') ? get_data('matakuliah','id_mk',$br->id_mk,'nama_mk') : $br->nama_mk ?></td>
+		                    		<td><?php echo ($br->id_mk !='') ? get_data('dosen','id_dosen',$br->id_dosen,'nama') : $br->nama_dosen ?></td>
+		                    		<td><?php $sks = ($br->id_mk !='') ?get_data('matakuliah','id_mk',$br->id_mk,'sks_total') : $br->sks;
+		                    			echo $sks;
+		                    			$sks_total = $sks_total + $sks;
+		                    		 ?></td>
+		                    		<td><?php echo get_data('prodi','id_prodi',$br->id_prodi,'prodi') ?></td>
+		                    		<td><?php echo ($br->id_jadwal !='') ? get_data('jadwal_kuliah','id_jadwal',$br->id_jadwal,'kelas') : $br->kelas ?></td>
+		                    		<td><?php echo get_data('jadwal_kuliah','id_jadwal',$br->id_jadwal,'ruang') ?></td>
+		                    		<td><?php echo get_data('jadwal_kuliah','id_jadwal',$br->id_jadwal,'hari') ?></td>
+		                    		<td><?php echo get_data('jadwal_kuliah','id_jadwal',$br->id_jadwal,'jam_mulai').' - '.get_data('jadwal_kuliah','id_jadwal',$br->id_jadwal,'jam_selesai')  ?></td>
+		                    		
+		                    	</tr>
+	                    	<?php $no++; endforeach ?>
+	                    	<tr>
+	                    		<td colspan="4"><b>Total SKS</b></td>
+	                    		<td colspan="7"><?php echo $sks_total ?></td>
+	                    	</tr>
+	                        
+	                    </tbody>
+	                </table>
+	        	</div>
+            </div>
+	    </div>
+	</div>
+</div>
+
+
+<?php endif ?>
+
 <?php if ($this->session->userdata('level') == '5'): ?>
 	
 <div class="row">

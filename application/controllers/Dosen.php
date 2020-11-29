@@ -15,6 +15,7 @@ class Dosen extends CI_Controller
 
     public function index()
     {
+        $this->rbac->check_operation_access();
         $q = urldecode($this->input->get('q', TRUE));
         $start = intval($this->input->get('start'));
         

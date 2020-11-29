@@ -15,6 +15,7 @@ class Jadwal_kuliah extends CI_Controller
 
     public function jadwal_mahasiswa()
     {
+        $this->rbac->check_operation_access();
         $data = array(
             'konten' => 'jadwal_kuliah/jadwal_mahasiswa',
             'judul_page' => 'Jadwal Kuliah Mahasiswa',
@@ -24,6 +25,7 @@ class Jadwal_kuliah extends CI_Controller
 
     public function index()
     {
+        $this->rbac->check_operation_access();
         cek_semester_aktif('tahun_akademik');
         $data = array(
             'konten' => 'jadwal_kuliah/view',

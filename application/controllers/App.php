@@ -23,7 +23,7 @@ class App extends CI_Controller {
 
 	public function setting()
 	{
-		// $this->rbac->check_operation_access();
+		$this->rbac->check_operation_access();
 
 		if ($_POST) {
 			$img = upload_gambar_biasa('logo', 'image/', 'jpg|png|jpeg', 10000, 'logo');
