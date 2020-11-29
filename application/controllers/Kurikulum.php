@@ -39,7 +39,7 @@ class Kurikulum extends CI_Controller
             'pagination' => $this->pagination->create_links(),
             'total_rows' => $config['total_rows'],
             'start' => $start,
-            'judul_page' => 'kurikulum/kurikulum_list',
+            'judul_page' => 'Daftar Kurikulum',
             'konten' => 'kurikulum/kurikulum_list',
         );
         $this->load->view('v_index', $data);
@@ -69,7 +69,7 @@ class Kurikulum extends CI_Controller
     public function create() 
     {
         $data = array(
-            'judul_page' => 'kurikulum/kurikulum_form',
+            'judul_page' => 'Tambah Kurikulum',
             'konten' => 'kurikulum/kurikulum_form',
             'button' => 'Simpan',
             'action' => site_url('kurikulum/create_action'),
@@ -121,7 +121,7 @@ class Kurikulum extends CI_Controller
 
         if ($row) {
             $data = array(
-                'judul_page' => 'kurikulum/kurikulum_form',
+                'judul_page' => 'Ubah Kurikulum',
                 'konten' => 'kurikulum/kurikulum_form',
                 'button' => 'Ubah',
                 'action' => site_url('kurikulum/update_action'),

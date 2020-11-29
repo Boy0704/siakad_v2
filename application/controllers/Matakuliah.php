@@ -16,7 +16,7 @@ class Matakuliah extends CI_Controller
     {
         $data = array(
             'konten' => 'matakuliah/view',
-            'judul_page' => 'Matakuliah',
+            'judul_page' => 'Matakuliah Kurikulum',
         );
         $this->load->view('v_index',$data);
 
@@ -81,7 +81,7 @@ class Matakuliah extends CI_Controller
     public function create() 
     {
         $data = array(
-            'judul_page' => 'matakuliah/matakuliah_form',
+            'judul_page' => 'Tambah Matakuliah kurikulum',
             'konten' => 'matakuliah/matakuliah_form',
             'button' => 'Simpan',
             'action' => site_url('matakuliah/create_action'),
@@ -147,7 +147,7 @@ class Matakuliah extends CI_Controller
 
         if ($row) {
             $data = array(
-                'judul_page' => 'matakuliah/matakuliah_form',
+                'judul_page' => 'Ubah Matakuliah Kurikulum',
                 'konten' => 'matakuliah/matakuliah_form',
                 'button' => 'Ubah',
                 'action' => site_url('matakuliah/update_action'),

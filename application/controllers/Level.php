@@ -39,7 +39,7 @@ class Level extends CI_Controller
             'pagination' => $this->pagination->create_links(),
             'total_rows' => $config['total_rows'],
             'start' => $start,
-            'judul_page' => 'level/level_list',
+            'judul_page' => 'Daftar Level',
             'konten' => 'level/level_list',
         );
         $this->load->view('v_index', $data);
@@ -63,7 +63,7 @@ class Level extends CI_Controller
     public function create() 
     {
         $data = array(
-            'judul_page' => 'level/level_form',
+            'judul_page' => 'Tambah Level',
             'konten' => 'level/level_form',
             'button' => 'Simpan',
             'action' => site_url('level/create_action'),
@@ -103,7 +103,7 @@ class Level extends CI_Controller
 
         if ($row) {
             $data = array(
-                'judul_page' => 'level/level_form',
+                'judul_page' => 'Ubah Level',
                 'konten' => 'level/level_form',
                 'button' => 'Ubah',
                 'action' => site_url('level/update_action'),

@@ -39,7 +39,7 @@ class Users extends CI_Controller
             'pagination' => $this->pagination->create_links(),
             'total_rows' => $config['total_rows'],
             'start' => $start,
-            'judul_page' => 'users/users_list',
+            'judul_page' => 'Daftar User Pengguna',
             'konten' => 'users/users_list',
         );
         $this->load->view('v_index', $data);
@@ -70,7 +70,7 @@ class Users extends CI_Controller
     public function create() 
     {
         $data = array(
-            'judul_page' => 'users/users_form',
+            'judul_page' => 'Tambah User Pengguna',
             'konten' => 'users/users_form',
             'button' => 'Simpan',
             'action' => site_url('users/create_action'),
@@ -128,7 +128,7 @@ class Users extends CI_Controller
 
         if ($row) {
             $data = array(
-                'judul_page' => 'users/users_form',
+                'judul_page' => 'Ubah User Pengguna',
                 'konten' => 'users/users_form',
                 'button' => 'Ubah',
                 'action' => site_url('users/update_action'),

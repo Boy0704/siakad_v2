@@ -75,9 +75,9 @@
                             no space must be between these elements-->
                             <!-- Settings -->
                         </ul><div class="setting">
-                            <a id="btn-setting" title="Setting" href="#">
+                            <!-- <a id="btn-setting" title="Setting" href="#">
                                 <i class="icon glyphicon glyphicon-cog"></i>
-                            </a>
+                            </a> -->
                         </div><div class="setting-container">
                             <label>
                                 <input type="checkbox" id="checkbox_fixednavbar">

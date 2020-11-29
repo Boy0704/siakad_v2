@@ -39,7 +39,7 @@ class Biaya extends CI_Controller
             'pagination' => $this->pagination->create_links(),
             'total_rows' => $config['total_rows'],
             'start' => $start,
-            'judul_page' => 'biaya/biaya_list',
+            'judul_page' => 'Daftar Biaya',
             'konten' => 'biaya/biaya_list',
         );
         $this->load->view('v_index', $data);
@@ -52,7 +52,8 @@ class Biaya extends CI_Controller
             $data = array(
 		'id_biaya' => $row->id_biaya,
 		'nama_biaya' => $row->nama_biaya,
-		'id_jenis_biaya' => $row->id_jenis_biaya,
+        'id_jenis_biaya' => $row->id_jenis_biaya,
+		'id_prodi' => $row->id_prodi,
 	    );
             $this->load->view('biaya/biaya_read', $data);
         } else {
@@ -64,13 +65,14 @@ class Biaya extends CI_Controller
     public function create() 
     {
         $data = array(
-            'judul_page' => 'biaya/biaya_form',
+            'judul_page' => 'Tambah Biaya',
             'konten' => 'biaya/biaya_form',
             'button' => 'Simpan',
             'action' => site_url('biaya/create_action'),
 	    'id_biaya' => set_value('id_biaya'),
 	    'nama_biaya' => set_value('nama_biaya'),
-	    'id_jenis_biaya' => set_value('id_jenis_biaya'),
+        'id_jenis_biaya' => set_value('id_jenis_biaya'),
+	    'id_prodi' => set_value('id_prodi'),
 	);
         $this->load->view('v_index', $data);
     }
@@ -84,7 +86,8 @@ class Biaya extends CI_Controller
         } else {
             $data = array(
 		'nama_biaya' => $this->input->post('nama_biaya',TRUE),
-		'id_jenis_biaya' => $this->input->post('id_jenis_biaya',TRUE),
+        'id_jenis_biaya' => $this->input->post('id_jenis_biaya',TRUE),
+		'id_prodi' => $this->input->post('id_prodi',TRUE),
 	    );
 
             $this->Biaya_model->insert($data);
@@ -106,13 +109,14 @@ class Biaya extends CI_Controller
 
         if ($row) {
             $data = array(
-                'judul_page' => 'biaya/biaya_form',
+                'judul_page' => 'Ubah Biaya',
                 'konten' => 'biaya/biaya_form',
                 'button' => 'Ubah',
                 'action' => site_url('biaya/update_action'),
 		'id_biaya' => set_value('id_biaya', $row->id_biaya),
 		'nama_biaya' => set_value('nama_biaya', $row->nama_biaya),
-		'id_jenis_biaya' => set_value('id_jenis_biaya', $row->id_jenis_biaya),
+        'id_jenis_biaya' => set_value('id_jenis_biaya', $row->id_jenis_biaya),
+		'id_prodi' => set_value('id_prodi', $row->id_prodi),
 	    );
             $this->load->view('v_index', $data);
         } else {
@@ -130,7 +134,8 @@ class Biaya extends CI_Controller
         } else {
             $data = array(
 		'nama_biaya' => $this->input->post('nama_biaya',TRUE),
-		'id_jenis_biaya' => $this->input->post('id_jenis_biaya',TRUE),
+        'id_jenis_biaya' => $this->input->post('id_jenis_biaya',TRUE),
+		'id_prodi' => $this->input->post('id_prodi',TRUE),
 	    );
 
             $this->Biaya_model->update($this->input->post('id_biaya', TRUE), $data);
@@ -170,7 +175,8 @@ class Biaya extends CI_Controller
     public function _rules() 
     {
 	$this->form_validation->set_rules('nama_biaya', 'nama biaya', 'trim|required');
-	$this->form_validation->set_rules('id_jenis_biaya', 'id jenis biaya', 'trim|required');
+    $this->form_validation->set_rules('id_jenis_biaya', 'jenis biaya', 'trim|required');
+	$this->form_validation->set_rules('id_prodi', 'Prodi', 'trim|required');
 
 	$this->form_validation->set_rules('id_biaya', 'id_biaya', 'trim');
 	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');

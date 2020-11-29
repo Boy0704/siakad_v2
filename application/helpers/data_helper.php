@@ -1,4 +1,38 @@
 <?php 
+function hitung_potogan($nim,$id_biaya,$biaya,$qty)
+{
+	$CI =& get_instance();
+	$CI->db->where('nim', $nim);
+    $CI->db->where('id_biaya', $id_biaya);
+    $potongan = $CI->db->get('potongan_biaya');
+    if ($potongan->num_rows() > 0) {
+    	$pot = $potongan->row();
+    	// potongan yg berlaku berdasarkan tanggal tertentu
+    	if ($pot->berlaku == '1') {
+    		if ($pot->jenis_potongan == 'persen') {
+    			$n_persen = $pot->jumlah / 100;
+    			$t_pot = $biaya * $n_persen * $qty;
+    		} else {
+    			$t_pot = $pot->jumlah * $qty;
+    		}
+    	} elseif ($pot->berlaku == '2') {
+    		if ( strtotime(date('Y-m-d')) > strtotime($pot->batas_tanggal) ) {
+    			$t_pot  = 0;
+    		} else {
+    			if ($pot->jenis_potongan == 'persen') {
+        			$n_persen = $pot->jumlah / 100;
+        			$t_pot = $biaya * $n_persen * $qty;
+        		} else {
+        			$t_pot = $pot->jumlah;
+        		}
+    		}
+    	}
+    } else {
+    	$t_pot = 0;
+    }
+    return $t_pot;
+}
+
 function cek_skala_nilai($select,$angka,$prodi='')
 {
 	$CI =& get_instance();

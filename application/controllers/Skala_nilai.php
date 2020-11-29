@@ -39,7 +39,7 @@ class Skala_nilai extends CI_Controller
             'pagination' => $this->pagination->create_links(),
             'total_rows' => $config['total_rows'],
             'start' => $start,
-            'judul_page' => 'skala_nilai/skala_nilai_list',
+            'judul_page' => 'Daftar Skala Nilai',
             'konten' => 'skala_nilai/skala_nilai_list',
         );
         $this->load->view('v_index', $data);
@@ -69,7 +69,7 @@ class Skala_nilai extends CI_Controller
     public function create() 
     {
         $data = array(
-            'judul_page' => 'skala_nilai/skala_nilai_form',
+            'judul_page' => 'Tambah Skala Nilai',
             'konten' => 'skala_nilai/skala_nilai_form',
             'button' => 'Simpan',
             'action' => site_url('skala_nilai/create_action'),
@@ -121,7 +121,7 @@ class Skala_nilai extends CI_Controller
 
         if ($row) {
             $data = array(
-                'judul_page' => 'skala_nilai/skala_nilai_form',
+                'judul_page' => 'Ubah Skala Nilai',
                 'konten' => 'skala_nilai/skala_nilai_form',
                 'button' => 'Ubah',
                 'action' => site_url('skala_nilai/update_action'),

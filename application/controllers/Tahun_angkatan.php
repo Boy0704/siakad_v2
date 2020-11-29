@@ -39,7 +39,7 @@ class Tahun_angkatan extends CI_Controller
             'pagination' => $this->pagination->create_links(),
             'total_rows' => $config['total_rows'],
             'start' => $start,
-            'judul_page' => 'tahun_angkatan/tahun_angkatan_list',
+            'judul_page' => 'Daftar Tahun Angkatan',
             'konten' => 'tahun_angkatan/tahun_angkatan_list',
         );
         $this->load->view('v_index', $data);
@@ -64,7 +64,7 @@ class Tahun_angkatan extends CI_Controller
     public function create() 
     {
         $data = array(
-            'judul_page' => 'tahun_angkatan/tahun_angkatan_form',
+            'judul_page' => 'Tambah Tahun Angkatan',
             'konten' => 'tahun_angkatan/tahun_angkatan_form',
             'button' => 'Simpan',
             'action' => site_url('tahun_angkatan/create_action'),
@@ -106,7 +106,7 @@ class Tahun_angkatan extends CI_Controller
 
         if ($row) {
             $data = array(
-                'judul_page' => 'tahun_angkatan/tahun_angkatan_form',
+                'judul_page' => 'Ubah Tahun Angkatan',
                 'konten' => 'tahun_angkatan/tahun_angkatan_form',
                 'button' => 'Ubah',
                 'action' => site_url('tahun_angkatan/update_action'),

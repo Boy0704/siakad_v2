@@ -77,7 +77,15 @@
                     <ul class="submenu">
 
                         <?php foreach ($cek_submn->result() as $submn): 
-                            $submenu_aktif = ( strpos(current_url(), $submn->link)  ) ? 'class="active"' : '' ;
+                            if ( strpos($submn->link, '/') ) {
+                                $link = explode('/', $submn->link);
+                                $module = $link[0];
+                                $operation = $link[1];
+                                $submenu_aktif = ( $module == $this->uri->segment(1) && $operation == $this->uri->segment(2) ) ? 'class="active"' : '' ;
+                            } else {
+                                $module = $submn->link;
+                                $submenu_aktif = ( $module == $this->uri->segment(1) ) ? 'class="active"' : '' ;
+                            }
                             ?>
                             
                             <li <?php echo $submenu_aktif ?>>
@@ -92,7 +100,16 @@
                 </li>
 
             <?php else: 
-                $menu_aktif2 = ( strpos(current_url(), $mn->link) ) ? 'class="active"' : '' ;
+                if ( strpos($mn->link, '/') ) {
+                    $link = explode('/', $mn->link);
+                    $module = $link[0];
+                    $operation = $link[1];
+                    $menu_aktif2 = ( $module == $this->uri->segment(1) && $operation == $this->uri->segment(2) ) ? 'class="active"' : '' ;
+                } else {
+                    $module = $mn->link;
+                    $menu_aktif2 = ( $module == $this->uri->segment(1) ) ? 'class="active"' : '' ;
+                }
+                
                 ?>
                 <!-- menu tanpa submenu -->
                 <li <?php echo $menu_aktif2 ?>>

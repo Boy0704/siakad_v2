@@ -64,6 +64,8 @@
                                 <th>Deskripsi</th>
                                 <th>QTY</th>
                                 <th>Jumlah</th>
+                                <!-- <th style="text-align: center;">Tampilkan <br> di Mahasiswa</th> -->
+                                <th>Prodi</th>
                                 <th>Pilihan</th>
                             </tr>
                         </thead>
@@ -83,6 +85,20 @@
                                     <form action="setup_pembayaran/update_biaya/<?php echo $rw->id_nilai_biaya.'?'.param_get() ?>" method="post">
                                     <input type="number" name="nilai" class="form-control nilai" value="<?php echo $rw->nilai ?>">
                                 </td>
+                                <!-- <td style="text-align: center;">
+                                    <div class="checkbox">
+                                        <label>
+                                            <?php if ($rw->tampilkan == 't'): ?>
+                                                <input type="checkbox" onclick="ceklis('<?php echo $rw->id_nilai_biaya ?>')" id="<?php echo 'id_'.$rw->id_nilai_biaya ?>">
+                                                <span class="text" id="<?php echo 'txt_'.$rw->id_nilai_biaya ?>"> Tidak</span>
+                                            <?php else: ?>
+                                                <input type="checkbox" onclick="ceklis('<?php echo $rw->id_nilai_biaya ?>')" id="<?php echo 'id_'.$rw->id_nilai_biaya ?>" checked >
+                                                <span class="text" id="<?php echo 'txt_'.$rw->id_nilai_biaya ?>"> Ya</span>
+                                            <?php endif ?>
+                                        </label>
+                                    </div>
+                                </td> -->
+                                <td><?php echo ($rw->id_prodi == 0) ? 'Semua Prodi' : get_data('prodi','id_prodi',$rw->id_prodi,'prodi') ?></td>
                                 <td>
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i></button>
                                     </form>
@@ -131,9 +147,47 @@
     }
 
 
+    function ceklis(id) {
+        if ($("#id_"+id).is(':checked')) {
+            // alert('y '+id);    
+            $.ajax({url: "setup_pembayaran/set_tampilkan/"+id+"/y", 
+                beforeSend: function(){
+                    $(".loading-container").show();
+                    $(".loader").show();
+                },
+                success: function(response){
+                    $("#txt_"+id).text(response);
+                },
+                complete:function(data){
+                    $(".loading-container").hide();
+                    $(".loader").hide();
+                }
+            });
+        } else {
+            // alert('t '+id);
+            $.ajax({url: "setup_pembayaran/set_tampilkan/"+id+"/t", 
+                beforeSend: function(){
+                    $(".loading-container").show();
+                    $(".loader").show();
+                },
+                success: function(response){
+                    $("#txt_"+id).text(response);
+                },
+                complete:function(data){
+                    $(".loading-container").hide();
+                    $(".loader").hide();
+                }
+            });
+        }
+    }
+
     $(document).ready(function() {
 
         $('.nilai').number(true,0);
+
+        $("#tampilkan").click(function() {
+            
+        });
 
         $("#id_prodi").change(function() {
             var id_prodi = $(this).val();

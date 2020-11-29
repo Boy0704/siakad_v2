@@ -99,10 +99,20 @@
 
         $("#id_prodi").change(function() {
             var id_prodi = $(this).val();
-            $.ajax({url: "app/get_list_nim/"+id_prodi, success: function(result){
+            $.ajax({url: "app/get_list_nim/"+id_prodi, 
+                beforeSend: function(){
+                    $(".loading-container").show();
+                    $(".loader").show();
+                },
+                success: function(result){
                     $("#nim").html(result);
                   console.log("success");
-                }});
+                },
+                complete:function(data){
+                    $(".loading-container").hide();
+                    $(".loader").hide();
+                }
+            });
             
         });
 

@@ -39,7 +39,7 @@ class Prodi extends CI_Controller
             'pagination' => $this->pagination->create_links(),
             'total_rows' => $config['total_rows'],
             'start' => $start,
-            'judul_page' => 'prodi/prodi_list',
+            'judul_page' => 'Daftar Prodi',
             'konten' => 'prodi/prodi_list',
         );
         $this->load->view('v_index', $data);
@@ -67,7 +67,7 @@ class Prodi extends CI_Controller
     public function create() 
     {
         $data = array(
-            'judul_page' => 'prodi/prodi_form',
+            'judul_page' => 'Tambah Prodi',
             'konten' => 'prodi/prodi_form',
             'button' => 'Simpan',
             'action' => site_url('prodi/create_action'),
@@ -119,7 +119,7 @@ class Prodi extends CI_Controller
 
         if ($row) {
             $data = array(
-                'judul_page' => 'prodi/prodi_form',
+                'judul_page' => 'Ubah Prodi',
                 'konten' => 'prodi/prodi_form',
                 'button' => 'Ubah',
                 'action' => site_url('prodi/update_action'),

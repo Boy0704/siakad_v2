@@ -19,7 +19,8 @@ class Setup_pembayaran extends CI_Controller {
 			$this->db->insert('Biaya_pembayaran', array(
 				'id_biaya' => $rw->id_biaya,
 				'nilai'=> 0,
-				'tahun_berlaku' => $tahun
+				'tahun_berlaku' => $tahun,
+				'id_prodi' => $rw->id_prodi,
 			));
 		}
 		$this->session->set_flashdata('message', alert_notif("Biaya Pembayaran Tahun $tahun berhasil digenerate",'success'));
@@ -46,6 +47,19 @@ class Setup_pembayaran extends CI_Controller {
 		if ($delete) {
 			$this->session->set_flashdata('message', alert_notif("biaya berhasil dihapus",'success'));
 			redirect('Setup_pembayaran?'.param_get(),'refresh');
+		}
+	}
+
+	public function set_tampilkan($id,$val)
+	{
+		$this->db->where('id_nilai_biaya', $id);
+		$update = $this->db->update('biaya_pembayaran', array('tampilkan'=>$val));
+		if ($update) {
+			if ($val=='y') {
+				echo "Ya";
+			} else {
+				echo "Tidak";
+			}
 		}
 	}
 

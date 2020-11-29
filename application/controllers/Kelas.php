@@ -39,7 +39,7 @@ class Kelas extends CI_Controller
             'pagination' => $this->pagination->create_links(),
             'total_rows' => $config['total_rows'],
             'start' => $start,
-            'judul_page' => 'kelas/kelas_list',
+            'judul_page' => 'Daftar Kelas',
             'konten' => 'kelas/kelas_list',
         );
         $this->load->view('v_index', $data);
@@ -63,7 +63,7 @@ class Kelas extends CI_Controller
     public function create() 
     {
         $data = array(
-            'judul_page' => 'kelas/kelas_form',
+            'judul_page' => 'Tambah Kelas',
             'konten' => 'kelas/kelas_form',
             'button' => 'Simpan',
             'action' => site_url('kelas/create_action'),
@@ -103,7 +103,7 @@ class Kelas extends CI_Controller
 
         if ($row) {
             $data = array(
-                'judul_page' => 'kelas/kelas_form',
+                'judul_page' => 'Ubah Kelas',
                 'konten' => 'kelas/kelas_form',
                 'button' => 'Ubah',
                 'action' => site_url('kelas/update_action'),

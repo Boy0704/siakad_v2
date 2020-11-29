@@ -39,7 +39,7 @@ class Tahun_akademik extends CI_Controller
             'pagination' => $this->pagination->create_links(),
             'total_rows' => $config['total_rows'],
             'start' => $start,
-            'judul_page' => 'tahun_akademik/tahun_akademik_list',
+            'judul_page' => 'Daftar Tahun Akademik',
             'konten' => 'tahun_akademik/tahun_akademik_list',
         );
         $this->load->view('v_index', $data);
@@ -67,7 +67,7 @@ class Tahun_akademik extends CI_Controller
     public function create() 
     {
         $data = array(
-            'judul_page' => 'tahun_akademik/tahun_akademik_form',
+            'judul_page' => 'Tambah Tahun Akademik',
             'konten' => 'tahun_akademik/tahun_akademik_form',
             'button' => 'Simpan',
             'action' => site_url('tahun_akademik/create_action'),
@@ -117,7 +117,7 @@ class Tahun_akademik extends CI_Controller
 
         if ($row) {
             $data = array(
-                'judul_page' => 'tahun_akademik/tahun_akademik_form',
+                'judul_page' => 'Ubah Tahun Akademik',
                 'konten' => 'tahun_akademik/tahun_akademik_form',
                 'button' => 'Ubah',
                 'action' => site_url('tahun_akademik/update_action'),

@@ -12,6 +12,19 @@
             <label for="varchar">Nama Biaya * <?php echo form_error('nama_biaya') ?></label>
             <input type="text" class="form-control" name="nama_biaya" id="nama_biaya" placeholder="Nama Biaya" value="<?php echo $nama_biaya; ?>" />
         </div>
+        <div class="form-group">
+            <label for="int">Prodi * <?php echo form_error('id_prodi') ?></label>
+            <select name="id_prodi" id="id_prodi" style="width:100%;">
+                <option value="0">--Semua Prodi --</option>
+                <?php 
+                $this->db->where('aktif', 'y');
+                foreach ($this->db->get('prodi')->result() as $rw): 
+                    $checked = ($id_prodi == $rw->id_prodi) ? 'selected' : '' ;
+                    ?>
+                    <option value="<?php echo $rw->id_prodi ?>" <?php echo $checked ?>><?php echo $rw->kode_prodi.' - '. $rw->prodi ?></option>
+                <?php endforeach ?>
+            </select>
+        </div>
 	    <div class="form-group">
             <label for="int">Jenis Biaya *  <?php echo form_error('id_jenis_biaya') ?></label>
             <select name="id_jenis_biaya" id="id_jenis_biaya" style="width:100%;">

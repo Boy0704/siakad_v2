@@ -21,7 +21,7 @@
             <br>
             <div class="row">
             <div class="col-md-4">
-                <?php echo anchor(site_url('biaya/create'),'<i class="fa fa-plus"></i> Tambah Data', 'class="btn btn-primary"'); ?>
+                <?php echo anchor(site_url('potongan_biaya/create'),'<i class="fa fa-plus"></i> Tambah Data', 'class="btn btn-primary"'); ?>
             </div>
             <div class="col-md-4 text-center">
                 <div style="margin-top: 8px" id="message">
@@ -31,7 +31,7 @@
             <div class="col-md-1 text-right">
             </div>
             <div class="col-md-3 text-right">
-                <form action="<?php echo site_url('biaya/index'); ?>" class="form-inline" method="get">
+                <form action="<?php echo site_url('potongan_biaya/index'); ?>" class="form-inline" method="get">
                     <div class="input-group">
                         <input type="text" class="form-control" name="q" value="<?php echo $q; ?>">
                         <span class="input-group-btn">
@@ -39,7 +39,7 @@
                                 if ($q <> '')
                                 {
                                     ?>
-                                    <a href="<?php echo site_url('biaya'); ?>" class="btn btn-default">Reset</a>
+                                    <a href="<?php echo site_url('potongan_biaya'); ?>" class="btn btn-default">Reset</a>
                                     <?php
                                 }
                             ?>
@@ -55,26 +55,32 @@
             <thead class="bordered-darkorange">
                 <tr role="row">
                     <th>No</th>
-            		<th>Nama Biaya</th>
-                    <th>Jenis Biaya</th>
-            		<th>Prodi</th>
-            		<th>Action</th>
+		<th>Nim</th>
+		<th>Biaya</th>
+		<th>Jumlah</th>
+		<th>Jenis Potongan</th>
+		<th>Berlaku</th>
+		<th>Batas Tanggal</th>
+		<th>Action</th>
                 </tr>
             </thead>
             <tbody><?php
-            foreach ($biaya_data as $biaya)
+            foreach ($potongan_biaya_data as $potongan_biaya)
             {
                 ?>
                 <tr>
 			<td width="80px"><?php echo ++$start ?></td>
-			<td><?php echo $biaya->nama_biaya ?></td>
-            <td><?php echo get_data('jenis_biaya','id_jenis_biaya',$biaya->id_jenis_biaya,'jenis_biaya') ?></td>
-			<td><?php echo ($biaya->id_prodi == 0) ? 'Semua Prodi' : get_data('prodi','id_prodi',$biaya->id_prodi,'prodi') ?></td>
+			<td><?php echo $potongan_biaya->nim.' - '.get_data('mahasiswa','nim',$potongan_biaya->nim,'nama') ?></td>
+			<td><?php echo get_data('biaya','id_biaya',$potongan_biaya->id_biaya,'nama_biaya') ?></td>
+			<td><?php echo $potongan_biaya->jumlah ?></td>
+			<td><?php echo $potongan_biaya->jenis_potongan ?></td>
+			<td><?php echo ($potongan_biaya->berlaku == '1') ? 'Sampai Selesai' : 'Berdasarkan Tanggal Tertentu' ?></td>
+			<td><?php echo $potongan_biaya->batas_tanggal ?></td>
 			<td style="text-align:center" width="200px">
 				<?php 
-				echo anchor(site_url('biaya/update/'.$biaya->id_biaya),'<span class="label label-info">Ubah</span>'); 
+				echo anchor(site_url('potongan_biaya/update/'.$potongan_biaya->id_potongan),'<span class="label label-info">Ubah</span>'); 
 				echo ' | '; 
-				echo anchor(site_url('biaya/delete/'.$biaya->id_biaya),'<span class="label label-danger">Hapus</span>','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'); 
+				echo anchor(site_url('potongan_biaya/delete/'.$potongan_biaya->id_potongan),'<span class="label label-danger">Hapus</span>','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'); 
 				?>
 			</td>
 		</tr>
