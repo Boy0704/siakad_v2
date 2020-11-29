@@ -10,6 +10,7 @@ class Skala_nilai extends CI_Controller
         parent::__construct();
         $this->load->model('Skala_nilai_model');
         $this->load->library('form_validation');
+        $this->rbac->check_module_access();
     }
 
     public function index()

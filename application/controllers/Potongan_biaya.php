@@ -10,6 +10,7 @@ class Potongan_biaya extends CI_Controller
         parent::__construct();
         $this->load->model('Potongan_biaya_model');
         $this->load->library('form_validation');
+        $this->rbac->check_module_access();
     }
 
     public function index()

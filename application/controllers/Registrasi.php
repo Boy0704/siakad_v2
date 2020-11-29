@@ -3,6 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Registrasi extends CI_Controller {
 
+	public function __construct()
+	{
+		parent::__construct();
+		$this->rbac->check_module_access();
+	}
 	
 	public function index()
 	{

@@ -10,6 +10,7 @@ class Master_menu extends CI_Controller
         parent::__construct();
         $this->load->model('Master_menu_model');
         $this->load->library('form_validation');
+        $this->rbac->check_module_access();
     }
 
     public function index()

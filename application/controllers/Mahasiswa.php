@@ -3,9 +3,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Mahasiswa extends CI_Controller {
 
+	public function __construct()
+	{
+		parent::__construct();
+		$this->rbac->check_module_access();
+	}
 	
 	public function index()
 	{
+		$this->rbac->check_operation_access();
 		$data = array(
 			'konten' => 'mahasiswa/view',
 			'judul_page' => 'Data Mahasiswa',
@@ -15,6 +21,7 @@ class Mahasiswa extends CI_Controller {
 
 	public function create()
 	{
+		$this->rbac->check_operation_access();
 		$data = array(
 			'jenis_kelamin'=> '',
 			'id_prodi'=> '',
@@ -74,6 +81,7 @@ class Mahasiswa extends CI_Controller {
 
 	public function update($id)
 	{
+		$this->rbac->check_operation_access();
 		$data = array(
 			'konten' => 'mahasiswa/ubah',
 			'judul_page' => 'Update Mahasiswa',
@@ -84,6 +92,7 @@ class Mahasiswa extends CI_Controller {
 
 	public function biodata_mahasiswa()
 	{
+		$this->rbac->check_operation_access();
 		$data = array(
 			'konten' => 'mahasiswa/biodata_mahasiswa',
 			'judul_page' => 'Biodata Mahasiswa',
