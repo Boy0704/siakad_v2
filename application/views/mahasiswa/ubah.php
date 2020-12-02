@@ -10,7 +10,7 @@ $data['nim'] = $mhs->nim;
             </div>
             <div class="widget-body">
                 <div id="horizontal-form">
-                    <form class="form-horizontal" action="mahasiswa/update_action?id_prodi=<?php echo $this->input->get('id_prodi') ?>&id_tahun_angkatan=<?php echo $this->input->get('id_tahun_angkatan') ?>" method="POST" role="form">
+                    <form class="form-horizontal" action="mahasiswa/update_action/<?php echo $mhs->id_mahasiswa ?>?id_prodi=<?php echo $this->input->get('id_prodi') ?>&id_tahun_angkatan=<?php echo $this->input->get('id_tahun_angkatan') ?>" method="POST" role="form">
                         <div class="form-group">
                             <label for="Nama" class="col-sm-2 control-label no-padding-right">NIM *</label>
                             <div class="col-sm-10">

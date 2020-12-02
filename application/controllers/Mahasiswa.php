@@ -80,7 +80,6 @@ class Mahasiswa extends CI_Controller {
 
 	public function update($id)
 	{
-		$this->rbac->check_operation_access();
 		$data = array(
 			'konten' => 'mahasiswa/ubah',
 			'judul_page' => 'Update Mahasiswa',
@@ -102,7 +101,12 @@ class Mahasiswa extends CI_Controller {
 
 	public function update_action($id)
 	{
-		log_r($_POST);
+		$this->db->where('id_mahasiswa', $id);
+		$update = $this->db->update('mahasiswa', $_POST);
+		if ($update) {
+			$this->session->set_flashdata('notif', alert_biasa('data mahasiswa berhasil diupdate','success'));
+			redirect('mahasiswa?'.param_get(),'refresh');
+		}
 	}
 
 	public function update_biodata_mahasiswa()
