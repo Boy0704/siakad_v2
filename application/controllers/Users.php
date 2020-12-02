@@ -96,6 +96,14 @@ class Users extends CI_Controller
             $this->create();
         } else {
 
+            $this->db->where('username', $this->input->post('username'));
+            $cek_username = $this->db->get('users');
+
+            if ($cek_username->num_rows() > 0) {
+                $this->session->set_flashdata('message', alert_notif('Username '.$this->input->post('username').' sudah ada !','danger'));
+                redirect('users','refresh');
+            }
+
             $img = upload_gambar_biasa('user', 'image/user/', 'jpg|png|jpeg', 10000, 'foto');
 
             $data = array(
