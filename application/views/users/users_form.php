@@ -35,7 +35,7 @@
 	    
 	    <div class="form-group">
             <label for="varchar">Foto * <?php echo form_error('foto') ?></label>
-            <input type="file" class="form-control" name="foto" id="foto" placeholder="Foto" value="<?php echo $foto; ?>" />
+            <input type="file" class="form-control" name="foto" id="foto" placeholder="Foto" value="<?php echo $foto; ?>" required/>
 
             <div>
                 <?php if ($foto != ''): ?>

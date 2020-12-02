@@ -71,6 +71,10 @@ $uri2 = $this->uri->segment(2);
                                 <select name="id_prodi" id="id_prodi" style="width:100%;">
 					                <option value="">--Pilih Prodi --</option>
 					                <?php 
+                                    if ($this->session->userdata('level') == '2') {
+                                        $id_prodi = get_data('users','id_user',$this->session->userdata('id_user'),'id_prodi');
+                                        $this->db->where('id_prodi', $id_prodi);
+                                    }
 					                $this->db->where('aktif', 'y');
 					                foreach ($this->db->get('prodi')->result() as $rw): 
 					                    $checked = ($id_prodi == $rw->id_prodi) ? 'selected' : '' ;

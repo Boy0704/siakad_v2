@@ -184,6 +184,7 @@
             	<div class="alert alert-info">
             		Silahkan ambil menu disini !
             	</div>
+            	<div style="height: 400px; overflow-y: scroll;">
                 <div class="dd" id="menu_master">
 				    <ol class="dd-list">
 				    	<?php 
@@ -226,6 +227,7 @@
 
 				        
 				    </ol>
+				</div>
 				</div>
             </div>
         </div>
