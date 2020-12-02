@@ -11,7 +11,7 @@ class Setup_pembayaran extends CI_Controller {
 	public function index()
 	{
 		$data = array(
-			'konten' => 'Setup_pembayaran/view',
+			'konten' => 'setup_pembayaran/view',
 			'judul_page' => 'Setup Biaya Pembayaran',
 		);
 		$this->load->view('v_index',$data);
