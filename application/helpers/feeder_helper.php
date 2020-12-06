@@ -1,5 +1,52 @@
 <?php
 
+function token()
+{
+	$client = new nusoap_client(config_feeder('url').'/ws/live.php?wsdl', true);
+
+	$proxy = $client->getProxy();
+	$username = config_feeder('username');
+	$password = config_feeder('password');
+	$token = $proxy->GetToken($username, $password);
+	return $token;
+}
+
+function simpan_error($data)
+{
+	$CI =& get_instance();
+	$dt = array();
+	array_push($dt, $data);
+	$CI->db->query("DELETE FROM feeder_log_error");
+	foreach ($dt as $rw) {
+		$CI->db->insert('feeder_log_error', $rw);
+	}
+	return '1';
+}
+
+function config_feeder($select)
+{
+	$CI =& get_instance();
+	$data = $CI->db->query("SELECT $select FROM feeder_config where id_config='1' ");
+	if ($data->num_rows() > 0) {
+		$data = $data->row_array();
+		return $data[$select];
+	} else {
+		return '';
+	}
+}
+
+function alert_feeder($pesan,$type)
+{
+	return "<div class=\"alert alert-$type fade in alert-radius-bordered alert-shadowed\">
+                <button class=\"close\" data-dismiss=\"alert\">
+                    ×
+                </button>
+                <i class=\"fa-fw fa fa-info\"></i>
+
+                $pesan
+            </div>";
+}
+
 function getToken()
 {
 	header('Content-Type:application/json');
