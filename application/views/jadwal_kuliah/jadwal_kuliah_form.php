@@ -166,9 +166,9 @@ $uri2 = $this->uri->segment(2);
             }});
         });
 
-        $("#ruang").change(function() {
+        $("#kelas").change(function() {
             var n = $(this).val();
-            $.ajax({url: "app/get_kapasitas_ruang?ruang="+n, success: function(result){
+            $.ajax({url: "app/get_kapasitas_kelas?kelas="+n, success: function(result){
                 $("#kapasitas").val(result);
               console.log("success");
             }});
