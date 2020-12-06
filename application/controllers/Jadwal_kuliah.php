@@ -86,7 +86,6 @@ class Jadwal_kuliah extends CI_Controller
     
     public function create_action() 
     {
-        log_r($_POST);
         $this->_rules();
 
         if ($this->form_validation->run() == FALSE) {
