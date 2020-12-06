@@ -43,7 +43,13 @@
 	$semester = $this->input->get('semester');
 
 	$this->db->where('mulai_berlaku', tahun_akademik_aktif('kode_tahun'));
-	$id_kurikulum = $this->db->get('kurikulum')->row()->id_kurikulum;
+	$this->db->where('id_prodi', $id_prodi);
+	$id_kurikulum = $this->db->get('kurikulum');
+	if ($id_kurikulum->num_rows() > 0) {
+		$id_kurikulum = $id_kurikulum->row()->id_kurikulum;
+	} else {
+		$id_kurikulum = '';
+	}
 
 	?>
 
