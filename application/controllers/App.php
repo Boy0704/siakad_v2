@@ -394,6 +394,7 @@ class App extends CI_Controller {
 		}
 
 		$this->db->where('mulai_berlaku', tahun_akademik_aktif('kode_tahun'));
+		$this->db->where('id_prodi', $id_prodi);
 		$cek_id_kurikulum = $this->db->get('kurikulum');
 		if ($cek_id_kurikulum->num_rows() == 0) {
 			$this->session->set_flashdata('notif', alert_biasa('tidak ada kurikulum di semester '.tahun_akademik_aktif('kode_tahun').' ini','error'));
@@ -469,10 +470,18 @@ class App extends CI_Controller {
     	echo json_encode(array('sks'=>$sks,'semester'=>$semester));
     }
 
-    public function get_kapasitas_ruang()
+    public function get_mk($kode_mk)
     {
-    	$ruang = $this->input->get('ruang');
-    	$kapasitas = get_data('ruang','ruang',$ruang,'kapasitas');
+    	echo json_encode(array(
+    		'nama_mk' => get_data('master_matakuliah','kode_mk',$kode_mk,'nama_mk'),
+    		'jenis_mk' => get_data('master_matakuliah','kode_mk',$kode_mk,'jenis_mk'),
+    	));
+    }
+
+    public function get_kapasitas_kelas()
+    {
+    	$kelas = $this->input->get('kelas');
+    	$kapasitas = get_data('kelas','kelas',$kelas,'kapasitas');
     	echo $kapasitas;
     }
 
