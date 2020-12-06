@@ -12,7 +12,21 @@ $uri2 = $this->uri->segment(2);
         <form action="<?php echo $action; ?>" method="post">
 	    <div class="form-group">
             <label for="varchar">Kode Mk * <?php echo form_error('kode_mk') ?></label>
-            <input type="text" class="form-control" name="kode_mk" id="kode_mk" placeholder="Kode Mk" value="<?php echo $kode_mk; ?>" />
+            <select name="kode_mk" id="kode_mk" style="width:100%;">
+                <option value="">--Pilih Matakuliah --</option>
+                <?php 
+                if ($this->input->get('semester') != '') {
+                    $this->db->where('semester', $this->input->get('semester'));
+                }
+                $this->db->where('id_prodi', $this->input->get('id_prodi'));
+                $this->db->where('id_kurikulum', $this->input->get('id_kurikulum'));
+                $this->db->order_by('semester', 'asc');
+                foreach ($this->db->get('matakuliah')->result() as $rw): 
+                    $checked = ($kode_mk == $rw->kode_mk) ? 'selected' : '' ;
+                    ?>
+                    <option value="<?php echo $rw->kode_mk ?>" <?php echo $checked ?>><?php echo $rw->kode_mk.' - '. $rw->nama_mk ?></option>
+                <?php endforeach ?>
+            </select>
         </div>
 	    <div class="form-group">
             <label for="varchar">Nama Mk * <?php echo form_error('nama_mk') ?></label>
@@ -80,6 +94,7 @@ $uri2 = $this->uri->segment(2);
             }
              ?>
             <select name="semester" id="semester" style="width:100%;">
+                <option value="">--Pilih Semester--</option>
                 <?php 
                 for ($i=1; $i <= 8 ; $i++) { 
                     $checked = ($semester == $i) ? 'selected' : '' ;
@@ -130,4 +145,23 @@ $uri2 = $this->uri->segment(2);
                                     </div>
                                 </div>
                                 </div>
+<script src="assets/js/select2/select2.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#kode_mk").select2();
+        $("#id_dosen").select2();
+
+        $("#kode_mk").change(function() {
+            var kode_mk = $(this).val();
+            $.ajax({url: "app/get_mk/"+kode_mk,
+                'dataType': 'json',
+                success: function(a){
+                    $("#nama_mk").val(a.nama_mk);
+                    $("#jenis_mk").val(a.jenis_mk);
+                console.log("success");
+            }});
+        });
+
+    });
+</script>
    
