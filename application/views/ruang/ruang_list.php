@@ -21,7 +21,7 @@
             <br>
             <div class="row">
             <div class="col-md-4">
-                <?php echo anchor(site_url('ruangan/create'),'<i class="fa fa-plus"></i> Tambah Data', 'class="btn btn-primary"'); ?>
+                <?php echo anchor(site_url('ruang/create'),'<i class="fa fa-plus"></i> Tambah Data', 'class="btn btn-primary"'); ?>
             </div>
             <div class="col-md-4 text-center">
                 <div style="margin-top: 8px" id="message">
@@ -31,7 +31,7 @@
             <div class="col-md-1 text-right">
             </div>
             <div class="col-md-3 text-right">
-                <form action="<?php echo site_url('ruangan/index'); ?>" class="form-inline" method="get">
+                <form action="<?php echo site_url('ruang/index'); ?>" class="form-inline" method="get">
                     <div class="input-group">
                         <input type="text" class="form-control" name="q" value="<?php echo $q; ?>">
                         <span class="input-group-btn">
@@ -39,7 +39,7 @@
                                 if ($q <> '')
                                 {
                                     ?>
-                                    <a href="<?php echo site_url('ruangan'); ?>" class="btn btn-default">Reset</a>
+                                    <a href="<?php echo site_url('ruang'); ?>" class="btn btn-default">Reset</a>
                                     <?php
                                 }
                             ?>
@@ -60,17 +60,17 @@
                 </tr>
             </thead>
             <tbody><?php
-            foreach ($ruangan_data as $ruangan)
+            foreach ($ruang_data as $ruang)
             {
                 ?>
                 <tr>
 			<td width="80px"><?php echo ++$start ?></td>
-			<td><?php echo $ruangan->ruang ?></td>
+			<td><?php echo $ruang->ruang ?></td>
 			<td style="text-align:center" width="200px">
 				<?php 
-				echo anchor(site_url('ruangan/update/'.$ruangan->id_ruang),'<span class="label label-info">Ubah</span>'); 
+				echo anchor(site_url('ruang/update/'.$ruang->id_ruang),'<span class="label label-info">Ubah</span>'); 
 				echo ' | '; 
-				echo anchor(site_url('ruangan/delete/'.$ruangan->id_ruang),'<span class="label label-danger">Hapus</span>','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'); 
+				echo anchor(site_url('ruang/delete/'.$ruang->id_ruang),'<span class="label label-danger">Hapus</span>','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'); 
 				?>
 			</td>
 		</tr>

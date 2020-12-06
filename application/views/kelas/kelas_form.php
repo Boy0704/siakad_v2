@@ -12,6 +12,10 @@
             <label for="varchar">Kelas <?php echo form_error('kelas') ?></label>
             <input type="text" class="form-control" name="kelas" id="kelas" placeholder="Kelas" value="<?php echo $kelas; ?>" />
         </div>
+	    <div class="form-group">
+            <label for="int">Kapasitas <?php echo form_error('kapasitas') ?></label>
+            <input type="text" class="form-control" name="kapasitas" id="kapasitas" placeholder="Kapasitas" value="<?php echo $kapasitas; ?>" />
+        </div>
 	    <input type="hidden" name="id_kelas" value="<?php echo $id_kelas; ?>" /> 
 	    <button type="submit" class="btn btn-primary"><?php echo $button ?></button> 
 	    <a href="<?php echo site_url('kelas') ?>" class="btn btn-default">Cancel</a>

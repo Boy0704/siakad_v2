@@ -14,7 +14,7 @@
         </div>
 	    <input type="hidden" name="id_ruang" value="<?php echo $id_ruang; ?>" /> 
 	    <button type="submit" class="btn btn-primary"><?php echo $button ?></button> 
-	    <a href="<?php echo site_url('ruangan') ?>" class="btn btn-default">Cancel</a>
+	    <a href="<?php echo site_url('ruang') ?>" class="btn btn-default">Cancel</a>
 	</form>
                                     </div>
                                 </div>
