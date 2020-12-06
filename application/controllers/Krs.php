@@ -175,6 +175,28 @@ class Krs extends CI_Controller {
 				'id_prodi' => $d_jadwal->id_prodi,
 			);
 
+			//cek_kuota kelas
+			$this->db->where('id_mk', $d_jadwal->id_mk);
+			$this->db->where('id_prodi', $d_jadwal->id_prodi);
+			$this->db->where('kelas', $d_jadwal->kelas);
+			$total_terisi = $this->db->get('krs');
+
+			$kapistas = get_data('jadwal_kuliah','id_jadwal',$d_jadwal->id_jadwal,'kapasitas');
+			if ($kapasitas == '') {
+				$kapasitas = 0;
+			}
+			if ($total_terisi->num_rows() == $kapasitas) {
+				$this->session->set_flashdata('message', '<div class="alert alert-danger fade in alert-radius-bordered alert-shadowed">
+                                        <button class="close" data-dismiss="alert">
+                                            ×
+                                        </button>
+                                        <i class="fa-fw fa fa-info"></i>
+
+                                        <strong>Info:</strong> Kapasitas kelas sudah penuh !
+                                    </div>');
+				redirect('krs/ambil_krs?id_prodi='.$id_prodi,'refresh');
+			}
+
 			$this->db->trans_begin();
 
 			$simpan = $this->db->insert('krs', $data);
