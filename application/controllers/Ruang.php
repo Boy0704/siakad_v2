@@ -39,7 +39,7 @@ class Ruang extends CI_Controller
             'pagination' => $this->pagination->create_links(),
             'total_rows' => $config['total_rows'],
             'start' => $start,
-            'judul_page' => 'ruang/ruang_list',
+            'judul_page' => 'Data Ruang',
             'konten' => 'ruang/ruang_list',
         );
         $this->load->view('v_index', $data);
@@ -63,7 +63,7 @@ class Ruang extends CI_Controller
     public function create() 
     {
         $data = array(
-            'judul_page' => 'ruang/ruang_form',
+            'judul_page' => 'Tambah Ruang',
             'konten' => 'ruang/ruang_form',
             'button' => 'Simpan',
             'action' => site_url('ruang/create_action'),
@@ -103,7 +103,7 @@ class Ruang extends CI_Controller
 
         if ($row) {
             $data = array(
-                'judul_page' => 'ruang/ruang_form',
+                'judul_page' => 'Ubah Ruang',
                 'konten' => 'ruang/ruang_form',
                 'button' => 'Ubah',
                 'action' => site_url('ruang/update_action'),

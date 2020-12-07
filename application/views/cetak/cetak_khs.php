@@ -302,7 +302,7 @@ $data_krs = $this->db->get('krs');
 			
 		</table>
 
-		<div class="batas">Batas SKS yang bisa diambil di semester berikutnya adalah <b>24 SKS</b></div>
+		<!-- <div class="batas">Batas SKS yang bisa diambil di semester berikutnya adalah <b>24 SKS</b></div> -->
 		<br />
 
 		<table class="table-sign" width="35%" align="right">
@@ -323,7 +323,7 @@ $data_krs = $this->db->get('krs');
 				<td></td>
 				<td></td>
 				<td></td>
-				<td align="center">BAAK</td>
+				<td align="center"><?php echo get_data('tanda_tangan','id_tanda_tangan',2,'judul_atas') ?></td>
 				<td></td>
 			</tr>
 			<tr>
@@ -385,7 +385,7 @@ $data_krs = $this->db->get('krs');
 				<td></td>
 				<td></td>
 				<td align="center" style="border-bottom: 1px solid #000">
-					<strong>Utami Juwita,S.Pd</strong>
+					<strong><?php echo get_data('tanda_tangan','id_tanda_tangan',2,'nama') ?></strong>
 				</td>
 				<td></td>
 			</tr>
@@ -396,7 +396,7 @@ $data_krs = $this->db->get('krs');
 				<td></td>
 				<td></td>
 				<td></td>
-				<td align="center">1294310</td>
+				<td align="center"><?php echo get_data('tanda_tangan','id_tanda_tangan',2,'bawah_nama') ?></td>
 				<td></td>
 			</tr>
 		</table>

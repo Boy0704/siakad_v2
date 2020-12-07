@@ -332,7 +332,7 @@ $data_mhs = $this->db->get('mahasiswa')->row();
 		<td></td>
 		<td></td>
 		<td align="center" style="border-bottom: 1px solid #000" colspan="2">
-			<strong>Nama Dosen PA</strong>
+			<strong><?php echo get_data('dosen','id_dosen',$data_mhs->dosen_pa,'nama') ?></strong>
 		</td>
 	</tr>
 	<tr>
@@ -340,8 +340,7 @@ $data_mhs = $this->db->get('mahasiswa')->row();
 		<td></td>
 		<td></td>
 		<td></td>
-		<td align="center" colspan="2">
-					NIDN pa</td>
+		<td align="center" colspan="2"><?php echo get_data('dosen','id_dosen',$data_mhs->dosen_pa,'nidn') ?></td>
 	</tr>
 	<tr>
 		<td colspan="3">&nbsp;</td>
@@ -360,7 +359,7 @@ $data_mhs = $this->db->get('mahasiswa')->row();
 	</tr>
 	<tr>
 		<td colspan="3">&nbsp;</td>
-		<td align="center" colspan="3">BAAK</td>
+		<td align="center" colspan="3"><?php echo get_data('tanda_tangan','id_tanda_tangan',1,'judul_atas') ?></td>
 		<td colspan="2">&nbsp;</td>
 	</tr>
 	<tr>
@@ -396,13 +395,13 @@ $data_mhs = $this->db->get('mahasiswa')->row();
 	<tr>
 		<td colspan="3"></td>
 		<td align="center" style="border-bottom: 1px solid #000" colspan="3">
-			<strong>Nama BAAK</strong>
+			<strong><?php echo get_data('tanda_tangan','id_tanda_tangan',1,'nama') ?></strong>
 		</td>
 		<td align="center" colspan="2"></td>
 	</tr>
 	<tr>
 		<td colspan="3"></td>
-		<td align="center" colspan="3">Nip BAAK</td>
+		<td align="center" colspan="3"><?php echo get_data('tanda_tangan','id_tanda_tangan',1,'bawah_nama') ?></td>
 		<td align="center" colspan="2"></td>
 	</tr>
 	<tr>

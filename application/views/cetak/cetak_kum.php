@@ -300,7 +300,7 @@ $data_krs = $this->db->get('krs');
 				</td>
 			</tr>
 			<tr style="height:20px;">
-				<td align="center" colspan="1">BAAK</td>
+				<td align="center" colspan="1"><?php echo get_data('tanda_tangan','id_tanda_tangan',3,'judul_atas') ?></td>
 				<td colspan="1"></td>
 			</tr>
 			<tr style="height:20px;">
@@ -321,13 +321,13 @@ $data_krs = $this->db->get('krs');
 			</tr>
 			<tr>
 				<td align="center" style="border-bottom: 1px solid #000" colspan="1">
-										<strong>Nama BAAK</strong>
+										<strong><?php echo get_data('tanda_tangan','id_tanda_tangan',3,'nama') ?></strong>
 					<!--_______-->
 				</td>
 				<td colspan="1"></td>
 			</tr>
 			<tr>
-				<td align="center" colspan="1">No Pegawai</td>
+				<td align="center" colspan="1"><?php echo get_data('tanda_tangan','id_tanda_tangan',3,'bawah_nama') ?></td>
 				<td colspan="1"></td>
 			</tr>
 
