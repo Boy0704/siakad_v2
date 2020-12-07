@@ -67,7 +67,7 @@
                                 <div class="panel-heading ">
                                     <h4 class="panel-title">
                                         <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#<?php echo $rw->kode_semester ?>">
-                                            <?php echo "Kartu Rencana Studi ( ".get_data('tahun_akademik','kode_tahun',$rw->kode_semester,'keterangan')." )" ?>
+                                            <?php echo "Kartu Hasil Studi ( ".get_data('tahun_akademik','kode_tahun',$rw->kode_semester,'keterangan')." )" ?>
                                         </a>
                                     </h4>
                                 </div>
