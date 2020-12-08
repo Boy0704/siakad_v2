@@ -96,6 +96,12 @@ class Users extends CI_Controller
             $this->create();
         } else {
 
+            $level = $this->input->post('level');
+            if ($level == '4' OR $level =='5') {
+                $this->session->set_flashdata('message', alert_notif('Kamu tidak boleh menambah data mahasiswa atau dosen di sini, silahkan lakukan melalui menu dosen atau mahasiswa!','danger'));
+                redirect('users','refresh');
+            }
+
             $this->db->where('username', $this->input->post('username'));
             $cek_username = $this->db->get('users');
 
