@@ -27,6 +27,7 @@ class Pembayaran extends CI_Controller {
 		$this->load->view('v_index',$data);
 	}
 
+
 	public function create()
 	{
 		if (!$_GET OR $_GET['nim'] == '') {

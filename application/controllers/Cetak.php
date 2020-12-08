@@ -41,4 +41,18 @@ class Cetak extends CI_Controller {
 		$this->load->view('cetak/cetak_khs',$data);
 	}
 
+	public function cetak_slip($id_pembayaran)
+	{
+		$this->load->view('cetak/cetak_kwitansi');
+	}
+
+	public function cetak_report_pembayaran()
+	{
+		$data = array(
+			'konten' => 'cetak/cetak_report_pembayaran',
+			'judul_page' => 'Cetak Laporan Pembayaran',
+		);
+		$this->load->view('v_index',$data);
+	}
+
 }

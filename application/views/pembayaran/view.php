@@ -88,6 +88,7 @@
                                 <td><?php echo $rw->kode_semester ?></td>
                                 <td>
                                     <a href="pembayaran/detail/<?php echo $rw->id_pembayaran ?>" class="label label-info">Detail</a>
+                                    <a href="cetak/cetak_slip/<?php echo $rw->id_pembayaran ?>" class="label label-success" target="_blank"><i class="fa fa-print"></i></a>
                                 </td>
                                 
                             </tr>

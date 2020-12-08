@@ -16,6 +16,7 @@
                 <option value="khs" <?php echo ($jenis_cetak == 'khs') ?'selected' : '' ?>>CETAK KHS</option>
                 <option value="kum" <?php echo ($jenis_cetak == 'kum') ?'selected' : '' ?>>CETAK KUM</option>
                 <option value="rhs" <?php echo ($jenis_cetak == 'rhs') ?'selected' : '' ?>>CETAK RHS</option>
+                <option value="slip_pembayaran" <?php echo ($jenis_cetak == 'slip_pembayaran') ?'selected' : '' ?>>CETAK SLIP PEMBAYARAN </option>
             </select>
         </div>
 	    <div class="form-group">

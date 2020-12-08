@@ -1,4 +1,41 @@
 <?php 
+function penyebut($nilai) {
+	$nilai = abs($nilai);
+	$huruf = array("", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas");
+	$temp = "";
+	if ($nilai < 12) {
+		$temp = " ". $huruf[$nilai];
+	} else if ($nilai <20) {
+		$temp = penyebut($nilai - 10). " belas";
+	} else if ($nilai < 100) {
+		$temp = penyebut($nilai/10)." puluh". penyebut($nilai % 10);
+	} else if ($nilai < 200) {
+		$temp = " seratus" . penyebut($nilai - 100);
+	} else if ($nilai < 1000) {
+		$temp = penyebut($nilai/100) . " ratus" . penyebut($nilai % 100);
+	} else if ($nilai < 2000) {
+		$temp = " seribu" . penyebut($nilai - 1000);
+	} else if ($nilai < 1000000) {
+		$temp = penyebut($nilai/1000) . " ribu" . penyebut($nilai % 1000);
+	} else if ($nilai < 1000000000) {
+		$temp = penyebut($nilai/1000000) . " juta" . penyebut($nilai % 1000000);
+	} else if ($nilai < 1000000000000) {
+		$temp = penyebut($nilai/1000000000) . " milyar" . penyebut(fmod($nilai,1000000000));
+	} else if ($nilai < 1000000000000000) {
+		$temp = penyebut($nilai/1000000000000) . " trilyun" . penyebut(fmod($nilai,1000000000000));
+	}     
+	return $temp;
+}
+
+function terbilang($nilai) {
+	if($nilai<0) {
+		$hasil = "minus ". trim(penyebut($nilai));
+	} else {
+		$hasil = trim(penyebut($nilai));
+	}     		
+	return $hasil;
+}
+
 function hitung_potogan($nim,$id_biaya,$biaya,$qty)
 {
 	$CI =& get_instance();
@@ -375,20 +412,18 @@ function cek_hari($date)
 	return $daftar_hari[$namahari];
 }
 
-function kode_urut()
+function no_urut_slip()
 {
 	error_reporting(0);
 	$CI =& get_instance();
-	$CI->db->like('create_at', date('Y-m-d'), 'AFTER');
-	$CI->db->order_by('no_antrian', 'desc');
-	$no_antrian = $CI->db->get('antrian')->row()->no_antrian;
-	$urutan = (int) substr($no_antrian, 3,3);
-	$urutan++;
+	$CI->db->like('tanggal_bayar', date('Y-m'), 'AFTER');
+	$total = $CI->db->get('pembayaran')->num_rows();
+	$total++;
 
-	$huruf = "ANT";
-	$kode = $huruf. sprintf("%03s", $urutan);
+	// $huruf = "ANT";
+	// $kode = $huruf. sprintf("%03s", $urutan);
 
-	return $kode;
+	return sprintf("%03s", $total);
 
 }
 

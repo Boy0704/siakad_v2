@@ -19,6 +19,11 @@ class Welcome extends CI_Controller {
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
 
+	public function cetak_kw()
+	{
+		$this->load->view('cetak/cetak_kwitansi');
+	}
+
 	public function cek_prodi_krs()
 	{
 		$this->db->group_by('nim');
@@ -186,7 +191,7 @@ class Welcome extends CI_Controller {
 		echo $result;
 	}
 
-	public function index()
+	public function index1()
 	{
 		// print_r(get_semester('17.02.0.0016','20172'));
 		// $this->load->view('v_index');
