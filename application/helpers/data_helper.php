@@ -633,15 +633,16 @@ function log_data($string = null, $var_dump = false)
 function encode($string='',$base='')
 { 
 	error_reporting(0);
-  $CI = &get_instance();
-  if ($base=='64') {
-    $cryptKey = $CI->config->item('encryption_key');
-    $id = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5( $cryptKey), $string, MCRYPT_MODE_CBC, md5(md5($cryptKey))));
-  }else {
-    $id = $CI->encrypt->encode($string);
-  }
-  $id = str_replace("/", "==11==", $id);
-  $id = str_replace("+", "==22==", $id);
+  // $CI = &get_instance();
+  // if ($base=='64') {
+  //   $cryptKey = $CI->config->item('encryption_key');
+  //   $id = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5( $cryptKey), $string, MCRYPT_MODE_CBC, md5(md5($cryptKey))));
+  // }else {
+  //   $id = $CI->encrypt->encode($string);
+  // }
+  // $id = str_replace("/", "==11==", $id);
+  // $id = str_replace("+", "==22==", $id);
+	$id = base64_encode($string);
   return $id;
 }
 
@@ -649,16 +650,17 @@ function encode($string='',$base='')
 function decode($string='',$base='')
 { 
 	// error_reporting(0);
-  $CI = &get_instance();
-  $id = str_replace("==11==", "/", $string);
-  $id = str_replace("==22==", "+", $id);
-  if ($base=='64') {
-    $string = $id;
-    $cryptKey = $CI->config->item('encryption_key');
-    $id = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($cryptKey), base64_decode($string), MCRYPT_MODE_CBC, md5(md5($cryptKey))), "\0");
-  }else {
-    $id = $CI->encrypt->decode($id);
-  }
+  // $CI = &get_instance();
+  // $id = str_replace("==11==", "/", $string);
+  // $id = str_replace("==22==", "+", $id);
+  // if ($base=='64') {
+  //   $string = $id;
+  //   $cryptKey = $CI->config->item('encryption_key');
+  //   $id = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($cryptKey), base64_decode($string), MCRYPT_MODE_CBC, md5(md5($cryptKey))), "\0");
+  // }else {
+  //   $id = $CI->encrypt->decode($id);
+  // }
+	$id = base64_decode($string);
   return $id;
 }
 // ==========================================
