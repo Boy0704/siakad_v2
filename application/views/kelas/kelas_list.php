@@ -55,8 +55,9 @@
             <thead class="bordered-darkorange">
                 <tr role="row">
                     <th>No</th>
+        <th>Kode Kelas</th>
         <th>Kelas</th>
-		<th>Jenis Kelas</th>
+		<!-- <th>Jenis Kelas</th> -->
 		<th>Kapasitas</th>
 		<th>Action</th>
                 </tr>
@@ -67,8 +68,9 @@
                 ?>
                 <tr>
 			<td width="80px"><?php echo ++$start ?></td>
+            <td><?php echo $kelas->kode_kelas ?></td>
             <td><?php echo $kelas->kelas ?></td>
-			<td><?php echo strtoupper($kelas->jenis_kelas) ?></td>
+			<!-- <td><?php echo strtoupper($kelas->jenis_kelas) ?></td> -->
 			<td><?php echo $kelas->kapasitas ?></td>
 			<td style="text-align:center" width="200px">
 				<?php 

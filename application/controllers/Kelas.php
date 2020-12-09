@@ -70,6 +70,7 @@ class Kelas extends CI_Controller
             'button' => 'Simpan',
             'action' => site_url('kelas/create_action'),
 	    'id_kelas' => set_value('id_kelas'),
+        'kode_kelas' => set_value('kode_kelas'),
         'kelas' => set_value('kelas'),
 	    'jenis_kelas' => set_value('jenis_kelas'),
 	    'kapasitas' => set_value('kapasitas'),
@@ -85,6 +86,7 @@ class Kelas extends CI_Controller
             $this->create();
         } else {
             $data = array(
+        'kode_kelas' => $this->input->post('kode_kelas',TRUE),
         'kelas' => $this->input->post('kelas',TRUE),
 		'jenis_kelas' => $this->input->post('jenis_kelas',TRUE),
 		'kapasitas' => $this->input->post('kapasitas',TRUE),
@@ -114,6 +116,7 @@ class Kelas extends CI_Controller
                 'button' => 'Ubah',
                 'action' => site_url('kelas/update_action'),
 		'id_kelas' => set_value('id_kelas', $row->id_kelas),
+        'kode_kelas' => set_value('kode_kelas', $row->kode_kelas),
         'kelas' => set_value('kelas', $row->kelas),
 		'jenis_kelas' => set_value('jenis_kelas', $row->jenis_kelas),
 		'kapasitas' => set_value('kapasitas', $row->kapasitas),
@@ -133,6 +136,7 @@ class Kelas extends CI_Controller
             $this->update($this->input->post('id_kelas', TRUE));
         } else {
             $data = array(
+        'kode_kelas' => $this->input->post('kode_kelas',TRUE),
         'kelas' => $this->input->post('kelas',TRUE),
 		'jenis_kelas' => $this->input->post('jenis_kelas',TRUE),
 		'kapasitas' => $this->input->post('kapasitas',TRUE),
@@ -174,6 +178,7 @@ class Kelas extends CI_Controller
 
     public function _rules() 
     {
+    $this->form_validation->set_rules('kode_kelas', 'kode kelas', 'trim|required');
 	$this->form_validation->set_rules('kelas', 'kelas', 'trim|required');
 	$this->form_validation->set_rules('kapasitas', 'kapasitas', 'trim|required');
 
