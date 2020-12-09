@@ -164,6 +164,20 @@ $uri2 = $this->uri->segment(2);
                         </div>
 
                         <div class="form-group">
+                            <label class="col-sm-2 control-label no-padding-right">Kelas Perkuliahan *</label>
+                            <div class="col-sm-10">
+                                <select name="id_kelas" id="id_kelas" style="width:100%;" required="">
+                                    <option value="">--Pilih Kelas --</option>
+                                    <?php 
+                                    foreach ($this->db->get('kelas')->result() as $rw): 
+                                        ?>
+                                        <option value="<?php echo $rw->id_kelas ?>"><?php echo $rw->kelas.' - '. $rw->jenis_kelas ?></option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-sm-2 control-label no-padding-right">Dosen PA *</label>
                             <div class="col-sm-10">
                                 <select name="dosen_pa" id="dosen_pa" style="width:100%;" required="">

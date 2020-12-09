@@ -51,7 +51,8 @@ class Kelas extends CI_Controller
         if ($row) {
             $data = array(
 		'id_kelas' => $row->id_kelas,
-		'kelas' => $row->kelas,
+        'kelas' => $row->kelas,
+		'jenis_kelas' => $row->jenis_kelas,
 		'kapasitas' => $row->kapasitas,
 	    );
             $this->load->view('kelas/kelas_read', $data);
@@ -69,7 +70,8 @@ class Kelas extends CI_Controller
             'button' => 'Simpan',
             'action' => site_url('kelas/create_action'),
 	    'id_kelas' => set_value('id_kelas'),
-	    'kelas' => set_value('kelas'),
+        'kelas' => set_value('kelas'),
+	    'jenis_kelas' => set_value('jenis_kelas'),
 	    'kapasitas' => set_value('kapasitas'),
 	);
         $this->load->view('v_index', $data);
@@ -83,7 +85,8 @@ class Kelas extends CI_Controller
             $this->create();
         } else {
             $data = array(
-		'kelas' => $this->input->post('kelas',TRUE),
+        'kelas' => $this->input->post('kelas',TRUE),
+		'jenis_kelas' => $this->input->post('jenis_kelas',TRUE),
 		'kapasitas' => $this->input->post('kapasitas',TRUE),
 	    );
 
@@ -111,7 +114,8 @@ class Kelas extends CI_Controller
                 'button' => 'Ubah',
                 'action' => site_url('kelas/update_action'),
 		'id_kelas' => set_value('id_kelas', $row->id_kelas),
-		'kelas' => set_value('kelas', $row->kelas),
+        'kelas' => set_value('kelas', $row->kelas),
+		'jenis_kelas' => set_value('jenis_kelas', $row->jenis_kelas),
 		'kapasitas' => set_value('kapasitas', $row->kapasitas),
 	    );
             $this->load->view('v_index', $data);
@@ -129,7 +133,8 @@ class Kelas extends CI_Controller
             $this->update($this->input->post('id_kelas', TRUE));
         } else {
             $data = array(
-		'kelas' => $this->input->post('kelas',TRUE),
+        'kelas' => $this->input->post('kelas',TRUE),
+		'jenis_kelas' => $this->input->post('jenis_kelas',TRUE),
 		'kapasitas' => $this->input->post('kapasitas',TRUE),
 	    );
 

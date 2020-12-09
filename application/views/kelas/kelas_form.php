@@ -12,6 +12,15 @@
             <label for="varchar">Kelas <?php echo form_error('kelas') ?></label>
             <input type="text" class="form-control" name="kelas" id="kelas" placeholder="Kelas" value="<?php echo $kelas; ?>" />
         </div>
+        <div class="form-group">
+            <label for="varchar">Jenis Kelas <?php echo form_error('jenis_kelas') ?></label>
+            <select name="jenis_kelas" class="form-control">
+                <option value="">--Pilih Jenis Kelas--</option>
+                <option value="pagi" <?php echo ($jenis_kelas == 'pagi') ?'selected' : '' ?>>Pagi</option>
+                <option value="sore" <?php echo ($jenis_kelas == 'sore') ?'selected' : '' ?>>Sore</option>
+                <option value="delik" <?php echo ($jenis_kelas == 'delik') ?'selected' : '' ?>>Delik</option>
+            </select>
+        </div>
 	    <div class="form-group">
             <label for="int">Kapasitas <?php echo form_error('kapasitas') ?></label>
             <input type="text" class="form-control" name="kapasitas" id="kapasitas" placeholder="Kapasitas" value="<?php echo $kapasitas; ?>" />
