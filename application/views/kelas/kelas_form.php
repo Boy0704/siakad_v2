@@ -19,6 +19,7 @@
                 <option value="pagi" <?php echo ($jenis_kelas == 'pagi') ?'selected' : '' ?>>Pagi</option>
                 <option value="sore" <?php echo ($jenis_kelas == 'sore') ?'selected' : '' ?>>Sore</option>
                 <option value="delik" <?php echo ($jenis_kelas == 'delik') ?'selected' : '' ?>>Delik</option>
+                <option value="pilihan" <?php echo ($jenis_kelas == 'pilihan') ?'selected' : '' ?>>Pilihan</option>
             </select>
         </div>
 	    <div class="form-group">
