@@ -83,6 +83,7 @@
 </div>
 
 <div id="modalLogMahasiswa" style="display:none;">
+    <div style="height: 400px; overflow-y: scroll;">
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -107,6 +108,7 @@
             <?php $no++; endforeach ?>
         </tbody>
     </table>
+    </div>
 </div>
 
 <script src="assets/js/bootbox/bootbox.js"></script>
