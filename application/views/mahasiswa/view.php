@@ -94,7 +94,7 @@ $id_tahun_angkatan = $this->input->get('id_tahun_angkatan');
 	                            <td>
 	                            	<a href="mahasiswa/update/<?php echo $rw->id_mahasiswa ?>?id_prodi=<?php echo $id_prodi ?>&id_tahun_angkatan=<?php echo $id_tahun_angkatan ?>" class="label label-info">Ubah</a>
 	                            	|
-	                            	<a onclick="javasciprt: return confirm('Are You Sure ?')" href="mahasiswa/delete/<?php echo $rw->id_mahasiswa ?>" class="label label-danger">Hapus</a>
+	                            	<a onclick="javasciprt: return confirm('Apakah kamu yakin akan hapus data mahasiswa ini, semua data yang berhubungan dengan mahasiswa ini akan di hapus ?')" href="mahasiswa/delete/<?php echo $rw->id_mahasiswa.'?'.param_get() ?>" class="label label-danger">Hapus</a>
 	                            </td>
 	                            
 	                            

@@ -122,7 +122,28 @@ class Mahasiswa extends CI_Controller {
 
 	public function delete($id)
 	{
-		# code...
+		$nim = get_data('mahasiswa','id_mahasiswa',$id,'nim');
+		$nama = get_data('mahasiswa','id_mahasiswa',$id,'nama');
+		$this->db->trans_begin();
+        $this->db->where('id_mahasiswa', $id);
+        $this->db->delete('mahasiswa');
+
+        $this->db->where('keterangan', $id);
+        $this->db->where('username', $nim);
+        $this->db->delete('users');
+
+        if ($this->db->trans_status() === FALSE)
+        {
+            $this->db->trans_rollback();
+            $this->session->set_flashdata('message', alert_notif('Data mahasiswa dengan nim '.$nim.' dan nama '.strtoupper($nama).' gagal dihapus ','warning'));
+            redirect('mahasiswa?'.param_get(),'refresh');
+        }
+        else
+        {
+            $this->db->trans_commit();
+            $this->session->set_flashdata('message', alert_notif('Data mahasiswa dengan nim '.$nim.' dan nama '.strtoupper($nama).' berhasil dihapus ','danger'));
+            redirect('mahasiswa?'.param_get(),'refresh');
+        }
 	}
 
 
