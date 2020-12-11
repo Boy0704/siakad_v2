@@ -3,6 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Import extends CI_Controller {
 
+	public function __construct()
+	{
+		parent::__construct();
+		if ($this->session->userdata('level') != '1') {
+			redirect('login','refresh');
+		}
+	}
+
 	public function tes()
 	{
 		$arr['a'] = ' 05345';
@@ -12,6 +20,50 @@ class Import extends CI_Controller {
 		echo ":$a <br>";
 		echo str_replace(' ', '', $a);
 	}
+
+	public function import_kelas()
+	{
+		if ($_FILES) {
+			$return = array();
+	        $this->load->library('upload'); // Load librari upload
+
+	        $config['upload_path'] = './files/excel/';
+	        $config['allowed_types'] = 'xlsx';
+	        $config['max_size'] = '2048';
+	        $config['overwrite'] = true;
+	        $config['file_name'] = 'import_kelas_mhs';
+
+	        $this->upload->initialize($config); // Load konfigurasi uploadnya
+	        if($this->upload->do_upload('file_excel')){ // Lakukan upload dan Cek jika proses upload berhasil
+	            // Jika berhasil :
+	            $return = array('result' => 'success', 'file' => $this->upload->data(), 'error' => '');
+	        }else{
+	            // Jika gagal :
+	            $return = array('result' => 'failed', 'file' => '', 'error' => $this->upload->display_errors());
+
+	            $this->session->set_flashdata('notif',alert_biasa($return['error'],'error'));
+	            redirect('import/import_kelas','refresh');
+	        }
+
+			// log_r($filename);
+
+			include APPPATH.'third_party/PHPExcel/PHPExcel.php';
+
+			$filename = "import_kelas_mhs.xlsx";
+						
+			$excelreader = new PHPExcel_Reader_Excel2007();
+			$loadexcel = $excelreader->load('files/excel/'.$filename.''); // Load file yang tadi diupload ke folder excel
+			$sheet = $loadexcel->getActiveSheet()->toArray(null, true, true ,true);
+			//skip untuk header
+			unset($sheet[1]);
+			unset($sheet[2]);
+			$data['sheet'] = $sheet;
+			$this->load->view('tes/import_kelas_mhs', $data);
+		} else {
+			$this->load->view('tes/import_kelas_mhs');
+		}
+	}
+	
 	public function import_mk_kurikulum()
 	{
 		$id_prodi = $this->input->get('id_prodi');

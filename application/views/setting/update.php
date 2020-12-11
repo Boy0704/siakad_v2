@@ -34,6 +34,35 @@ $sett = $data->row();
 
 <div class="row">
     <div class="col-lg-12 col-sm-12 col-xs-12">
+        <div class="well bordered-top bordered-green">
+            <h5 class="label label-info">SET METODE PERKULIAHAN</h5>
+            <p>
+                Fitur ini diperuntukan untuk mengatur Metode Perkuliahan yang berlaku :
+                <li>
+                    <b>Reguler</b> yaitu metode perkuliahan yang berlaku untuk mahasiswa bebas menentukan jadwal perkuliahan yang diinginkan.
+                </li>
+                <li>
+                    <b>Paket</b> yaitu metode perkuliahan dimana matakuliah yg bisa diambil mahasiswa hanya berdasarkan yang telah ditentukan.
+                </li>
+            </p>
+            <hr class="wide">
+            <form class="form-inline" action="app/ganti_metode_perkulihan" method="POST">
+                <select name="jenis" class="form-control">
+                    <?php foreach ($this->db->get('jenis_perkuliahan')->result() as $rw): 
+                        $selected = (jenis_perkuliahan() == $rw->jenis_perkuliahan) ?'selected' :'';
+                    ?>
+                        <option value="<?php echo $rw->id_jenis_perkuliahan ?>" <?php echo $selected ?>><?php echo strtoupper($rw->jenis_perkuliahan) ?></option>
+                    <?php endforeach ?>
+                </select>
+                <button onclick="javasciprt: return confirm('Apakah kamu yakin akan merubah metode perkuliahan, jika iya maka sistem pengambilan KRS akan mengikuti ?')" type="submit" class="btn btn-primary">PILIH</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 col-sm-12 col-xs-12">
         <div class="well bordered-top bordered-darkorange">
             <h5 class="label label-warning">Hapus Semua Data di Tabel SIAKAD</h5>
             <p>

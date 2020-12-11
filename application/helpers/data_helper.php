@@ -299,6 +299,15 @@ function jenis_semester_aktif()
 	}
 }
 
+function jenis_perkuliahan()
+{
+	$CI =& get_instance();
+	$CI->db->select('jenis_perkuliahan');
+	$CI->db->where('aktif', 'y');
+	$data = $CI->db->get('jenis_perkuliahan')->row_array();
+	return $data['jenis_perkuliahan'];
+}
+
 function tahun_akademik_aktif($select)
 {
 	$CI =& get_instance();

@@ -51,6 +51,32 @@ class App extends CI_Controller {
 		}
 	}
 
+	public function ganti_metode_perkulihan()
+	{
+		if ($_POST) {
+			$id_jenis_perkuliahan = $this->input->post('jenis');
+			$this->db->trans_begin();
+
+			$this->db->query("UPDATE jenis_perkuliahan SET aktif='t'");
+			$this->db->where('id_jenis_perkuliahan', $id_jenis_perkuliahan);
+			$this->db->update('jenis_perkuliahan', array('aktif'=>'y'));
+
+			if ($this->db->trans_status() === FALSE)
+			{
+			        $this->db->trans_rollback();
+			        $this->session->set_flashdata('notif', alert_biasa('ada kesalahan server','error'));
+					redirect('app/setting','refresh');
+			}
+			else
+			{
+			        $this->db->trans_commit();
+			        $this->session->set_flashdata('notif', alert_biasa('Metode Perkuliahan berhasil diubah','success'));
+					redirect('app/setting','refresh');
+			}
+
+		}
+	}
+
 	public function get_master_menu()
 	{
 		$id_menu = $this->input->post('id_menu');
