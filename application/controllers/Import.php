@@ -63,6 +63,46 @@ class Import extends CI_Controller {
 			$this->load->view('tes/import_kelas_mhs');
 		}
 	}
+
+	public function aksi_import_kelas_mhs()
+	{
+		include APPPATH.'third_party/PHPExcel/PHPExcel.php';
+
+		$filename = "import_kelas_mhs.xlsx";
+					
+		$excelreader = new PHPExcel_Reader_Excel2007();
+		$loadexcel = $excelreader->load('files/excel/'.$filename.''); // Load file yang tadi diupload ke folder excel
+		$sheet = $loadexcel->getActiveSheet()->toArray(null, true, true ,true);
+		//skip untuk header
+		unset($sheet[1]);
+
+		$this->db->trans_begin();
+
+		foreach ($sheet as $rw) {
+			$cek_nim = get_data('mahasiswa','nim',$rw['A'],'nim');
+			$id_kelas = get_data('kelas','kelas',$rw['B'],'id_kelas');
+			if ($cek_nim != '') {
+				$this->db->where('nim', $rw['A']);
+				$this->db->update('mahasiswa', array('id_kelas'=>$id_kelas));
+			} else {
+
+			}
+			
+		}
+
+		if ($this->db->trans_status() === FALSE)
+		{
+	        $this->db->trans_rollback();
+	        $this->session->set_flashdata('notif', alert_biasa('gagal server,silahkan ulangi','error'));
+			redirect('import/import_kelas','refresh');
+		}
+		else
+		{
+	        $this->db->trans_commit();
+	        $this->session->set_flashdata('notif', alert_biasa('data kelas mahasiswa berhasil diimport','success'));
+			redirect('import/import_kelas','refresh');
+		}
+	}
 	
 	public function import_mk_kurikulum()
 	{
