@@ -39,6 +39,13 @@ class Registrasi extends CI_Controller {
 			$this->db->insert('registrasi', $data);
 			$this->db->where('id_mahasiswa', $id_mahasiswa);
 			$this->db->update('mahasiswa', array('semester_aktif'=>$semester));
+			$this->db->insert('akm_mahasiswa', array(
+				'id_mahasiswa' => $id_mahasiswa,
+				'nim'=> $nim,
+				'nama' => get_data('mahasiswa','id_mahasiswa',$id_mahasiswa,'nama'),
+				'kode_semester'=>$kode_semester,
+				'id_stat_mhs'=>'A'
+			));
 			if ($this->db->trans_status() === FALSE)
 			{
 		        $this->db->trans_rollback();
@@ -71,12 +78,16 @@ class Registrasi extends CI_Controller {
 			$this->db->trans_begin();
 			$nim = get_data('mahasiswa','id_mahasiswa',$id_mahasiswa,'nim');
 			$semester_aktif = get_data('mahasiswa','id_mahasiswa',$id_mahasiswa,'semester_aktif');
+			$kode_semester = tahun_akademik_aktif('kode_tahun');
 			$this->db->where('nim', $nim);
 			$this->db->where('id_tahun_akademik', $id_tahun_akademik);
 			$this->db->delete('registrasi');
 
 			$this->db->where('id_mahasiswa', $id_mahasiswa);
 			$this->db->update('mahasiswa', array('semester_aktif'=>$semester_aktif-1));
+			$this->db->where('id_mahasiswa', $id_mahasiswa);
+			$this->db->where('kode_semester', $kode_semester);
+			$this->db->delete('akm_mahasiswa');
 			if ($this->db->trans_status() === FALSE)
 			{
 		        $this->db->trans_rollback();

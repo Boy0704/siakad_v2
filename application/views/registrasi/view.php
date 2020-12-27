@@ -77,7 +77,7 @@
                         $this->db->where('id_prodi', $id_prodi);
                         $this->db->where('id_tahun_angkatan', $id_tahun_angkatan);
                         foreach ($this->db->get('mahasiswa')->result() as $rw):
-                            $semester = $rw->semester_aktif+1;
+                            $semester = get_semester($rw->nim)
                          ?>
                 
                             <tr>

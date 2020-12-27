@@ -13,12 +13,52 @@ class Import extends CI_Controller {
 
 	public function tes()
 	{
-		$arr['a'] = ' 05345';
-		$a = str_replace(' ', '', $arr['a']);
-		// $a = trim($ja);
+		$kode_tahun= tahun_akademik_aktif('kode_tahun');
+        $id_tahun_akademik= tahun_akademik_aktif('id_tahun_akademik');
 
-		echo ":$a <br>";
-		echo str_replace(' ', '', $a);
+		$this->db->select('a.nim,a.id_kelas');
+        $this->db->from('mahasiswa a');
+        $this->db->join('registrasi b', 'a.nim = b.nim', 'inner');
+        $this->db->where('b.id_tahun_akademik', $id_tahun_akademik);
+        $this->db->where('b.kode_semester', $kode_tahun);
+        $getdatamhs = $this->db->get();
+        foreach ($getdatamhs->result() as $mhs) {
+        	$semester = get_semester($mhs->nim);
+        	$this->db->trans_begin();
+        	$this->db->where('nim', $mhs->nim);
+        	$this->db->where('id_tahun_akademik', $id_tahun_akademik);
+        	$this->db->where('kode_semester', $kode_tahun);
+        	$this->db->update('registrasi', array('semester'=>$semester));
+        	$this->db->where('nim', $mhs->nim);
+        	$this->db->update('mahasiswa', array('semester_aktif'=>$semester));
+        	if ($this->db->trans_status() === FALSE)
+			{
+		        $this->db->trans_rollback();
+		        log_data("gagal $mhs->nim");
+			}
+			else
+			{
+		        $this->db->trans_commit();
+		        log_data("berhasil $mhs->nim");
+			}
+        }
+	}
+
+	public function update_mulai_semester()
+	{
+		log_r("no aktif fitur !!!");
+		$no = 1;
+		foreach ($this->db->get('mahasiswa')->result() as $rw) {
+			$ang = substr($rw->nim, 0,2);
+			$this->db->where('kode_tahun', '20'.$ang.'1');
+			$kode_tahun = $this->db->get('tahun_akademik')->row()->kode_tahun;
+			
+			$this->db->where('nim', $rw->nim);
+			$this->db->update('mahasiswa', array('mulai_semester'=>$kode_tahun));
+			$berhasil = $no.') '.$rw->nim.' - '.$kode_tahun;
+			log_data($berhasil);
+			$no++;
+		}
 	}
 
 	public function import_kelas()

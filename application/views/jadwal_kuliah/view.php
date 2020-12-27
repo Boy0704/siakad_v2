@@ -66,6 +66,10 @@
                 <a href="jadwal_kuliah/create?id_prodi=<?php echo $id_prodi ?>&semester=<?php echo $semester ?>&id_kurikulum=<?php echo $id_kurikulum ?>" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Jadwal</a>
 
                 <a onclick="javasciprt: return confirm('Yakin akan ambil jadwal kuliah dari kurikulum ?')" href="app/set_jadwal_from_kr?id_prodi=<?php echo $id_prodi ?>" class="btn btn-info"><i class="fa fa-sync"></i> Ambil dari Kurikulum berlaku</a>
+
+                <?php if (jenis_perkuliahan() == 'paket'): ?>
+                <a onclick="javasciprt: return confirm('Yakin telah selesai membuat jadwal dan ingin mengeset Paket KRS ini ke mahasiswa prodi ini ?')" href="jadwal_kuliah/isi_krs_paket?id_prodi=<?php echo $id_prodi ?>" class="btn btn-success"><i class="fa fa-sync"></i> Set KRS Mahasiswa</a>
+            	<?php endif ?>
                 
                 
                 <br><br>

@@ -85,6 +85,19 @@ class Kelas extends CI_Controller
         if ($this->form_validation->run() == FALSE) {
             $this->create();
         } else {
+            $this->db->where('kode_kelas', $this->input->post('kode_kelas'));
+            $cek_kdkelas = $this->db->get('kelas');
+            if ($cek_kdkelas->num_rows() > 0) {
+                $this->session->set_flashdata('message', alert_notif("Kode kelas tidak boleh sama",'warning'));
+                redirect('kelas','refresh')
+            }
+            $this->db->where('kelas', $this->input->post('kelas'));
+            $cek_nmkelas = $this->db->get('kelas');
+            if ($cek_nmkelas->num_rows() > 0) {
+                $this->session->set_flashdata('message', alert_notif("Nama kelas tidak boleh sama",'warning'));
+                redirect('kelas','refresh')
+            }
+
             $data = array(
         'kode_kelas' => $this->input->post('kode_kelas',TRUE),
         'kelas' => $this->input->post('kelas',TRUE),
@@ -135,6 +148,18 @@ class Kelas extends CI_Controller
         if ($this->form_validation->run() == FALSE) {
             $this->update($this->input->post('id_kelas', TRUE));
         } else {
+
+            if ($cek_kdkelas->num_rows() > 0) {
+                $this->session->set_flashdata('message', alert_notif("Kode kelas tidak boleh sama",'warning'));
+                redirect('kelas','refresh')
+            }
+            $this->db->where('kelas', $this->input->post('kelas'));
+            $cek_nmkelas = $this->db->get('kelas');
+            if ($cek_nmkelas->num_rows() > 0) {
+                $this->session->set_flashdata('message', alert_notif("Nama kelas tidak boleh sama",'warning'));
+                redirect('kelas','refresh')
+            }
+
             $data = array(
         'kode_kelas' => $this->input->post('kode_kelas',TRUE),
         'kelas' => $this->input->post('kelas',TRUE),

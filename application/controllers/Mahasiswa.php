@@ -120,6 +120,35 @@ class Mahasiswa extends CI_Controller {
 		}
 	}
 
+	public function update_akm($id_mhs,$kode_tahun)
+	{
+		if ($_POST) {
+			$stat_mhs = $this->input->post('stat_mhs');
+			$this->db->where('id_mahasiswa', $id_mhs);
+			$this->db->where('kode_semester', $kode_tahun);
+			$cek = $this->db->get('akm_mahasiswa');
+			if ($cek->num_rows() > 0) {
+				$this->db->where('id_mahasiswa', $id_mhs);
+				$this->db->where('kode_semester', $kode_tahun);
+				$aksi = $this->db->update('akm_mahasiswa', array('id_stat_mhs'=>$stat_mhs));
+			} else {
+				$aksi = $this->db->insert('akm_mahasiswa', array(
+					'id_mahasiswa'=>$id_mhs,
+					'nim'=>get_data('mahasiswa','id_mahasiswa',$id_mhs,'nim'),
+					'nama'=>get_data('mahasiswa','id_mahasiswa',$id_mhs,'nama'),
+					'kode_semester'=>$kode_tahun,
+					'id_stat_mhs'=>$stat_mhs
+				));
+			}
+			if ($aksi) {
+				echo json_encode(array('status_code'=>1));
+			} else {
+				echo json_encode(array('status_code'=>0));
+			}
+
+		}
+	}
+
 	public function delete($id)
 	{
 		$nim = get_data('mahasiswa','id_mahasiswa',$id,'nim');

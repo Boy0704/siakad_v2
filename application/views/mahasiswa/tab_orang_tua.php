@@ -1,5 +1,5 @@
 <?php 
-$data_mhs = $this->db->get('mahasiswa', array('nim'=>$nim))->row();
+$data_mhs = $this->db->get_where('mahasiswa', array('nim'=>$nim))->row();
  ?>
 
 <div class="row">

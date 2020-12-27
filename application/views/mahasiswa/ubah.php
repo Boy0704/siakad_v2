@@ -135,7 +135,7 @@ $data['nim'] = $mhs->nim;
                                     <?php 
                                     $this->db->order_by('kode_tahun', 'desc');
                                     foreach ($this->db->get('tahun_akademik')->result() as $rw): 
-                                        $checked = ($data_mhs->mulai_semester == $rw->kode_tahun) ? 'selected' : '' ;
+                                        $checked = ($mhs->mulai_semester == $rw->kode_tahun) ? 'selected' : '' ;
                                         ?>
                                         <option value="<?php echo $rw->kode_tahun ?>" <?php echo $checked ?>><?php echo $rw->kode_tahun ?></option>
                                     <?php endforeach ?>
@@ -208,6 +208,13 @@ $data['nim'] = $mhs->nim;
                                             Wali
                                         </a>
                                     </li>
+                                    <?php if ($this->session->userdata('level') != '5'): ?>
+                                        <li>
+                                            <a data-toggle="tab" href="#akm">
+                                                Akm Mahasiswa
+                                            </a>
+                                        </li>
+                                    <?php endif ?>
                                 </ul>
                                 <div class="tab-content tabs-flat">
                                     <div id="alamat" class="tab-pane in active">
@@ -220,6 +227,10 @@ $data['nim'] = $mhs->nim;
 
                                     <div id="wali" class="tab-pane">
                                         <?php $this->load->view('mahasiswa/tab_wali', $data); ?>
+                                    </div>
+
+                                    <div id="akm" class="tab-pane">
+                                        <?php $this->load->view('mahasiswa/tab_akm', $data); ?>
                                     </div>
                                 </div>
                             </div>

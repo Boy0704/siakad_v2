@@ -23,6 +23,74 @@ class Jadwal_kuliah extends CI_Controller
         $this->load->view('v_index',$data);
     }
 
+    public function isi_krs_paket()
+    {
+        $kode_tahun= tahun_akademik_aktif('kode_tahun');
+        $id_tahun_akademik= tahun_akademik_aktif('id_tahun_akademik');
+        $id_prodi = $this->input->get('id_prodi');
+        $this->db->where('mulai_berlaku', $kode_tahun);
+        $this->db->where('id_prodi', $id_prodi);
+        $cek_id_kurikulum = $this->db->get('kurikulum');
+        $id_kurikulum = ($cek_id_kurikulum->num_rows() > 0) ? $cek_id_kurikulum->row()->id_kurikulum : 0;
+
+        if ($kode_tahun != '' and $id_tahun_akademik != '' and $id_prodi !='' and $id_kurikulum !='') {
+            $this->db->select('a.nim,a.id_kelas,a.semester_aktif');
+            $this->db->from('mahasiswa a');
+            $this->db->join('registrasi b', 'a.nim = b.nim', 'inner');
+            $this->db->where('b.id_tahun_akademik', $id_tahun_akademik);
+            $this->db->where('b.kode_semester', $kode_tahun);
+            $this->db->where('a.id_prodi', $id_prodi);
+            $getdatamhs = $this->db->get();
+
+            foreach ($getdatamhs->result() as $mhs) {
+                $nama_kelas = get_data('kelas','id_kelas',$mhs->id_kelas,'kelas');
+                $this->db->where('kelas', $nama_kelas);
+                $this->db->where('id_tahun_akademik', $id_tahun_akademik);
+                $this->db->where('id_prodi', $id_prodi);
+                $this->db->where('semester', $mhs->semester_aktif);
+                $getJadwalMk = $this->db->get('jadwal_kuliah');
+
+                foreach ($getJadwalMk->result() as $rw) {
+                    $this->db->where('id_mk', $rw->id_mk);
+                    $this->db->where('id_tahun_akademik', $rw->id_tahun_akademik);
+                    $this->db->where('nim', $mhs->nim);
+                    $cekkrs = $this->db->get('krs');
+                    if ($cekkrs->num_rows() > 0) {
+                        #abaikan
+                    } else {
+                        $data_krs = array(
+                            'nim' => $mhs->nim,
+                            'id_jadwal' => $rw->id_jadwal,
+                            'id_mk' => $rw->id_mk,
+                            'kode_mk' => get_data('matakuliah','id_mk',$rw->id_mk,'kode_mk'),
+                            'nama_mk' => get_data('matakuliah','id_mk',$rw->id_mk,'nama_mk'),
+                            'id_tahun_akademik' => $rw->id_tahun_akademik,
+                            'kode_semester' => $kode_tahun,
+                            'semester' => $rw->semester,
+                            'id_dosen'=> $rw->id_dosen,
+                            'nama_dosen'=> get_data('dosen','id_dosen',$rw->id_dosen,'nama'),
+                            'id_prodi'=> $rw->id_prodi,
+                            'kelas'=> $rw->kelas,
+                            'sks'=> get_data('matakuliah','id_mk',$rw->id_mk,'sks_total'),
+                            'konfirmasi_pa'=> 't',
+                            'konfirmasi_nilai'=> 't',
+                        );
+                        // log_data($data_krs);
+                        $this->db->insert('krs', $data_krs);
+                    }
+                }
+            }
+
+            $this->session->set_flashdata('message', alert_notif("Paket KRS ".get_data('prodi','id_prodi',$id_prodi,'prodi')." sudah berhasil dibuat !",'success'));
+            redirect('jadwal_kuliah?id_prodi='.$id_prodi,'refresh');
+
+
+        } else {
+            $this->session->set_flashdata('message', alert_notif("ada kesalahan !",'warning'));
+            redirect('jadwal_kuliah?id_prodi='.$id_prodi,'refresh');
+        }
+    }
+
     public function index()
     {
         $this->rbac->check_operation_access();

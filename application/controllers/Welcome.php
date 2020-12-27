@@ -193,7 +193,7 @@ class Welcome extends CI_Controller {
 
 	public function index1()
 	{
-		// print_r(get_semester('17.02.0.0016','20172'));
+		log_r(get_semester('1902126','20201'));
 		// $this->load->view('v_index');
 		log_r(number_format(ipk('17.02.0.0016','20171'),2));
 

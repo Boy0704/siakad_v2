@@ -178,8 +178,13 @@ function ips($nim,$kode_semester)
 		$total_s_in = $total_s_in + $jml;
 		$sks_total = $sks_total + $rw->sks;
 	}
-	$ips = $total_s_in/$sks_total;
-	return $ips;
+	if ($total_s_in == 0) {
+		return 0;
+	} else {
+		$ips = $total_s_in/$sks_total;
+		return $ips;
+	}
+	
 }
 
 function sks_semester($nim,$kode_semester)
@@ -196,18 +201,18 @@ function sks_semester($nim,$kode_semester)
 	return $sks_total;
 }
 
-function get_semester($nim,$kode_semester)
+function get_semester($nim,$kode_semester=null)
 {
 	$CI =& get_instance();
-	$CI->db->where('nim', $nim);
-	$CI->db->group_by('kode_semester');
-	$CI->db->order_by('kode_semester', 'asc');
-	$data = $CI->db->get('krs');
+	$tahun_akademik_aktif = tahun_akademik_aktif('kode_tahun');
+	$kode_semester = ($kode_semester == '') ? $tahun_akademik_aktif : $kode_semester;
+	$mulai_semester = get_data('mahasiswa','nim',$nim,'mulai_semester');
+	$data = $CI->db->query("SELECT kode_tahun FROM tahun_akademik WHERE kode_tahun BETWEEN '$mulai_semester' AND '$tahun_akademik_aktif' ORDER BY kode_tahun ASC");
 	$arr= [];
 	$no = 1;
 
 	foreach ($data->result() as $key => $value) {
-		array_push($arr, $value->kode_semester);
+		array_push($arr, $value->kode_tahun);
 		$no++;
 	}
 
