@@ -310,22 +310,30 @@ class App extends CI_Controller {
 	{
 		$this->db->trans_begin();
 
-		$this->db->truncate('registrasi');
+		$this->db->truncate('absen');
+		$this->db->truncate('absen_dosen');
+		$this->db->truncate('absen_mahasiswa');
+		$this->db->truncate('akm_mahasiswa');
 		$this->db->truncate('dosen');
+		$this->db->truncate('feeder_log_error');
+		$this->db->truncate('feeder_log_error_mahasiswa');
+		$this->db->truncate('feeder_mahasiswa');
+		$this->db->truncate('feeder_mk');
+		$this->db->truncate('feeder_sms');
+		$this->db->truncate('jabatan');
 		$this->db->truncate('jadwal_kuliah');
+		$this->db->truncate('jadwal_mengulang');
 		$this->db->truncate('kelas');
-		$this->db->truncate('khs');
+		$this->db->truncate('krs');
 		$this->db->truncate('kurikulum');
 		$this->db->truncate('mahasiswa');
-		$this->db->truncate('matakuliah');
 		$this->db->truncate('master_matakuliah');
+		$this->db->truncate('matakuliah');
 		$this->db->truncate('prodi');
-		$this->db->truncate('ruang');
-		$this->db->truncate('skala_nilai');
-		$this->db->truncate('absen');
-		$this->db->truncate('absen_detail');
-		$this->db->truncate('tahun_akademik');
-		$this->db->truncate('tahun_angkatan');
+		$this->db->truncate('registrasi');
+		$this->db->truncate('temp_krs_pa');
+		$this->db->where('level!=', '1'); //hapus semua akun kecuali superadmin
+		$this->db->delete('users');
 
 		if ($this->db->trans_status() === FALSE)
 		{
