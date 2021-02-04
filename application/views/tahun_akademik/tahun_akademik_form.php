@@ -43,7 +43,7 @@
                 </span>
             </div>
         </div>
-	    <div class="form-group">
+	    <!-- <div class="form-group">
             <label for="enum">Aktif <?php echo form_error('aktif') ?></label>
             <div class="radio">
                 <label>
@@ -55,7 +55,7 @@
                     <span class="text">Tidak</span>
                 </label>
             </div>
-        </div>
+        </div> -->
 	    <input type="hidden" name="id_tahun_akademik" value="<?php echo $id_tahun_akademik; ?>" /> 
 	    <button type="submit" class="btn btn-primary"><?php echo $button ?></button> 
 	    <a href="<?php echo site_url('tahun_akademik') ?>" class="btn btn-default">Cancel</a>

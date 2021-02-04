@@ -96,7 +96,7 @@ class Tahun_akademik extends CI_Controller
         'mulai_aktif' => $this->input->post('mulai_aktif',TRUE),
 		'batas_registrasi' => $this->input->post('batas_registrasi',TRUE),
 		'batas_krs' => $this->input->post('batas_krs',TRUE),
-		'aktif' => $this->input->post('aktif',TRUE),
+		// 'aktif' => $this->input->post('aktif',TRUE),
 	    );
 
             $this->Tahun_akademik_model->insert($data);
@@ -128,7 +128,7 @@ class Tahun_akademik extends CI_Controller
         'mulai_aktif' => set_value('mulai_aktif', $row->mulai_aktif),
 		'batas_registrasi' => set_value('batas_registrasi', $row->batas_registrasi),
 		'batas_krs' => set_value('batas_krs', $row->batas_krs),
-		'aktif' => set_value('aktif', $row->aktif),
+		// 'aktif' => set_value('aktif', $row->aktif),
 	    );
             $this->load->view('v_index', $data);
         } else {
@@ -150,7 +150,6 @@ class Tahun_akademik extends CI_Controller
         'mulai_aktif' => $this->input->post('mulai_aktif',TRUE),
 		'batas_registrasi' => $this->input->post('batas_registrasi',TRUE),
 		'batas_krs' => $this->input->post('batas_krs',TRUE),
-		'aktif' => $this->input->post('aktif',TRUE),
 	    );
 
             $this->Tahun_akademik_model->update($this->input->post('id_tahun_akademik', TRUE), $data);
@@ -194,7 +193,7 @@ class Tahun_akademik extends CI_Controller
     $this->form_validation->set_rules('mulai_aktif', 'Mulai Aktif', 'trim|required');
 	$this->form_validation->set_rules('batas_registrasi', 'batas registrasi', 'trim|required');
 	$this->form_validation->set_rules('batas_krs', 'batas krs', 'trim|required');
-	$this->form_validation->set_rules('aktif', 'aktif', 'trim|required');
+	// $this->form_validation->set_rules('aktif', 'aktif', 'trim|required');
 
 	$this->form_validation->set_rules('id_tahun_akademik', 'id_tahun_akademik', 'trim');
 	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
