@@ -88,6 +88,53 @@ class Krs extends CI_Controller {
 
 	}
 
+	public function simpan_nilai_admin($id_krs)
+	{
+		$n_angka = $this->input->post('n_angka');
+
+		$id_prodi = get_data('krs','id_krs',$id_krs,'id_prodi');
+
+		if ($n_angka > 0) {
+			// jika id_prodi kosong, berlaku untuk semua
+			$skala  = $this->db->get('skala_nilai');
+			$nilai_huruf = '';
+			$nilai_indeks = '';
+			if ($skala->num_rows() > 0) {
+				foreach ($skala->result() as $rw) {
+					if ($rw->min <= $n_angka && $rw->max >= $n_angka) {
+						$nilai_huruf = $rw->nilai_huruf;
+						$nilai_indeks = $rw->nilai_indeks;
+					}
+				}
+			} else {
+				$nilai_huruf = '';
+				$nilai_indeks = '';
+			}
+			
+			$this->db->where('id_krs', $id_krs);
+			$update = $this->db->update('krs', array(
+				'angka' => $n_angka,
+				'huruf' => $nilai_huruf,
+				'indeks' => $nilai_indeks,
+			));
+
+			if ($update) {
+				echo json_encode(array(
+					'kode' => 1, 
+					'pesan' => 'nilai berhasil diupdate',
+					'huruf' => $nilai_huruf,
+					'indeks' => $nilai_indeks
+				));
+			} else {
+				echo json_encode(array('kode' => 0, 'pesan' => 'nilai gagal diupdate'));
+			}
+
+		}
+
+		
+
+	}
+
 	
 	public function krs_mahasiswa()
 	{

@@ -98,6 +98,35 @@
 <?php endif ?>
 <script src="assets/js/select2/select2.js"></script>
 <script type="text/javascript">
+
+    function simpan_nilai(id_krs) {
+        var n_angka = $("#n_angka_"+id_krs).val();
+        $.ajax({url: "krs/simpan_nilai_admin/"+id_krs, 
+            type: 'POST',
+            dataType: 'json',
+            data: {n_angka: n_angka},
+            beforeSend: function(){
+                $(".loading-container").show();
+                $(".loader").show();
+            },
+            success: function(result){
+                if (result.kode == 1) {
+                    $("#huruf_"+id_krs).text(result.huruf);
+                    $("#indeks_"+id_krs).text(result.indeks);
+                    alert(result.pesan);
+                } else {
+                    alert(result.pesan);
+                }
+              console.log("success");
+            },
+            complete:function(data){
+                $(".loading-container").hide();
+                $(".loader").hide();
+            }
+        });
+        
+    }
+
     $(document).ready(function() {
         $("#nim").select2();
 
@@ -119,6 +148,8 @@
             });
             
         });
+
+
 
     });
 </script>

@@ -74,9 +74,16 @@ $data_mhs = $this->db->get_where('mahasiswa',array('nim'=>$nim))->row();
             			echo $sks;
             			$sks_total = $sks_total + $sks;
             		 ?></td>
-            		<td><?php echo $br->angka ?></td>
-            		<td><?php echo $br->huruf ?></td>
-            		<td><?php echo $br->indeks ?></td>
+            		<td>
+                        <div class="input-group">
+                            <input class="form-control" id="n_angka_<?php echo $br->id_krs ?>" type="text" name="nilai_angka" value="<?php echo $br->angka ?>" autocomplete="off">
+                            <span class="input-group-addon" onclick="simpan_nilai('<?php echo $br->id_krs ?>')">
+                                <i class="fa fa-save"></i>
+                            </span>
+                        </div>
+                    </td>
+            		<td id="huruf_<?php echo $br->id_krs ?>"><?php echo $br->huruf ?></td>
+            		<td id="indeks_<?php echo $br->id_krs ?>"><?php echo $br->indeks ?></td>
             		<td style="text-align: right;"><?php 
             		$jml = $br->sks*$br->indeks; 
             		echo $jml;
