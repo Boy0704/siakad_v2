@@ -57,7 +57,35 @@ class Login extends CI_Controller {
 
 	public function auth_pass()
 	{
-		# code...
+		$username = $this->input->get('username');
+		$this->db->where('username', $username);
+		$cek = $this->db->get('users');
+		if ($cek->num_rows() == 0) {
+			$this->session->set_flashdata('message', alert_biasa('Gagal Login!\n username tidak ditemukan','warning'));
+			redirect('login','refresh');
+		} else {
+			$users = $cek->row();
+			// jika berhasil login
+			$sess_data['id_user'] = $users->id_user;
+			$sess_data['nama'] = $users->nama;
+			$sess_data['username'] = $users->username;
+			$sess_data['foto'] = $users->foto;
+			$sess_data['level'] = $users->level;
+			$sess_data['keterangan'] = $users->keterangan;
+			$this->session->set_userdata($sess_data);
+			$this->rbac->set_access_in_session();
+
+			// update last login
+			$this->db->where('id_user', $users->id_user);
+			$up_last = $this->db->update('users', array('last_login'=>get_waktu()));
+
+			if ($up_last) {
+				redirect('app','refresh');
+			} else {
+				$this->session->set_flashdata('message', alert_biasa('Gagal Login!\n ada kesalahan server','warning'));
+				redirect('login','refresh');
+			}
+		}
 	}
 
 	function logout()
