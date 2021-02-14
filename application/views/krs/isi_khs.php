@@ -75,12 +75,16 @@ $data_mhs = $this->db->get_where('mahasiswa',array('nim'=>$nim))->row();
             			$sks_total = $sks_total + $sks;
             		 ?></td>
             		<td>
-                        <div class="input-group">
-                            <input class="form-control" id="n_angka_<?php echo $br->id_krs ?>" type="text" name="nilai_angka" value="<?php echo $br->angka ?>" autocomplete="off">
-                            <span class="input-group-addon" onclick="simpan_nilai('<?php echo $br->id_krs ?>')">
-                                <i class="fa fa-save"></i>
-                            </span>
-                        </div>
+                        <?php if ($this->session->userdata('level') == '1' OR $this->session->userdata('level') == '3'): ?>
+                            <div class="input-group">
+                                <input class="form-control" id="n_angka_<?php echo $br->id_krs ?>" type="text" name="nilai_angka" value="<?php echo $br->angka ?>" autocomplete="off">
+                                <span class="input-group-addon" onclick="simpan_nilai('<?php echo $br->id_krs ?>')">
+                                    <i class="fa fa-save"></i>
+                                </span>
+                            </div>
+                        <?php else: ?>
+                            <?php echo $br->angka ?>
+                        <?php endif ?>
                     </td>
             		<td id="huruf_<?php echo $br->id_krs ?>"><?php echo $br->huruf ?></td>
             		<td id="indeks_<?php echo $br->id_krs ?>"><?php echo $br->indeks ?></td>

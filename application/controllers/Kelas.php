@@ -148,11 +148,14 @@ class Kelas extends CI_Controller
         if ($this->form_validation->run() == FALSE) {
             $this->update($this->input->post('id_kelas', TRUE));
         } else {
-
+            $this->db->where('id_kelas!=', $this->input->post('id_kelas'));
+            $this->db->where('kode_kelas', $this->input->post('kode_kelas'));
+            $cek_nmkelas = $this->db->get('kelas');
             if ($cek_kdkelas->num_rows() > 0) {
                 $this->session->set_flashdata('message', alert_notif("Kode kelas tidak boleh sama",'warning'));
                 redirect('kelas','refresh');
             }
+            $this->db->where('id_kelas!=', $this->input->post('id_kelas'));
             $this->db->where('kelas', $this->input->post('kelas'));
             $cek_nmkelas = $this->db->get('kelas');
             if ($cek_nmkelas->num_rows() > 0) {
