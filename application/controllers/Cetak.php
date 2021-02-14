@@ -55,4 +55,14 @@ class Cetak extends CI_Controller {
 		$this->load->view('v_index',$data);
 	}
 
+	public function cetak_rhs($nim='')
+	{
+		if ($nim == '') {
+			$this->session->set_flashdata('notif', alert_biasa('nim tidak boleh kosong','error'));
+			redirect('app','refresh');
+		}
+		$data['nim'] = $nim;
+		$this->load->view('cetak/cetak_rhs',$data);
+	}
+
 }
