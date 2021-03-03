@@ -85,7 +85,7 @@ class Master_matakuliah extends CI_Controller
             'judul_page' => 'Tambah Master Matakuliah',
             'konten' => 'master_matakuliah/matakuliah_form',
             'button' => 'Simpan',
-            'action' => site_url('matakuliah/create_action'),
+            'action' => site_url('master_matakuliah/create_action'),
         'id_mk' => set_value('id_mk'),
         'kode_mk' => set_value('kode_mk'),
         'nama_mk' => set_value('nama_mk'),
