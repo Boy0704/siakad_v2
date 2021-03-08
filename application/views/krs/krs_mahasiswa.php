@@ -56,7 +56,7 @@
 									if (pengajuan_krs($data_mhs->nim)) {
 										echo $retVal = (setuju_dosen_pa($data_mhs->nim)) ? '<span class="label label-success">disetejui</span>' : '<span class="label label-warning">belum disetejui</span>' ; 
 									} else {
-										echo '<span class="label label-warning">belum diajukan, silahkan ajuka terlebih dahulu</span>';
+										echo '<span class="label label-warning">belum diajukan, silahkan ajukan terlebih dahulu</span>';
 									}
 									
 									?></td>

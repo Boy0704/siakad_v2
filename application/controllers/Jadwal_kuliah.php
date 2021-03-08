@@ -43,11 +43,12 @@ class Jadwal_kuliah extends CI_Controller
             $getdatamhs = $this->db->get();
 
             foreach ($getdatamhs->result() as $mhs) {
+                $semester_saat_ini = get_semester($mhs->nim);
                 $nama_kelas = get_data('kelas','id_kelas',$mhs->id_kelas,'kelas');
                 $this->db->where('kelas', $nama_kelas);
                 $this->db->where('id_tahun_akademik', $id_tahun_akademik);
                 $this->db->where('id_prodi', $id_prodi);
-                $this->db->where('semester', $mhs->semester_aktif);
+                $this->db->where('semester', $semester_saat_ini);
                 $getJadwalMk = $this->db->get('jadwal_kuliah');
 
                 foreach ($getJadwalMk->result() as $rw) {
@@ -55,6 +56,7 @@ class Jadwal_kuliah extends CI_Controller
                     $this->db->where('id_tahun_akademik', $rw->id_tahun_akademik);
                     $this->db->where('nim', $mhs->nim);
                     $cekkrs = $this->db->get('krs');
+
                     if ($cekkrs->num_rows() > 0) {
                         #abaikan
                     } else {

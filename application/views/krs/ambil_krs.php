@@ -62,8 +62,10 @@ $id_prodi = decode($id_prodi);
 		                    		<td><?php echo $br->terisi ?></td>
 		                    		<td>
 		                    			<?php 
+		                    			$kode_semester = tahun_akademik_aktif('kode_tahun');
 		                    			$this->db->where('id_jadwal', $br->id_jadwal);
 		                    			$this->db->where('id_mk', $br->id_mk);
+		                    			$this->db->where('kode_semester', $kode_semester);
 		                    			$this->db->where('nim', $this->session->userdata('username'));
 		                    			$cek_krs = $this->db->get('krs');
 		                    			if ($cek_krs->num_rows() > 0): ?>
