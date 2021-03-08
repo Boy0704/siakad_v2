@@ -199,7 +199,9 @@ class Krs extends CI_Controller {
 				'id_prodi' => $id_prodi,
 				'angka' => $n_angka,
 				'indeks' => $nilai_indeks,
-				'huruf' => $nilai_huruf
+				'huruf' => $nilai_huruf,
+				'konfirmasi_pa' => 'y',
+				'konfirmasi_nilai' => 'y'
 			);
 
 			
