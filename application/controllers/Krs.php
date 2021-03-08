@@ -31,6 +31,26 @@ class Krs extends CI_Controller {
 		$this->load->view('v_index',$data);
 	}
 
+	public function delete_krs($id_krs)
+	{
+		$this->db->where('id_krs', $id_krs);
+		$delete = $this->db->delete('krs');
+		if ($delete) {
+			$this->session->set_flashdata('notif', alert_biasa('Krs mahasiswa berhasil dihapus !','success'));
+			redirect('krs?'.param_get(),'refresh');
+		} 
+	}
+
+	public function delete_khs($id_krs)
+	{
+		$this->db->where('id_krs', $id_krs);
+		$delete = $this->db->delete('krs');
+		if ($delete) {
+			$this->session->set_flashdata('notif', alert_biasa('KHS mahasiswa berhasil dihapus !','success'));
+			redirect('krs/khs?'.param_get(),'refresh');
+		} 
+	}
+
 	public function input_nilai_mahasiswa()
 	{
 		$this->rbac->check_operation_access();
@@ -40,6 +60,186 @@ class Krs extends CI_Controller {
 			'judul_page' => 'Input Nilai Mahasiswa',
 		);
 		$this->load->view('v_index',$data);
+	}
+
+	public function tambah_krs()
+	{
+		if ($_POST) {
+			$nim = $this->input->post('nim');
+			$id_jadwal = $this->input->post('id_jadwal');
+
+			$this->db->where('id_jadwal', $id_jadwal);
+			$d_jadwal = $this->db->get('jadwal_kuliah')->row();
+			$id_tahun_akademik = tahun_akademik_aktif('id_tahun_akademik');
+			$kode_tahun = tahun_akademik_aktif('kode_tahun');
+
+			$data = array(
+				'nim' => $nim,
+				'id_jadwal' => $d_jadwal->id_jadwal,
+				'id_mk' => $d_jadwal->id_mk,
+				'kode_mk' => get_data('matakuliah','id_mk',$d_jadwal->id_mk,'kode_mk'),
+				'nama_mk' => get_data('matakuliah','id_mk',$d_jadwal->id_mk,'nama_mk'),
+				'id_tahun_akademik' => $id_tahun_akademik,
+				'kode_semester' => $kode_tahun,
+				'semester' => $d_jadwal->semester,
+				'id_dosen' => $d_jadwal->id_dosen,
+				'nama_dosen' => get_data('dosen','id_dosen',$d_jadwal->id_dosen,'nama'),
+				'kelas' => $d_jadwal->kelas,
+				'sks' => get_data('matakuliah','id_mk',$d_jadwal->id_mk,'sks_total'),
+				'id_prodi' => $d_jadwal->id_prodi,
+			);
+
+			//cek_kuota kelas
+			$this->db->where('id_mk', $d_jadwal->id_mk);
+			$this->db->where('id_prodi', $d_jadwal->id_prodi);
+			$this->db->where('kelas', $d_jadwal->kelas);
+			$this->db->where('kode_semester', $kode_tahun);
+			$total_terisi = $this->db->get('krs');
+
+			$kapasitas = get_data('jadwal_kuliah','id_jadwal',$d_jadwal->id_jadwal,'kapasitas');
+			if ($kapasitas == '') {
+				$kapasitas = 0;
+			}
+			if ($total_terisi->num_rows() == $kapasitas) {
+				$this->session->set_flashdata('message', '<div class="alert alert-danger fade in alert-radius-bordered alert-shadowed">
+                                        <button class="close" data-dismiss="alert">
+                                            ×
+                                        </button>
+                                        <i class="fa-fw fa fa-info"></i>
+
+                                        <strong>Info:</strong> Kapasitas kelas sudah penuh !
+                                    </div>');
+				redirect('krs?'.param_get(),'refresh');
+			}
+
+			$this->db->trans_begin();
+
+			$simpan = $this->db->insert('krs', $data);
+			$id_krs = $this->db->insert_id();
+
+			//simpan absensi
+			$dt_absen = array(
+				'nim' => $this->session->userdata('username'),
+				'id_krs' => $id_krs,
+			);
+			$this->db->insert('absen', $dt_absen);
+
+			$this->db->where('id_jadwal', $d_jadwal->id_jadwal);
+			$this->db->update('jadwal_kuliah', array('terisi'=>$d_jadwal->terisi+1));
+
+			if ($this->db->trans_status() === FALSE)
+			{
+		        $this->db->trans_rollback();
+				$this->session->set_flashdata('message', '<div class="alert alert-danger fade in alert-radius-bordered alert-shadowed">
+                                        <button class="close" data-dismiss="alert">
+                                            ×
+                                        </button>
+                                        <i class="fa-fw fa fa-info"></i>
+
+                                        <strong>Info:</strong> Matakuliah gagal ditambahkan di KRS
+                                    </div>');
+				redirect('krs?'.param_get(),'refresh');
+			}
+			else
+			{
+		        $this->db->trans_commit();
+				$this->session->set_flashdata('message', '<div class="alert alert-success fade in alert-radius-bordered alert-shadowed">
+                                        <button class="close" data-dismiss="alert">
+                                            ×
+                                        </button>
+                                        <i class="fa-fw fa fa-info"></i>
+
+                                        <strong>Info:</strong> Matakuliah berhasil ditambahkan di KRS
+                                    </div>');
+				redirect('krs?'.param_get(),'refresh');
+			}
+
+		} else {
+			$data = array(
+				'konten' => 'krs/tambah_krs',
+				'judul_page' => 'Tambah Krs Manual',
+			);
+			$this->load->view('v_index',$data);
+		}
+	}
+
+	public function tambah_khs()
+	{
+		if ($_POST) {
+			$nim = $this->input->post('nim');
+			$id_mk = $this->input->post('id_mk');
+			$kode_tahun = $this->input->post('periode');
+			$n_angka = $this->input->post('nilai');
+			$id_prodi = $this->input->get('id_prodi');
+
+
+			$skala  = $this->db->get('skala_nilai');
+			$nilai_huruf = '';
+			$nilai_indeks = '';
+			if ($skala->num_rows() > 0) {
+				foreach ($skala->result() as $rw) {
+					if ($rw->min <= $n_angka && $rw->max >= $n_angka) {
+						$nilai_huruf = $rw->nilai_huruf;
+						$nilai_indeks = $rw->nilai_indeks;
+					}
+				}
+			} else {
+				$nilai_huruf = '';
+				$nilai_indeks = '';
+			}
+
+			$data = array(
+				'nim' => $nim,
+				'id_mk' => $id_mk,
+				'kode_mk' => get_data('master_matakuliah','id_mk',$id_mk,'kode_mk'),
+				'nama_mk' => get_data('master_matakuliah','id_mk',$id_mk,'nama_mk'),
+				'kode_semester' => $kode_tahun,
+				'semester' => get_data('master_matakuliah','id_mk',$id_mk,'semester'),
+				'sks' => get_data('master_matakuliah','id_mk',$id_mk,'sks_total'),
+				'id_prodi' => $id_prodi,
+				'angka' => $n_angka,
+				'indeks' => $nilai_indeks,
+				'huruf' => $nilai_huruf
+			);
+
+			
+			$this->db->trans_begin();
+
+			$simpan = $this->db->insert('krs', $data);
+			if ($this->db->trans_status() === FALSE)
+			{
+		        $this->db->trans_rollback();
+				$this->session->set_flashdata('message', '<div class="alert alert-danger fade in alert-radius-bordered alert-shadowed">
+                                        <button class="close" data-dismiss="alert">
+                                            ×
+                                        </button>
+                                        <i class="fa-fw fa fa-info"></i>
+
+                                        <strong>Info:</strong> Matakuliah gagal ditambahkan di KHS
+                                    </div>');
+				redirect('krs/khs?'.param_get(),'refresh');
+			}
+			else
+			{
+		        $this->db->trans_commit();
+				$this->session->set_flashdata('message', '<div class="alert alert-success fade in alert-radius-bordered alert-shadowed">
+                                        <button class="close" data-dismiss="alert">
+                                            ×
+                                        </button>
+                                        <i class="fa-fw fa fa-info"></i>
+
+                                        <strong>Info:</strong> Matakuliah berhasil ditambahkan di KHS
+                                    </div>');
+				redirect('krs/khs?'.param_get(),'refresh');
+			}
+
+		} else {
+			$data = array(
+				'konten' => 'krs/tambah_khs',
+				'judul_page' => 'Tambah KHS Manual',
+			);
+			$this->load->view('v_index',$data);
+		}
 	}
 
 	public function simpan_nilai_mahasiswa($id_krs)
@@ -226,6 +426,7 @@ class Krs extends CI_Controller {
 			$this->db->where('id_mk', $d_jadwal->id_mk);
 			$this->db->where('id_prodi', $d_jadwal->id_prodi);
 			$this->db->where('kelas', $d_jadwal->kelas);
+			$this->db->where('kode_semester', $kode_tahun);
 			$total_terisi = $this->db->get('krs');
 
 			$kapistas = get_data('jadwal_kuliah','id_jadwal',$d_jadwal->id_jadwal,'kapasitas');

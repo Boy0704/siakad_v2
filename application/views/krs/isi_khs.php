@@ -50,6 +50,9 @@ $data_mhs = $this->db->get_where('mahasiswa',array('nim'=>$nim))->row();
                 
                 <th colspan="3" style="text-align: center;">Nilai</th>
                 <th rowspan="2" style="text-align: center; vertical-align: middle; ">SKS * Indeks</th>
+                <?php if ($this->session->userdata('level') == 1 OR $this->session->userdata('level') == 3): ?>
+                    <th colspan="3" style="text-align: center;">#</th>
+                <?php endif ?>
             </tr>
             <tr>
             	<th>Angka</th>
@@ -93,6 +96,11 @@ $data_mhs = $this->db->get_where('mahasiswa',array('nim'=>$nim))->row();
             		echo $jml;
             		$total_s_in = $total_s_in + $jml;
             		?></td>
+                    <?php if ($this->session->userdata('level') == 1 OR $this->session->userdata('level') == 3): ?>
+                        <td>
+                            <a href="krs/khs/delete_khs/<?php echo $br->id_krs.'?'.param_get() ?>" onclick="javasciprt: return confirm('Apakah kamu yakin akan hapus data khs ini')" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a>
+                        </td>
+                    <?php endif ?>
             		
             	</tr>
         	<?php $no++; endforeach ?>

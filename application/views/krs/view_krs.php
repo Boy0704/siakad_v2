@@ -58,6 +58,9 @@
                 <?php echo $this->session->userdata('message') <> '' ? $this->session->userdata('message') : ''; ?>
                 <br>
 
+                <a href="krs/tambah_krs?<?php echo param_get() ?>" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Krs</a>
+                <br>
+
                 <div class="widget-body no-padding">
                     <div class="widget-main ">
                         <div class="panel-group accordion" id="accordion">

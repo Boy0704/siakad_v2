@@ -49,6 +49,9 @@ $data_mhs = $this->db->get_where('mahasiswa',array('nim'=>$nim))->row();
                 <th rowspan="2" style="text-align: center; vertical-align: middle;">SKS</th>
                 <th rowspan="2" style="text-align: center; vertical-align: middle;">Kelas</th>
                 <th colspan="3" style="text-align: center;">Jadwal Perkuliahan</th>
+                <?php if ($this->session->userdata('level') == 1 OR $this->session->userdata('level') == 3): ?>
+                    <th colspan="3" style="text-align: center;">#</th>
+                <?php endif ?>
             </tr>
             <tr>
                 <th>Ruang</th>
@@ -76,6 +79,11 @@ $data_mhs = $this->db->get_where('mahasiswa',array('nim'=>$nim))->row();
                     <td><?php echo get_data('jadwal_kuliah','id_jadwal',$br->id_jadwal,'ruang') ?></td>
                     <td><?php echo get_data('jadwal_kuliah','id_jadwal',$br->id_jadwal,'hari') ?></td>
                     <td><?php echo get_data('jadwal_kuliah','id_jadwal',$br->id_jadwal,'jam_mulai').' - '.get_data('jadwal_kuliah','id_jadwal',$br->id_jadwal,'jam_selesai')  ?></td>
+                    <?php if ($this->session->userdata('level') == 1 OR $this->session->userdata('level') == 3): ?>
+                        <td>
+                            <a href="krs/delete_krs/<?php echo $br->id_krs.'?'.param_get() ?>" onclick="javasciprt: return confirm('Apakah kamu yakin akan hapus data krs ini')" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a>
+                        </td>
+                    <?php endif ?>
                     
                 </tr>
             <?php $no++; endforeach ?>
