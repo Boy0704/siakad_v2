@@ -169,6 +169,8 @@ class Krs extends CI_Controller {
 			$nim = $this->input->post('nim');
 			$id_mk = $this->input->post('id_mk');
 			$kode_tahun = $this->input->post('periode');
+			$id_dosen = $this->input->post('id_dosen');
+			$nama_dosen = get_data('dosen','id_dosen',$id_dosen,'nama');
 			$n_angka = $this->input->post('nilai');
 			$id_prodi = $this->input->get('id_prodi');
 
@@ -197,6 +199,8 @@ class Krs extends CI_Controller {
 				'semester' => get_data('master_matakuliah','id_mk',$id_mk,'semester'),
 				'sks' => get_data('master_matakuliah','id_mk',$id_mk,'sks_total'),
 				'id_prodi' => $id_prodi,
+				'id_dosen' => $id_dosen,
+				'nama_dosen' => $nama_dosen,
 				'angka' => $n_angka,
 				'indeks' => $nilai_indeks,
 				'huruf' => $nilai_huruf,

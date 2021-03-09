@@ -30,6 +30,20 @@
         </div>
 
         <div class="form-group">
+            <label for="int">Dosen Pengajar *</label>
+            <select name="id_dosen" id="id_dosen" style="width:100%;" required="">
+                <option value="">--Pilih Dosen --</option>
+                <?php 
+                $this->db->where('status', '1');
+                foreach ($this->db->get('dosen')->result() as $rw): 
+                    $checked = ($id_dosen == $rw->id_dosen) ? 'selected' : '' ;
+                    ?>
+                    <option value="<?php echo $rw->id_dosen ?>" <?php echo $checked ?>><?php echo $rw->nidn.' - '. $rw->nama ?></option>
+                <?php endforeach ?>
+            </select>
+        </div>
+
+        <div class="form-group">
             <label>Periode *</label>
             <select name="periode" id="periode" style="width:100%;" required="">
                 <option value="">--Pilih Periode --</option>
