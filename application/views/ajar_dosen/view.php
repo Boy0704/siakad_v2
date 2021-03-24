@@ -31,7 +31,7 @@
 	                    $id_tahun_akademik = tahun_akademik_aktif('id_tahun_akademik');
 	                    	$this->db->where('id_tahun_akademik', $id_tahun_akademik);
 	                    	$this->db->where('id_dosen', $id_dosen);
-	                    	foreach ($this->db->get('krs')->result() as $br): ?>
+	                    	foreach ($this->db->get('jadwal_kuliah')->result() as $br): ?>
 	                    		<tr>
 	                    			<td><?php echo $no; ?></td>
 		                    		<td><?php echo ($br->id_mk != '') ? get_data('matakuliah','id_mk',$br->id_mk,'kode_mk') : $br->kode_mk ?></td>
@@ -42,10 +42,10 @@
 		                    			$sks_total = $sks_total + $sks;
 		                    		 ?></td>
 		                    		<td><?php echo get_data('prodi','id_prodi',$br->id_prodi,'prodi') ?></td>
-		                    		<td><?php echo ($br->id_jadwal !='') ? get_data('jadwal_kuliah','id_jadwal',$br->id_jadwal,'kelas') : $br->kelas ?></td>
-		                    		<td><?php echo get_data('jadwal_kuliah','id_jadwal',$br->id_jadwal,'ruang') ?></td>
-		                    		<td><?php echo get_data('jadwal_kuliah','id_jadwal',$br->id_jadwal,'hari') ?></td>
-		                    		<td><?php echo get_data('jadwal_kuliah','id_jadwal',$br->id_jadwal,'jam_mulai').' - '.get_data('jadwal_kuliah','id_jadwal',$br->id_jadwal,'jam_selesai')  ?></td>
+		                    		<td><?php echo $br->kelas ?></td>
+		                    		<td><?php echo $br->ruang ?></td>
+		                    		<td><?php echo $br->hari ?></td>
+		                    		<td><?php echo $br->jam_mulai.' - '.$br->jam_selesai  ?></td>
 		                    		
 		                    	</tr>
 	                    	<?php $no++; endforeach ?>
