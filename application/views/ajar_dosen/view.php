@@ -28,11 +28,9 @@
 	                    $no=1;
 	                    $sks_total = 0;
 	                    $id_dosen = $this->session->userdata('keterangan');
-	                    $kode_semester = tahun_akademik_aktif('kode_tahun');
-	                    	$this->db->where('kode_semester', $kode_semester);
+	                    $id_tahun_akademik = tahun_akademik_aktif('id_tahun_akademik');
+	                    	$this->db->where('id_tahun_akademik', $id_tahun_akademik);
 	                    	$this->db->where('id_dosen', $id_dosen);
-	                    	$this->db->group_by('kode_mk');
-	                    	$this->db->group_by('id_prodi');
 	                    	foreach ($this->db->get('krs')->result() as $br): ?>
 	                    		<tr>
 	                    			<td><?php echo $no; ?></td>
