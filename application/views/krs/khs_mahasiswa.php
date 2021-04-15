@@ -4,6 +4,14 @@
             <div class="widget-header bordered-bottom bordered-blue">
                 <span class="widget-caption"><?php echo $judul_page ?></span>
 
+                <div class="widget-buttons">
+
+                    <?php if ($semester->num_rows() > 0): ?>
+                        <a href="cetak/cetak_rhs/<?php echo $this->session->userdata('username')?>" target="_blank" class="btn btn-xs btn-primary"><i class="fa fa-print"></i> Cetak Transkip</a>
+                        
+                    <?php endif ?>
+                </div>
+
                 <!-- <div class="widget-buttons">
                     <a href="#" data-toggle="maximize">
                         <i class="fa fa-expand"></i>
