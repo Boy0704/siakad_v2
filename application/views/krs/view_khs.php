@@ -65,6 +65,11 @@
                     <div class="widget-main ">
                         <div class="panel-group accordion" id="accordion">
 
+                        <?php if ($semester->num_rows() > 0): ?>
+                            <a href="cetak/cetak_rhs/<?php echo $nim ?>" target="_blank" class="btn btn-xs btn-primary"><i class="fa fa-print"></i> Cetak Transkip</a>
+                            
+                        <?php endif ?>
+
                         <?php foreach ($semester->result() as $rw): ?>
                             <div class="panel panel-default">
                                 <div class="panel-heading ">

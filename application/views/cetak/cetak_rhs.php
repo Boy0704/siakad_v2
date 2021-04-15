@@ -3,10 +3,11 @@
 <html>
 
 <head>
-	<title>Cetak Laporan Transkip Nilai Mahasiswa</title>
+	<title>Cetak Laporan Ringkasan Hasil Studi (RHS) Mahasiswa</title>
+	<base href="<?php echo base_url() ?>">
 	<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
-	<link href="http://stmikmpb.gofeedercloud.com/application/assets/metronic/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-	<link href="http://stmikmpb.gofeedercloud.com/application/assets/metronic/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+	<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
 	<style>
 		body {
 			margin: 0 auto;
@@ -95,7 +96,7 @@
 <body>
 			<nav class="navbar navbar-default">
 			<div class="container">
-				<p class="navbar-brand">Cetak Laporan Transkip Nilai Mahasiswa</p>
+				<p class="navbar-brand">Cetak Laporan Ringkasan Hasil Studi (RHS) Mahasiswa</p>
 				<button type="button" class="btn btn-primary btn-flat navbar-btn navbar-right" onclick="window.print(); return false;"><i class="fa fa-print"></i> Cetak</button>
 			</div>
 		</nav>
@@ -342,7 +343,7 @@ $id_prodi = get_data('mahasiswa','nim',$nim,'id_prodi');
 	</tr>
 	<tr>
 		<td colspan="4"></td>
-		<td align="center" colspan="4"></td>
+		<td align="center" colspan="4"><?php echo get_data('tanda_tangan','id_tanda_tangan',3,'judul_atas') ?></td>
 	</tr>
 	<tr>
 		<!-- <td align="center"> - </td> -->
@@ -368,12 +369,12 @@ $id_prodi = get_data('mahasiswa','nim',$nim,'id_prodi');
 	<tr>
 		<td colspan="4"></td>
 		<td align="center" style="border-bottom: 1px solid #000" colspan="4">
-			<strong></strong>
+			<strong><?php echo get_data('tanda_tangan','id_tanda_tangan',3,'nama') ?></strong>
 		</td>
 	</tr>
 	<tr>
 		<td colspan="4"></td>
-		<td align="center" colspan="4"></td>
+		<td align="center" colspan="4"><?php echo get_data('tanda_tangan','id_tanda_tangan',3,'bawah_nama') ?></td>
 	</tr>
 </table>
 
