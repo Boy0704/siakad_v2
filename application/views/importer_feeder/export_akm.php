@@ -14,7 +14,6 @@ header("Content-Disposition: attachment; filename=Export_data_akm.xls");
 			<th style="background: red">IPK</th>
 			<th style="background: red">STATUS</th>
 			<th style="background: red">KODE PRODI</th>
-			<th style="background: red">BIAYA KULIAH SEMESTER</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -42,7 +41,6 @@ header("Content-Disposition: attachment; filename=Export_data_akm.xls");
 			<td><?php echo number_format(ipk($rw->nim,$rw->kode_semester),2) ?></td>
 			<td><?php echo $rw->id_stat_mhs ?></td>
 			<td><?php echo $kode_prodi ?></td>
-			<td><?php echo biaya_kuliah_semester($rw->nim,$rw->kode_semester) ?></td>
 		</tr>
 		<?php endforeach ?>
 		<?php endif ?>
