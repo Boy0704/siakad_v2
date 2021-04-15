@@ -12,6 +12,7 @@ header("Content-Disposition: attachment; filename=Export_matkul_kurikulum.xls");
 			<th style="background: red">SKS Praktek</th>
 			<th style="background: red">SKS Prak Lap</th>
 			<th style="background: red">SKS Simulasi</th>
+			<th style="background: red">Metode Pembelajaran</th>
 			<th >Mulai Efektif</th>
 			<th >Akhir Efektif</th>
 			<th style="background: red">Semester</th>
@@ -38,6 +39,7 @@ header("Content-Disposition: attachment; filename=Export_matkul_kurikulum.xls");
 			<td><?php echo $rw->sks_prak ?></td>
 			<td><?php echo $rw->sks_prak_la ?></td>
 			<td><?php echo $rw->sks_simulasi ?></td>
+			<td><?php echo $rw->metode_pembelajaran ?></td>
 			<td><?php echo $rw->tgl_mulai_efektif ?></td>
 			<td><?php echo $rw->tgl_akhir_efektif ?></td>
 			<td><?php echo $rw->semester ?></td>
