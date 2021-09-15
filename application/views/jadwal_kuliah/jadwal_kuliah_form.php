@@ -120,7 +120,7 @@ $uri2 = $this->uri->segment(2);
             <select name="semester" id="semester" style="width:100%;" readonly>
                 <option value="">--Pilih Semester --</option>
                 <?php 
-                for ($i=1; $i <= 8 ; $i++) { 
+                for ($i=1; $i <= 10 ; $i++) { 
                     $checked = ($semester == $i) ? 'selected' : '' ;
                  ?>
                     <option value="<?php echo $i ?>" <?php echo $checked ?>><?php echo $i ?></option>
