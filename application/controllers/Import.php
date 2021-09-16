@@ -571,6 +571,104 @@ class Import extends CI_Controller {
 
 	}
 
+	public function import_khs()
+	{
+		ini_set('memory_limit', '-1');
+		if ($_FILES) {
+			$return = array();
+	        $this->load->library('upload'); // Load librari upload
+
+	        $config['upload_path'] = './files/excel/';
+	        $config['allowed_types'] = 'xlsx';
+	        $config['max_size'] = '2048';
+	        $config['overwrite'] = true;
+	        $config['file_name'] = 'import_khs';
+
+	        $this->upload->initialize($config); // Load konfigurasi uploadnya
+	        if($this->upload->do_upload('file_excel')){ // Lakukan upload dan Cek jika proses upload berhasil
+	            // Jika berhasil :
+	            $return = array('result' => 'success', 'file' => $this->upload->data(), 'error' => '');
+	        }else{
+	            // Jika gagal :
+	            $return = array('result' => 'failed', 'file' => '', 'error' => $this->upload->display_errors());
+
+	            $this->session->set_flashdata('notif',alert_biasa($return['error'],'error'));
+	            redirect('import/import_khs','refresh');
+	        }
+
+			// log_r($filename);
+
+			include APPPATH.'third_party/PHPExcel/PHPExcel.php';
+
+			$filename = "import_khs.xlsx";
+						
+			$excelreader = new PHPExcel_Reader_Excel2007();
+			$loadexcel = $excelreader->load('files/excel/'.$filename.''); // Load file yang tadi diupload ke folder excel
+			$sheet = $loadexcel->getActiveSheet()->toArray(null, true, true ,true);
+			//skip untuk header
+			unset($sheet[1]);
+			$data['sheet'] = $sheet;
+			$this->load->view('tes/import_khs', $data);
+		} else {
+			$this->load->view('tes/import_khs');
+		}
+	}
+
+	public function aksi_import_khs()
+	{
+		ini_set('memory_limit', '-1');
+		$id_prodi = $this->input->get('id_prodi');
+		include APPPATH.'third_party/PHPExcel/PHPExcel.php';
+
+		$filename = "import_khs.xlsx";
+					
+		$excelreader = new PHPExcel_Reader_Excel2007();
+		$loadexcel = $excelreader->load('files/excel/'.$filename.''); // Load file yang tadi diupload ke folder excel
+		$sheet = $loadexcel->getActiveSheet()->toArray(null, true, true ,true);
+		//skip untuk header
+		unset($sheet[1]);
+
+		$this->db->trans_begin();
+
+		foreach ($sheet as $rw) {
+
+			if ($rw['A'] != '' or !empty($rw['A'])) {
+				$data = array(
+					'nim' => $rw['A'],
+					'kode_mk' => $rw['D'],
+					'nama_mk' => $rw['E'],
+					'kode_semester' => $rw['M'],
+					'id_dosen' => $rw['F'] == '' ? '' : get_data('dosen','nidn',$rw['F'],'id_dosen'),
+					'nama_dosen' => $rw['G'],
+					'kelas' => $rw['H'],
+					'sks' => $rw['I'],
+					'angka' => $rw['J'],
+					'huruf' => $rw['K'],
+					'indeks' => str_replace(':', '.', $rw['L']),
+					'id_prodi' => $id_prodi,
+					'konfirmasi_pa' => 'y',
+					'konfirmasi_nilai' => 'y',
+					
+				);
+				$this->db->insert('krs', $data);
+			}
+			
+		}
+
+		if ($this->db->trans_status() === FALSE)
+		{
+	        $this->db->trans_rollback();
+	        $this->session->set_flashdata('notif', alert_biasa('gagal server,silahkan ulangi','error'));
+			redirect('import/import_khs','refresh');
+		}
+		else
+		{
+	        $this->db->trans_commit();
+	        $this->session->set_flashdata('notif', alert_biasa('data khs mahasiswa berhasil diimport','success'));
+			redirect('import/import_khs','refresh');
+		}
+	}
+
 
 
 
