@@ -6,7 +6,7 @@ class Import extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		if ($this->session->userdata('level') != '1') {
+		if ($this->session->userdata('level') != '1' || $this->session->userdata('level') != '2' || $this->session->userdata('level') != '3') {
 			redirect('login','refresh');
 		}
 	}
